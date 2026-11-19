@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#13151a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="画路工坊">
+  <title>DrawPath Studio · 画路工坊</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icon.svg">
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-brand">
+      <img src="./assets/icon.svg" alt="" class="brand-logo" width="34" height="34">
+      <div class="brand-copy">
+        <h1>DrawPath Studio · 画路工坊</h1>
+        <span class="brand-subtitle">零基础绘画路线 · iPad/数位板压感练习 · 红线复盘画帖</span>
+      </div>
+    </div>
+
+    <nav class="main-nav" aria-label="主功能导航">
+      <button type="button" class="nav-tab active" data-view="roadmap">📖 学习说明书 &amp; 路线图</button>
+      <button type="button" class="nav-tab" data-view="lessons">🎬 精选视频 &amp; 闯关课</button>
+      <button type="button" class="nav-tab" data-view="canvas">✍️ 压感练习 &amp; 红线画板</button>
+      <button type="button" class="nav-tab" data-view="challenges">🎯 实战课题</button>
+      <button type="button" class="nav-tab" data-view="journal">📒 进步画帖 &amp; 对比</button>
+    </nav>
+
+    <div class="header-actions">
+      <button type="button" id="btn-split-mode" class="btn btn-ghost btn-sm" aria-pressed="false" title="宽屏同屏模式：左边看课程或实战课题，右边直接画板练习">🧩 同屏边看边练</button>
+      <span id="live-pressure-pill" class="pressure-pill" aria-live="polite">压感就绪 · 0%</span>
+      <button type="button" id="btn-open-onboarding" class="btn btn-ghost btn-sm">📘 新手说明书</button>
+      <button type="button" id="btn-open-backup" class="btn btn-ghost btn-sm">💾 备份 / App安装</button>
+      <button type="button" id="btn-theme-toggle" class="btn btn-ghost btn-sm" aria-label="切换浅色或深色主题">🌓 切换主题</button>
+    </div>
+  </header>
+
+  <main id="app-main" class="app-main">
+    <!-- View 1: Roadmap & Onboarding -->
+    <section id="view-roadmap" class="view-section active" aria-labelledby="heading-roadmap">
+      <div class="roadmap-hero">
+        <div class="roadmap-hero-copy">
+          <h2 id="heading-roadmap">学习说明书 &amp; 成长路线图</h2>
+          <p class="section-lead">零注册、纯本地离线可用。用「结构推导图鉴 → 20分钟叠底图控笔 → 水平翻转与红线复盘 → 进步画帖对比」取代盲目死磕。</p>
+        </div>
+
+        <div class="roadmap-stats-card">
+          <div class="progress-summary-row">
+            <label for="overall-progress-bar">总通关进度</label>
+            <span id="overall-progress-text" class="progress-text">已完成 0 / 16 课 (0%)</span>
+          </div>
+          <progress id="overall-progress-bar" value="0" max="100" style="--brand-hue: 250;"></progress>
+          <div class="stats-grid">
+            <div class="stat-tile">
+              <strong id="stat-completed-lessons" class="stat-value">0</strong>
+              <span class="stat-label">已通关课程</span>
+            </div>
+            <div class="stat-tile">
+              <strong id="stat-journal-count" class="stat-value">0</strong>
+              <span class="stat-label">进步画帖</span>
+            </div>
+            <div class="stat-tile">
+              <strong id="stat-streak-days" class="stat-value">0</strong>
+              <span class="stat-label">累计打卡天数</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="roadmap-block" aria-label="新手上手指南">
+        <details id="onboarding-details" class="onboarding-collapsible">
+          <summary class="onboarding-summary-bar">📘 新手 4 步极简上手指南（点击展开，不占主视野）</summary>
+          <div id="onboarding-cards-container" class="onboarding-grid"></div>
+        </details>
+      </section>
+
+      <section class="roadmap-block" aria-labelledby="heading-skill-tree">
+        <div class="section-header-row">
+          <h3 id="heading-skill-tree">分阶段技能树路线</h3>
+          <div class="track-filter-group" role="group" aria-label="按绘画路线筛选">
+            <button type="button" class="track-filter-btn active" data-track="all">全部路线</button>
+            <button type="button" class="track-filter-btn" data-track="core">🧱 通用基本功</button>
+            <button type="button" class="track-filter-btn" data-track="figure">🏃 人体练习</button>
+            <button type="button" class="track-filter-btn is-locked" disabled title="底图与课程完善中，暂未开放">🔒 二次元插画 (待完善)</button>
+            <button type="button" class="track-filter-btn is-locked" disabled title="底图与课程完善中，暂未开放">🔒 Furry 兽人 (待完善)</button>
+          </div>
+        </div>
+        <div id="skill-tree-container" class="skill-tree-container"></div>
+      </section>
+    </section>
+
+    <!-- View 2: Lessons & Video Practice -->
+    <section id="view-lessons" class="view-section" aria-labelledby="heading-lessons">
+      <div class="view-toolbar-bar">
+        <h2 id="heading-lessons">精选视频 &amp; 闯关课</h2>
+        <div class="lessons-filter-controls">
+          <div class="inline-control">
+            <label for="lesson-track-select">筛选分支：</label>
+            <select id="lesson-track-select">
+              <option value="all">全部课程</option>
+              <option value="core">🧱 通用基本功主线</option>
+              <option value="figure">🏃 人体练习</option>
+              <option value="anime" disabled>🔒 二次元角色插画 (待完善暂锁)</option>
+              <option value="furry" disabled>🔒 Furry / 兽人专项 (待完善暂锁)</option>
+            </select>
+          </div>
+          <div class="inline-control">
+            <label for="lesson-tier-select">难度：</label>
+            <select id="lesson-tier-select">
+              <option value="all">全部难度</option>
+              <option value="beginner">🌱 入门</option>
+              <option value="foundation">📘 基础</option>
+              <option value="advanced">🔥 进阶</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="lessons-layout">
+        <aside id="lesson-list-sidebar" class="lesson-list-sidebar" aria-label="课程列表"></aside>
+        <div id="lesson-detail-container" class="lesson-detail-container">
+          <div class="empty-state">请从左侧选择一节闯关课开始学习。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 3: Pressure-Sensitive Canvas & Redline Studio -->
+    <section id="view-canvas" class="view-section" aria-labelledby="heading-canvas">
+      <div class="canvas-workspace-header">
+        <h2 id="heading-canvas">压感练习 &amp; 红线画板</h2>
+        <span class="workspace-tips">快捷键：Ctrl+Z 撤销 · Ctrl+Y 重做 · H 水平翻转 · iPad 请开启防误触</span>
+      </div>
+
+      <div class="canvas-toolbar canvas-toolbar-primary" role="toolbar" aria-label="画笔、颜色与压感工具栏">
+        <div class="toolbar-group brush-group" role="group" aria-label="画笔模式">
+          <button type="button" class="brush-btn active" data-brush="pencil" title="铅笔：压感同时控制粗细与浓淡">✏️ 铅笔</button>
+          <button type="button" class="brush-btn" data-brush="gpen" title="G笔：二次元清脆勾线与出锋">🖋️ G笔</button>
+          <button type="button" class="brush-btn" data-brush="redline" title="红线笔：半透明鲜亮批注纠错">🖍️ 红线笔</button>
+          <button type="button" class="brush-btn" data-brush="marker" title="马克笔：平头半透明叠色与阴影二分">🖌️ 马克笔</button>
+          <button type="button" class="brush-btn" data-brush="eraser" title="橡皮擦：擦除当前激活图层">🧽 橡皮</button>
+        </div>
+
+        <div class="toolbar-group color-group" role="group" aria-label="常用色板">
+          <button type="button" class="color-swatch active" data-color="#1e293b" style="background-color: #1e293b;" aria-label="深墨灰 #1e293b"></button>
+          <button type="button" class="color-swatch" data-color="#ef4444" style="background-color: #ef4444;" aria-label="纠错红 #ef4444"></button>
+          <button type="button" class="color-swatch" data-color="#3b82f6" style="background-color: #3b82f6;" aria-label="草稿蓝 #3b82f6"></button>
+          <button type="button" class="color-swatch" data-color="#10b981" style="background-color: #10b981;" aria-label="结构绿 #10b981"></button>
+          <button type="button" class="color-swatch" data-color="#f59e0b" style="background-color: #f59e0b;" aria-label="暖橙黄 #f59e0b"></button>
+          <button type="button" class="color-swatch" data-color="#8b5cf6" style="background-color: #8b5cf6;" aria-label="紫罗兰 #8b5cf6"></button>
+          <button type="button" class="color-swatch color-swatch-light" data-color="#ffffff" style="background-color: #ffffff;" aria-label="纯白色 #ffffff"></button>
+          <input type="color" id="canvas-color-picker" value="#1e293b" aria-label="自定义画笔颜色">
+        </div>
+
+        <div class="toolbar-group slider-group">
+          <label for="brush-size-slider">粗细</label>
+          <input type="range" id="brush-size-slider" min="1" max="60" value="8">
+          <span id="brush-size-label" class="range-value">8px</span>
+        </div>
+
+        <div class="toolbar-group slider-group">
+          <label for="brush-stabilizer-slider">抖动修正</label>
+          <input type="range" id="brush-stabilizer-slider" min="0" max="10" value="3">
+          <span id="brush-stabilizer-label" class="range-value">3</span>
+        </div>
+
+        <div class="toolbar-group">
+          <label for="pressure-curve-select">压感曲线</label>
+          <select id="pressure-curve-select">
+            <option value="soft">柔和 (轻压敏锐)</option>
+            <option value="normal" selected>标准 (线性)</option>
+            <option value="hard">硬朗 (重压爆发)</option>
+          </select>
+        </div>
+
+        <div class="toolbar-group">
+          <label class="checkbox-pill">
+            <input type="checkbox" id="toggle-pen-only">
+            <span>仅触控笔防误触</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="canvas-toolbar canvas-toolbar-secondary" role="toolbar" aria-label="底图、图层与保存控制栏">
+        <div class="toolbar-group">
+          <label for="canvas-template-select">练习底图</label>
+          <select id="canvas-template-select">
+            <option value="">无底图(白纸)</option>
+          </select>
+        </div>
+
+        <div class="toolbar-group slider-group">
+          <label for="template-opacity-slider">底图透明度</label>
+          <input type="range" id="template-opacity-slider" min="0" max="100" value="45">
+          <span id="template-opacity-label" class="range-value">45%</span>
+        </div>
+
+        <div class="toolbar-group">
+          <label for="canvas-grid-select">网格</label>
+          <select id="canvas-grid-select">
+            <option value="none">无网格</option>
+            <option value="grid">方格与三分线</option>
+            <option value="perspective">两点透视射线</option>
+            <option value="crosshair">中心十字对角线</option>
+          </select>
+        </div>
+
+        <div class="toolbar-group">
+          <input type="file" id="upload-redline-input" accept="image/*" hidden>
+          <button type="button" id="btn-upload-redline" class="btn btn-sm">📂 导入外部作品画红线</button>
+          <button type="button" id="btn-open-3d-modal" class="btn btn-sm btn-accent-subtle" title="打开 Sketchfab 3D 模型（电猫 Zeraora / 头骨 / 人体）与外部 3D 摆姿舱">🧊 3D 模型参考舱</button>
+          <button type="button" id="btn-paste-clipboard-ref" class="btn btn-sm" title="将刚截取的 3D 模型截图 (Ctrl+V) 粘贴为半透明练习底图或悬浮参考">📋 粘贴3D截图 (Ctrl+V)</button>
+          <button type="button" id="btn-toggle-ref-pinboard" class="btn btn-sm" aria-pressed="false" title="打开或关闭画板角落悬浮参考图小窗">📌 悬浮参考窗</button>
+        </div>
+
+        <div class="toolbar-group layer-group" role="group" aria-label="图层管理">
+          <div class="layer-chip">
+            <button type="button" class="layer-btn active" data-layer="draft">草稿层</button>
+            <label class="layer-eye" title="显示或隐藏草稿层">
+              <input type="checkbox" id="toggle-layer-draft" checked aria-label="显示草稿层"> 👁
+            </label>
+          </div>
+          <div class="layer-chip">
+            <button type="button" class="layer-btn" data-layer="ink">正稿/红线层</button>
+            <label class="layer-eye" title="显示或隐藏正稿/红线层">
+              <input type="checkbox" id="toggle-layer-ink" checked aria-label="显示正稿/红线层"> 👁
+            </label>
+          </div>
+        </div>
+
+        <div class="toolbar-group canvas-actions-group">
+          <button type="button" id="btn-flip-horizontal" class="btn btn-sm" aria-pressed="false">🪞 水平翻转查崩坏</button>
+          <button type="button" id="btn-canvas-undo" class="btn btn-sm">↩ 撤销</button>
+          <button type="button" id="btn-canvas-redo" class="btn btn-sm">↪ 重做</button>
+          <button type="button" id="btn-canvas-clear" class="btn btn-sm btn-danger-ghost">🗑 清空当前层</button>
+          <button type="button" id="btn-save-to-journal" class="btn btn-primary btn-sm">💾 存入进步画帖</button>
+          <button type="button" id="btn-download-png" class="btn btn-sm">⬇ 导出PNG</button>
+        </div>
+      </div>
+
+      <div id="canvas-stage" class="canvas-stage">
+        <div id="canvas-transform-wrapper" class="canvas-transform-wrapper">
+          <canvas id="canvas-layer-template" width="1200" height="900"></canvas>
+          <canvas id="canvas-layer-draft" width="1200" height="900"></canvas>
+          <canvas id="canvas-layer-ink" width="1200" height="900"></canvas>
+          <canvas id="canvas-layer-cursor" width="1200" height="900"></canvas>
+        </div>
+
+        <aside id="floating-ref-pinboard" class="floating-ref-pinboard" hidden aria-label="角落悬浮参考图小窗">
+          <div id="floating-ref-pinboard-header" class="pinboard-header" title="按住此处拖动小窗位置">
+            <span class="pinboard-title">📌 3D / 画师参考小窗</span>
+            <div class="pinboard-header-actions">
+              <button type="button" id="btn-pinboard-size" class="pinboard-icon-btn" title="切换小窗大小">小 / 大</button>
+              <button type="button" id="btn-pinboard-to-template" class="pinboard-icon-btn pinboard-action-primary" title="将此图设为画布半透明底图用于描红蓝结构线">↘ 垫入画布当底图</button>
+              <input type="file" id="pinboard-upload-input" accept="image/*" hidden>
+              <button type="button" id="btn-pinboard-upload" class="pinboard-icon-btn" title="选择本地参考图">📂 换图</button>
+              <button type="button" id="btn-pinboard-close" class="pinboard-icon-btn" aria-label="关闭悬浮参考窗">✕</button>
+            </div>
+          </div>
+          <div class="pinboard-body">
+            <img id="pinboard-img" class="pinboard-img" alt="参考图预览" hidden>
+            <div id="pinboard-empty-hint" class="pinboard-empty-hint">
+              <p><strong>还没贴入参考图</strong></p>
+              <p>按 <code>Ctrl+V</code> 粘贴 3D 截图（如 Zeraora / Posemaniacs / PoseMy.Art），或点击上方 <strong>📂 换图</strong> 上传参考图。</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div id="canvas-telemetry" class="canvas-telemetry">
+        <span class="telemetry-item">输入设备：<strong id="telemetry-device">等待落笔</strong></span>
+        <span class="telemetry-item">实时压感：<strong id="telemetry-pressure">0%</strong></span>
+        <progress id="telemetry-pressure-bar" value="0" max="100"></progress>
+        <span class="telemetry-item">笔锋倾角：<strong id="telemetry-tilt">0°, 0°</strong></span>
+      </div>
+    </section>
+
+    <!-- View 4: Combined Practice Challenges & Random Prompt Generator -->
+    <section id="view-challenges" class="view-section" aria-labelledby="heading-challenges">
+      <div class="view-toolbar-bar">
+        <div>
+          <h2 id="heading-challenges">🎯 实战课题 &amp; 综合创作挑战</h2>
+          <p class="section-sub">把学到的结构、人体与光影串起来画整张练习，支持一键带构图框进画板或用外部 App 交作业。</p>
+        </div>
+      </div>
+
+      <div id="challenge-random-card" class="challenge-random-card">
+        <div class="challenge-random-header">
+          <div>
+            <h3>🎲 随机灵感出题器</h3>
+            <p class="section-sub">不知道画什么？抽一道「构图 + 画风 + 姿态 + 光影」组合题直接开练！</p>
+          </div>
+          <button type="button" id="btn-roll-challenge" class="btn btn-primary">🎲 随机抽一道综合题</button>
+        </div>
+        <div id="random-challenge-output" class="random-challenge-output"></div>
+      </div>
+
+      <div class="challenge-filter-bar">
+        <div class="challenge-tier-group" role="group" aria-label="按难度筛选实战课题">
+          <button type="button" class="challenge-tier-btn active" data-tier="all">全部难度</button>
+          <button type="button" class="challenge-tier-btn" data-tier="beginner">🌱 入门</button>
+          <button type="button" class="challenge-tier-btn" data-tier="foundation">📘 基础</button>
+          <button type="button" class="challenge-tier-btn" data-tier="advanced">🔥 进阶</button>
+        </div>
+
+        <select id="challenge-track-select" aria-label="按路线筛选课题">
+          <option value="all">全部路线</option>
+          <option value="core">🧱 通用基本功</option>
+          <option value="figure">🏃 人体练习</option>
+          <option value="anime" disabled>🔒 二次元插画 (待完善暂锁)</option>
+          <option value="furry" disabled>🔒 Furry 兽人 (待完善暂锁)</option>
+        </select>
+      </div>
+
+      <div id="challenge-list-grid" class="challenge-grid"></div>
+    </section>
+
+    <!-- View 5: Progress Journal & Before/After Comparator -->
+    <section id="view-journal" class="view-section" aria-labelledby="heading-journal">
+      <div class="view-toolbar-bar">
+        <div class="journal-title-block">
+          <h2 id="heading-journal">进步画帖 &amp; 对比墙</h2>
+          <p class="section-sub">把网页控笔练图、Procreate/CSP 外部临摹和红线复盘按时间线存下来，随时生成前后对比分享卡。</p>
+        </div>
+        <div class="journal-actions">
+          <button type="button" id="btn-new-external-post" class="btn btn-primary">📤 上传外部App作品打卡</button>
+          <button type="button" id="btn-open-compare" class="btn btn-secondary">⚖️ 前后进步对比 &amp; 生成分享卡</button>
+        </div>
+      </div>
+
+      <div class="journal-filters-bar">
+        <select id="journal-filter-track" aria-label="按路线筛选画帖">
+          <option value="all">全部路线</option>
+          <option value="core">🧱 通用基本功</option>
+          <option value="figure">🏃 人体练习</option>
+          <option value="anime" disabled>🔒 二次元插画 (待完善暂锁)</option>
+          <option value="furry" disabled>🔒 Furry 兽人 (待完善暂锁)</option>
+        </select>
+
+        <select id="journal-filter-source" aria-label="按来源筛选画帖">
+          <option value="all">全部来源</option>
+          <option value="web">✍️ 网页压感练习</option>
+          <option value="external">📱 外部App作品</option>
+          <option value="redline">🖍️ 红线复盘</option>
+        </select>
+
+        <input type="search" id="journal-search-input" placeholder="🔍 搜索画帖标题、心得或课程..." aria-label="搜索画帖">
+      </div>
+
+      <div id="journal-gallery-grid" class="journal-gallery-grid"></div>
+    </section>
+  </main>
+
+  <!-- Dialog 1: Beginner Onboarding Manual -->
+  <dialog id="dialog-onboarding" closedby="any" aria-labelledby="title-onboarding">
+    <div class="dialog-header">
+      <h2 id="title-onboarding">📘 DrawPath Studio 新手学习说明书</h2>
+      <form method="dialog">
+        <button type="submit" class="dialog-close-btn" aria-label="关闭说明书">✕</button>
+      </form>
+    </div>
+    <div class="dialog-body onboarding-manual-content">
+      <div class="manual-block">
+        <h3>1. 为什么新手建议从「控笔 + 体块」而不是直接画完稿头像开始？</h3>
+        <p>很多新手卡在「眼睛会了手不会」：线条抖、脸型左右歪、人体像塞棉花。每天只花 <strong>20 分钟</strong>，先在练习画板里叠着透视网格和体块底图练稳手腕、分清正面/侧面交界线，再去画人体动态、二次元或 Furry，进步速度会翻倍。</p>
+      </div>
+      <div class="manual-block">
+        <h3>2. 两大秒懂自检神技：水平翻转 + 红线复盘</h3>
+        <ul>
+          <li><strong>🪞 水平翻转查崩坏（快捷键 H）</strong>：大脑看久了自己的画会自动“脑补对称”。点一下水平翻转，歪掉的下巴、跑偏的眼位、倾斜的重心会立刻暴露。</li>
+          <li><strong>🖍️ 外部软件 + 红线工作流</strong>：在 Procreate / Clip Studio Paint / SAI 画完后，点击画板里的「📂 导入外部作品画红线」，它会自动放到低层并切到「正稿/红线层」与红色纠错笔，直接圈出透视与结构问题并存入画帖复盘！</li>
+        </ul>
+      </div>
+      <div class="manual-block">
+        <h3>3. iPad Apple Pencil &amp; 数位板压感设置贴士</h3>
+        <ul>
+          <li>在画板顶部勾选 <strong>「仅触控笔防误触」</strong>，手掌就能自然贴在 iPad 屏幕上画画而不会误触线条。</li>
+          <li>线条太抖时把 <strong>「抖动修正」</strong> 调到 4~7；想轻松画出最细笔锋可以把 <strong>「压感曲线」</strong> 设为「柔和」。</li>
+          <li>没有数位板用鼠标时，画板会自动根据运笔速度模拟粗细出锋，同样能练控笔与结构推导！</li>
+        </ul>
+      </div>
+      <div class="manual-block">
+        <h3>4. 添加到主屏幕变成独立离线 App (PWA)</h3>
+        <p>在 iPad Safari 点击右上角「分享」→「添加到主屏幕」，或在电脑 Chrome / Edge 地址栏右侧点击「安装」，即可像本地软件一样全屏运行、离线练画。</p>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <form method="dialog">
+        <button type="submit" class="btn btn-primary">明白了，开始我的绘画之旅！</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Dialog 2: Save Post / External Upload -->
+  <dialog id="dialog-save-post" closedby="any" aria-labelledby="title-save-post">
+    <div class="dialog-header">
+      <h2 id="title-save-post">💾 存入进步画帖</h2>
+      <form method="dialog">
+        <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
+      </form>
+    </div>
+    <form id="save-post-form" class="dialog-body form-stack">
+      <div class="post-preview-container">
+        <img id="post-preview-img" src="" alt="作品缩略图预览" hidden>
+      </div>
+
+      <div class="form-field">
+        <label for="post-title-input">作品标题</label>
+        <input type="text" id="post-title-input" required placeholder="例如：Day 2 · 二次元十字球侧面与下颌线练习">
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-field">
+          <label for="post-lesson-select">关联课程</label>
+          <select id="post-lesson-select"></select>
+        </div>
+        <div class="form-field">
+          <label for="post-source-select">作品来源</label>
+          <select id="post-source-select">
+            <option value="web">✍️ 网页压感练习</option>
+            <option value="external">📱 外部App打卡 (Procreate/CSP)</option>
+            <option value="redline">🖍️ 红线复盘纠错</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-field">
+          <label for="post-duration-input">练习时长 (分钟)</label>
+          <input type="number" id="post-duration-input" min="1" max="600" value="20">
+        </div>
+        <div class="form-field">
+          <label for="post-rating-select">本次自评</label>
+          <select id="post-rating-select">
+            <option value="5">⭐⭐⭐⭐⭐ 5分 · 超有手感</option>
+            <option value="4">⭐⭐⭐⭐ 4分 · 结构顺手</option>
+            <option value="3" selected>⭐⭐⭐ 3分 · 正常推进</option>
+            <option value="2">⭐⭐ 2分 · 发现卡点</option>
+            <option value="1">⭐ 1分 · 初次摸索</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="post-notes-input">练习心得 / 水平翻转自检记录</label>
+        <textarea id="post-notes-input" rows="3" placeholder="记录今天抓住了哪个结构关键，或者准备重点改哪里..."></textarea>
+      </div>
+
+      <div class="dialog-footer-actions">
+        <button type="button" id="btn-send-upload-to-redline" class="btn btn-secondary">🖍️ 送入画板做红线批注</button>
+        <button type="submit" id="btn-confirm-save-post" class="btn btn-primary">✅ 确认存入画帖</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Dialog 3: Add Custom Bilibili / YouTube Video -->
+  <dialog id="dialog-add-video" closedby="any" aria-labelledby="title-add-video">
+    <div class="dialog-header">
+      <h2 id="title-add-video">🎬 收藏自定义教学视频</h2>
+      <form method="dialog">
+        <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
+      </form>
+    </div>
+    <form id="add-video-form" class="dialog-body form-stack">
+      <input type="hidden" id="custom-video-lesson-id" value="">
+
+      <div class="form-field">
+        <label for="custom-video-title">视频标题</label>
+        <input type="text" id="custom-video-title" required placeholder="例如：零基础彻底讲透二次元十字球透视">
+      </div>
+
+      <div class="form-field">
+        <label for="custom-video-url">B站 / YouTube 链接 (支持自动内嵌播放)</label>
+        <input type="text" id="custom-video-url" required placeholder="粘贴 https://www.bilibili.com/video/BV... 或 YouTube 视频链接">
+      </div>
+
+      <div class="form-field">
+        <label for="custom-video-author">UP主 / 作者名</label>
+        <input type="text" id="custom-video-author" placeholder="例如：某绘画讲师">
+      </div>
+
+      <div class="form-field">
+        <label for="custom-video-notes">重点时间轴 / 学习笔记</label>
+        <textarea id="custom-video-notes" rows="3" placeholder="例如：02:15 侧脸颧骨转折点，06:40 耳朵位置高低对比"></textarea>
+      </div>
+
+      <div class="dialog-footer-actions">
+        <button type="submit" class="btn btn-primary">➕ 添加并关联本课</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Dialog 4: Before / After Progress Comparator -->
+  <dialog id="dialog-compare" class="dialog-wide" closedby="any" aria-labelledby="title-compare">
+    <div class="dialog-header">
+      <h2 id="title-compare">⚖️ 前后进步对比 &amp; 生成分享卡</h2>
+      <form method="dialog">
+        <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
+      </form>
+    </div>
+    <div class="dialog-body">
+      <div class="compare-controls">
+        <div class="form-field">
+          <label for="compare-select-before">对比起点 (Before)</label>
+          <select id="compare-select-before"></select>
+        </div>
+        <div class="form-field">
+          <label for="compare-select-after">最新进步 (After)</label>
+          <select id="compare-select-after"></select>
+        </div>
+      </div>
+
+      <div class="compare-canvas-wrap">
+        <canvas id="compare-export-canvas" width="1400" height="820"></canvas>
+      </div>
+
+      <div class="dialog-footer-actions">
+        <button type="button" id="btn-download-compare-card" class="btn btn-primary">⬇ 下载高清进步对比卡 PNG</button>
+        <form method="dialog">
+          <button type="submit" class="btn btn-ghost">关闭</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Dialog 5: Local Backup & PWA Install Guide -->
+  <dialog id="dialog-backup" closedby="any" aria-labelledby="title-backup">
+    <div class="dialog-header">
+      <h2 id="title-backup">💾 数据备份 &amp; App 安装指南</h2>
+      <form method="dialog">
+        <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
+      </form>
+    </div>
+    <div class="dialog-body backup-dialog-body">
+      <section class="backup-section">
+        <h3>1. 纯本地数据备份与跨设备迁移 (零注册)</h3>
+        <p>你的所有课程打卡进度、收藏视频与进步画帖图片都保存在浏览器本地 IndexedDB 中，不会上传任何服务器。换设备（例如从电脑同步到 iPad）或清理浏览器前，建议导出 JSON 备份：</p>
+        <div class="backup-actions-row">
+          <button type="button" id="btn-export-json" class="btn btn-primary">📤 导出完整 JSON 备份</button>
+          <div class="import-group">
+            <input type="file" id="input-import-json" accept="application/json">
+            <button type="button" id="btn-import-json" class="btn btn-secondary">📥 恢复导入备份</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="backup-section">
+        <h3>2. 安装为 iPad / 桌面独立 App (支持离线练习)</h3>
+        <div class="pwa-guide-grid">
+          <div class="pwa-guide-card">
+            <h4>📱 iPad / iPhone (Safari)</h4>
+            <ol>
+              <li>用 Safari 打开本站（建议使用 HTTPS 或本地局域网地址）。</li>
+              <li>点击浏览器右上角的 <strong>「分享」</strong> 图标（方框带向上箭头）。</li>
+              <li>在菜单中往下滑，选择 <strong>「添加到主屏幕」</strong> → 点击「添加」。</li>
+              <li>从桌面图标启动即可全屏无地址栏，配合 Apple Pencil 防误触顺滑练画！</li>
+            </ol>
+          </div>
+          <div class="pwa-guide-card">
+            <h4>💻 Windows / macOS (Chrome / Edge)</h4>
+            <ol>
+              <li>在地址栏右侧找到 <strong>「安装 DrawPath Studio」</strong> 图标（带加号的电脑/应用图标）。</li>
+              <li>点击 <strong>「安装」</strong>，网站会作为独立窗口程序出现在桌面或开始菜单。</li>
+              <li>支持数位板 Wintab / Windows Ink 真实压感，无网环境下也能查看教程与画图！</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="dialog-footer">
+      <form method="dialog">
+        <button type="submit" class="btn btn-ghost">关闭</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Dialog 6: 3D Reference Studio (Sketchfab & External 3D Pose Tools) -->
+  <dialog id="dialog-3d-studio" class="dialog-wide" closedby="any" aria-labelledby="title-3d-studio">
+    <div class="dialog-header">
+      <h2 id="title-3d-studio">🧊 3D 模型旋转参考舱 · Sketchfab &amp; 三大摆姿站</h2>
+      <form method="dialog">
+        <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
+      </form>
+    </div>
+    <div class="dialog-body pose3d-dialog-body">
+      <div class="pose3d-topbar">
+        <div id="pose3d-preset-pills" class="pose3d-preset-pills" role="group" aria-label="精选教学 3D 模型预设"></div>
+        <form id="pose3d-search-form" class="pose3d-search-bar">
+          <input type="search" id="pose3d-search-input" placeholder="输入 Sketchfab 关键词（如 Zeraora / Kemono / Asaro）或直接粘贴模型链接…" aria-label="搜索 Sketchfab 3D 模型或粘贴链接">
+          <button type="submit" id="btn-pose3d-search" class="btn btn-primary btn-sm">🔍 搜 Sketchfab 3D 模型</button>
+        </form>
+      </div>
+
+      <div id="pose3d-results-strip" class="pose3d-results-strip" aria-label="Sketchfab 候选 3D 模型缩略图"></div>
+
+      <div id="pose3d-iframe-stage" class="pose3d-iframe-stage"></div>
+
+      <div class="pose3d-stage-footer">
+        <div id="pose3d-tip-banner" class="pose3d-tip-banner"></div>
+        <div class="pose3d-stage-actions">
+          <button type="button" id="btn-pose3d-dock-split" class="btn btn-secondary btn-sm">🧩 开启「左 3D 模型 + 右压感画板」同屏边看边练</button>
+        </div>
+      </div>
+
+      <div class="pose3d-external-section">
+        <div class="pose3d-external-head">
+          <strong>🌐 外部 3D 摆姿神站联动（Posemaniacs · PoseMy.Art · JustSketch.me）</strong>
+          <span class="pose3d-workflow-tip">💡 旋转到想练的角度 → Win+Shift+S / iPad 截屏复制 → 在画板按 Ctrl+V 即可一键垫底描结构线或贴到角落悬浮窗对临！</span>
+        </div>
+        <div id="pose3d-external-sites" class="external-3d-sites-bar"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

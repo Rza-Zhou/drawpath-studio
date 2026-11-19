@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="DrawPath Studio 画路工坊 图标">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="55%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#13151a" />
+    </linearGradient>
+    <linearGradient id="stroke-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#f472b6" />
+    </linearGradient>
+    <linearGradient id="nib-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <linearGradient id="nib-shadow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5b4fc" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <linearGradient id="page-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05" />
+    </linearGradient>
+  </defs>
+
+  <!-- App Icon Backing -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bg-grad)" />
+  <rect x="18" y="18" width="476" height="476" rx="106" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="4" />
+
+  <!-- Stylized Sketchbook Page -->
+  <rect x="92" y="96" width="328" height="320" rx="34" fill="url(#page-grad)" stroke="#a5b4fc" stroke-opacity="0.32" stroke-width="4" />
+  <!-- Sketchbook Spine Rings -->
+  <g fill="#c7d2fe" fill-opacity="0.55">
+    <rect x="76" y="146" width="32" height="14" rx="7" />
+    <rect x="76" y="214" width="32" height="14" rx="7" />
+    <rect x="76" y="282" width="32" height="14" rx="7" />
+    <rect x="76" y="350" width="32" height="14" rx="7" />
+  </g>
+  <!-- Subtle Perspective Crosshair on Page -->
+  <g stroke="#e0e7ff" stroke-opacity="0.18" stroke-width="2.5" stroke-dasharray="8 8">
+    <line x1="130" y1="256" x2="386" y2="256" />
+    <line x1="256" y1="130" x2="256" y2="382" />
+  </g>
+
+  <!-- Flowing Pressure Brush Path -->
+  <path d="M 134 344 C 176 356, 206 312, 238 282 C 272 250, 310 290, 366 232" fill="none" stroke="url(#stroke-grad)" stroke-width="22" stroke-linecap="round" />
+  <circle cx="134" cy="344" r="11" fill="#38bdf8" />
+
+  <!-- Geometric Stylus / Pen Nib -->
+  <g transform="translate(274, 232) rotate(-45)">
+    <!-- Nib Barrel Collar -->
+    <rect x="58" y="-26" width="54" height="52" rx="10" fill="#4f46e5" stroke="#e0e7ff" stroke-width="3" />
+    <!-- Upper Nib Facet -->
+    <polygon points="-58,0 58,-30 58,0" fill="url(#nib-light)" />
+    <!-- Lower Nib Facet -->
+    <polygon points="-58,0 58,30 58,0" fill="url(#nib-shadow)" />
+    <!-- Nib Split Line & Breather Hole -->
+    <line x1="-56" y1="0" x2="8" y2="0" stroke="#1e1b4b" stroke-width="4" stroke-linecap="round" />
+    <circle cx="14" cy="0" r="8" fill="#1e1b4b" />
+    <!-- Redline Accent Tip -->
+    <circle cx="-58" cy="0" r="6" fill="#f472b6" />
+  </g>
+</svg>
