@@ -154,53 +154,92 @@ export const PLATE_FIGURE_TORSO_HAND = wrapRedBlueCheatSheetSVG({
   rightTone: 'ink',
   connector: 'vs',
   leftBody: `
-    <g transform="translate(174, 108)">
-      <line x1="-88" y1="-64" x2="88" y2="-36" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <line x1="-88" y1="68" x2="88" y2="42" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <g transform="translate(0, -34) rotate(10)">
-        <path d="M 0 -44 C 30 -44, 44 -20, 40 14 C 36 34, 18 44, -2 44 C -24 44, -40 30, -40 4 C -40 -24, -24 -44, 0 -44 Z"
-          fill="#e0f2fe" fill-opacity="0.38" stroke="#0284c7" stroke-width="1.7"/>
-        <path d="M 10 -44 C 22 -16, 22 18, 12 42" fill="none" stroke="#0284c7" stroke-width="1.5"/>
-        <path d="M -14 38 Q 14 8 34 30" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-dasharray="3 2"/>
+    <g transform="translate(174, 114)">
+      <!-- Counter-tilted shoulder & hip plane axes -->
+      <line x1="-88" y1="-64" x2="88" y2="-40" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="-88" y1="62" x2="88" y2="38" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- 3/4 Ribcage Egg (+8 deg tilt) -->
+      <g transform="translate(-2, -32) rotate(8)">
+        <ellipse cx="0" cy="-42" rx="16" ry="6" fill="none" stroke="#0284c7" stroke-width="1.4"/>
+        <path d="M 0 -46 C 30 -46, 40 -20, 36 14 C 33 34, 16 44, -2 44 C -24 44, -38 28, -38 2 C -38 -24, -24 -46, 0 -46 Z"
+          fill="#e0f2fe" fill-opacity="0.42" stroke="#0284c7" stroke-width="1.7"/>
+        <!-- Front curved sternum centerline + thoracic arch -->
+        <path d="M 10 -44 C 22 -16, 22 18, 12 42" fill="none" stroke="#0284c7" stroke-width="1.6"/>
+        <path d="M -12 38 Q 14 8 32 30" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-dasharray="3 2"/>
       </g>
-      <g transform="translate(2, 56) rotate(-10)">
-        <polygon points="-40,-16 32,-16 42,-5 -24,-5" fill="#ffe4e6" fill-opacity="0.55" stroke="#e11d48" stroke-width="1.5"/>
-        <polygon points="-24,-5 42,-5 35,28 10,36 -10,36 -22,22" fill="#ffe4e6" fill-opacity="0.3" stroke="#e11d48" stroke-width="1.6"/>
-        <polygon points="-40,-16 -24,-5 -22,22 -38,10" fill="#fecdd3" fill-opacity="0.4" stroke="#e11d48" stroke-width="1.5"/>
-        <line x1="10" y1="-5" x2="2" y2="36" stroke="#e11d48" stroke-width="1.4"/>
+
+      <!-- Compact Lumbar Waist Connector (~18px soft waist) -->
+      <path d="M -34 10 C -36 22, -34 32, -30 42 M 30 6 C 22 18, 22 28, 34 38"
+        fill="none" stroke="#0284c7" stroke-width="1.4" stroke-dasharray="3 2"/>
+
+      <!-- 3/4 Pelvis 3D Box (-8 deg counter-tilt) -->
+      <g transform="translate(2, 54) rotate(-8)">
+        <polygon points="-36,-18 28,-18 40,-6 -22,-6" fill="#ffe4e6" fill-opacity="0.58" stroke="#e11d48" stroke-width="1.5"/>
+        <polygon points="-22,-6 40,-6 34,26 10,34 -8,34 -20,20" fill="#ffe4e6" fill-opacity="0.32" stroke="#e11d48" stroke-width="1.6"/>
+        <polygon points="-36,-18 -22,-6 -20,20 -34,8" fill="#fecdd3" fill-opacity="0.44" stroke="#e11d48" stroke-width="1.5"/>
+        <line x1="10" y1="-6" x2="2" y2="34" stroke="#e11d48" stroke-width="1.5"/>
+        <ellipse cx="-27" cy="6" rx="6" ry="11" fill="none" stroke="#e11d48" stroke-width="1.3"/>
       </g>
-      <path d="M -16 -92 L -14 -72 M 18 -92 L 16 -72" fill="none" stroke="#0f172a" stroke-width="2.2"/>
-      <path d="M 6 -72 Q -28 -80 -56 -62 M 6 -72 Q 36 -74 62 -50" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M -56 -62 C -74 -50, -72 -24, -60 -10 C -48 -22, -46 -42, -56 -62 Z" fill="none" stroke="#0f172a" stroke-width="2.2"/>
-      <path d="M 62 -50 C 76 -34, 74 -8, 58 6 C 50 -8, 50 -32, 62 -50 Z" fill="none" stroke="#0f172a" stroke-width="2.2"/>
-      <path d="M 10 -66 L 12 -22 C -14 -18, -38 -24, -50 -42 M 12 -22 C 32 -14, 48 -18, 54 -32" fill="none" stroke="#0f172a" stroke-width="2"/>
-      <path d="M -40 -10 C -52 12, -48 32, -38 48" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M 38 6 C 26 18, 28 30, 40 38" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"/>
+
+      <!-- Ink Anatomical Overlay: Neck Cylinder, Clavicle S-bar, Deltoid Caps, Stretch/Pinch Waist -->
+      <path d="M -14 -98 L -13 -74 M 15 -98 L 14 -72" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M -14 -84 Q -32 -76 -52 -66 M 14 -82 Q 34 -72 56 -56" fill="none" stroke="#0f172a" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M 8 -70 Q -26 -78 -54 -64 M 8 -70 Q 34 -72 58 -52" fill="none" stroke="#0f172a" stroke-width="2.3" stroke-linecap="round"/>
+      <!-- Deltoid caps tapering into arm cylinders -->
+      <path d="M -54 -64 C -70 -50, -68 -24, -56 -8 C -46 -22, -44 -44, -54 -64 Z" fill="none" stroke="#0f172a" stroke-width="2.1"/>
+      <path d="M 58 -52 C 72 -36, 70 -10, 56 6 C 48 -8, 48 -34, 58 -52 Z" fill="none" stroke="#0f172a" stroke-width="2.1"/>
+      <path d="M -60 -12 L -64 26 M -44 -20 L -48 24 M 62 -2 L 66 34 M 46 -12 L 48 32" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- Pectoral & pinch/stretch waist lines -->
+      <path d="M 10 -66 L 12 -22 C -12 -18, -34 -24, -46 -40 M 12 -22 C 30 -14, 44 -18, 50 -32" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+      <path d="M -36 -6 C -42 14, -40 30, -34 44" fill="none" stroke="#0f172a" stroke-width="2.3" stroke-linecap="round"/>
+      <path d="M 32 6 C 20 18, 22 28, 35 36" fill="none" stroke="#0f172a" stroke-width="2.3" stroke-linecap="round"/>
     </g>
     <text x="12" y="42" font-size="11" font-weight="700" fill="#e11d48">肩线 ↘</text>
     <text x="12" y="168" font-size="11" font-weight="700" fill="#0284c7">胯线 ↗</text>
-    <text x="260" y="98" font-size="11" font-weight="700" fill="#0f172a">右腰挤压折叠</text>
-    <text x="178" y="226" font-size="11" fill="#0369a1" text-anchor="middle">蓝卵胸腔 + 红盒骨盆 + 黑线锁骨肌群 = 经典对立平衡</text>
+    <text x="256" y="108" font-size="11" font-weight="700" fill="#0f172a">右腰挤压折叠</text>
+    <text x="178" y="226" font-size="11" fill="#0369a1" text-anchor="middle">蓝卵胸腔 + 紧凑腰段 + 红盒骨盆 = 稳固对立平衡</text>
   `,
   rightBody: `
-    <g transform="translate(174, 120)">
-      <path d="M -68 -62 Q 0 -114 64 -66" fill="none" stroke="#0284c7" stroke-width="1.4" stroke-dasharray="4 3"/>
-      <path d="M -42 -12 Q 0 -30 44 -12" fill="none" stroke="#0284c7" stroke-width="1.4" stroke-dasharray="4 3"/>
-      <polygon points="-34,66 30,66 44,-12 0,-26 -40,-12" fill="#ffe4e6" fill-opacity="0.38" stroke="#e11d48" stroke-width="1.6" stroke-linejoin="round"/>
-      <polygon points="-40,-12 -50,-4 -42,62 -34,66" fill="#fecdd3" fill-opacity="0.45" stroke="#e11d48" stroke-width="1.3"/>
-      <polygon points="30,66 62,42 44,-12" fill="#e0f2fe" fill-opacity="0.55" stroke="#0284c7" stroke-width="1.5"/>
-      <path d="M -38 -12 L -58 -52 C -60 -58, -50 -62, -46 -54 L -28 -16" fill="#ffffff" fill-opacity="0.86" stroke="#0f172a" stroke-width="2.2" stroke-linejoin="round"/>
-      <path d="M -22 -18 L -20 -78 C -20 -84, -8 -84, -7 -78 L -6 -24" fill="#ffffff" fill-opacity="0.86" stroke="#0f172a" stroke-width="2.2" stroke-linejoin="round"/>
-      <path d="M -6 -24 L -3 -96 C -3 -102, 10 -102, 11 -96 L 12 -22" fill="#ffffff" fill-opacity="0.86" stroke="#0f172a" stroke-width="2.3" stroke-linejoin="round"/>
-      <path d="M 18 -18 L 40 -74 C 42 -82, 54 -78, 51 -70 L 36 -12" fill="#ffffff" fill-opacity="0.86" stroke="#0f172a" stroke-width="2.2" stroke-linejoin="round"/>
-      <path d="M 38 56 C 54 42, 66 24, 76 6 C 82 -4, 72 -14, 62 -4 L 44 22" fill="#ffffff" fill-opacity="0.88" stroke="#0f172a" stroke-width="2.4" stroke-linejoin="round"/>
-      <path d="M -30 66 L -32 90 M 26 66 L 28 90" fill="none" stroke="#0f172a" stroke-width="2.2"/>
-      <path d="M -22 22 Q 4 12 22 24 M -18 -54 L -9 -54 M -2 -62 L 9 -62" fill="none" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
+    <g transform="translate(174, 122)">
+      <!-- Concentric finger tip & MCP knuckle arches -->
+      <path d="M -60 -60 Q 0 -116 62 -64" fill="none" stroke="#0284c7" stroke-width="1.4" stroke-dasharray="4 3"/>
+      <path d="M -46 -38 Q 2 -74 52 -42" fill="none" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="3 3"/>
+      <path d="M -42 -12 Q 2 -32 42 -12" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- 3D Beveled Pentagonal Palm Block (Height ~76px ≈ Middle Finger Length) -->
+      <polygon points="-32,64 26,64 40,-12 0,-26 -38,-12" fill="#ffe4e6" fill-opacity="0.38" stroke="#e11d48" stroke-width="1.7" stroke-linejoin="round"/>
+      <!-- Ulnar side thickness facet -->
+      <polygon points="-38,-12 -47,-4 -39,58 -32,64" fill="#fecdd3" fill-opacity="0.48" stroke="#e11d48" stroke-width="1.4"/>
+      <!-- Wrist cylinder -->
+      <path d="M -28 64 L -30 88 M 24 64 L 26 88" fill="none" stroke="#0f172a" stroke-width="2.2"/>
+      <path d="M -29 66 Q 0 72 25 66" fill="none" stroke="#e11d48" stroke-width="1.3"/>
+
+      <!-- Abducted 3D Thenar Muscle Wedge + Articulated Thumb -->
+      <ellipse cx="38" cy="34" rx="14" ry="22" transform="rotate(24 38 34)" fill="#e0f2fe" fill-opacity="0.58" stroke="#0284c7" stroke-width="1.5"/>
+      <path d="M 32 54 C 48 42, 62 24, 72 4 C 78 -6, 66 -12, 58 -2 L 42 24"
+        fill="#ffffff" fill-opacity="0.9" stroke="#0f172a" stroke-width="2.3" stroke-linejoin="round"/>
+      <path d="M 54 14 Q 60 18 65 15" fill="none" stroke="#0f172a" stroke-width="1.3"/>
+
+      <!-- 1 + 2 + 1 Articulated Tapered Finger Cylinders -->
+      <!-- Pinky (1, slightly angled out) -->
+      <path d="M -36 -12 L -53 -54 C -55 -60, -45 -63, -42 -56 L -26 -16" fill="#ffffff" fill-opacity="0.9" stroke="#0f172a" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M -47 -36 Q -41 -39 -36 -36" fill="none" stroke="#0f172a" stroke-width="1.1"/>
+      <!-- Ring + Middle Paired (2) -->
+      <path d="M -22 -18 L -20 -78 C -20 -84, -8 -84, -7 -78 L -6 -24" fill="#ffffff" fill-opacity="0.9" stroke="#0f172a" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M -19 -52 L -9 -52 M -18 -66 L -10 -66" fill="none" stroke="#0f172a" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M -5 -24 L -3 -96 C -3 -102, 10 -102, 11 -96 L 12 -22" fill="#ffffff" fill-opacity="0.9" stroke="#0f172a" stroke-width="2.3" stroke-linejoin="round"/>
+      <path d="M -2 -62 L 9 -62 M -1 -80 L 8 -80" fill="none" stroke="#0f172a" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- Index Separate (1) -->
+      <path d="M 18 -18 L 36 -74 C 38 -81, 49 -78, 47 -70 L 32 -12" fill="#ffffff" fill-opacity="0.9" stroke="#0f172a" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M 27 -48 L 38 -45 M 32 -62 L 42 -59" fill="none" stroke="#0f172a" stroke-width="1.1" stroke-linecap="round"/>
+      <!-- Dorsal knuckle tendons cue -->
+      <path d="M -22 22 Q 4 12 22 24" fill="none" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round"/>
     </g>
-    <text x="12" y="42" font-size="11" font-weight="700" fill="#0284c7">指尖/指根弧拱</text>
+    <text x="12" y="42" font-size="11" font-weight="700" fill="#0284c7">指尖/指根同心弧</text>
     <text x="12" y="168" font-size="11" font-weight="700" fill="#e11d48">五边形厚掌盒</text>
-    <text x="260" y="168" font-size="11" font-weight="700" fill="#0284c7">大鱼际三角座</text>
-    <text x="178" y="226" font-size="11" fill="#0f172a" text-anchor="middle">五边形掌块 + 1+2+1 疏密分组 = 立刻告别鸡爪手</text>
+    <text x="256" y="168" font-size="11" font-weight="700" fill="#0284c7">大鱼际椭圆球座</text>
+    <text x="178" y="226" font-size="11" fill="#0f172a" text-anchor="middle">五边形掌盒（中指≈掌长）+ 1+2+1 分组指柱</text>
   `,
 });
 

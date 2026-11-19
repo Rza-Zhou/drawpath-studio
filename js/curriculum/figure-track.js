@@ -33,15 +33,31 @@ export const FIGURE_TEMPLATES = [
       <circle cx="216" cy="262" r="5" fill="#10b981" fill-opacity="0.75"/>
       <text x="230" y="266" font-size="11" fill="#059669" fill-opacity="0.8">锁骨窝起点</text>
 
-      <!-- Sweeping S Line of Action + subtle construction hints -->
-      <path d="M222 184 C194 260, 246 390, 212 500 C196 565, 206 675, 214 776" fill="none" stroke="#6366f1" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round"/>
-      <ellipse cx="222" cy="212" rx="28" ry="36" fill="none" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="1.5" transform="rotate(6 222 212)"/>
-      <!-- Subtle tilted shoulder & hip cues -->
-      <line x1="162" y1="286" x2="270" y2="272" stroke="#0284c7" stroke-opacity="0.42" stroke-width="1.6" stroke-dasharray="4 4"/>
-      <line x1="176" y1="452" x2="264" y2="466" stroke="#0284c7" stroke-opacity="0.42" stroke-width="1.6" stroke-dasharray="4 4"/>
-      <text x="122" y="388" font-size="11" fill="#4f46e5" fill-opacity="0.75">S 型主弧线</text>
-      <text x="278" y="546" font-size="11" fill="#475569" fill-opacity="0.68">承重腿直落</text>
-      <path d="M252 470 Q276 620 264 772" fill="none" stroke="#38bdf8" stroke-opacity="0.32" stroke-width="1.6" stroke-dasharray="5 5"/>
+      <!-- Sweeping S Line of Action + 3D Articulated Gesture Mannequin -->
+      <path d="M222 184 C194 260, 246 390, 212 500 C196 565, 206 675, 214 776" fill="none" stroke="#6366f1" stroke-opacity="0.58" stroke-width="2.8" stroke-linecap="round"/>
+      <!-- Head + Neck Cylinder -->
+      <ellipse cx="222" cy="204" rx="25" ry="33" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.55" stroke-width="1.6" transform="rotate(6 222 204)"/>
+      <path d="M212 234 L211 258 M228 236 L227 258" fill="none" stroke="#0284c7" stroke-opacity="0.48" stroke-width="1.5"/>
+      <!-- Tilted shoulder & hip lines (+7 deg / -7 deg) -->
+      <line x1="162" y1="286" x2="270" y2="272" stroke="#e11d48" stroke-opacity="0.55" stroke-width="1.7" stroke-dasharray="4 3"/>
+      <line x1="176" y1="452" x2="264" y2="466" stroke="#0284c7" stroke-opacity="0.55" stroke-width="1.7" stroke-dasharray="4 3"/>
+      <!-- Ribcage egg + Pelvis 3D trapezoid -->
+      <path d="M218 258 C252 258, 264 290, 254 338 C248 360, 232 372, 210 370 C186 368, 174 344, 178 308 C182 276, 194 258, 218 258 Z"
+        fill="#38bdf8" fill-opacity="0.07" stroke="#0284c7" stroke-opacity="0.56" stroke-width="1.6" transform="rotate(-5 218 314)"/>
+      <path d="M180 398 L254 406 L256 446 L230 464 L204 462 L176 436 Z"
+        fill="#e11d48" fill-opacity="0.05" stroke="#e11d48" stroke-opacity="0.5" stroke-width="1.5"/>
+      <!-- Tapered Gesture Arms -->
+      <path d="M174 282 C164 326, 160 364, 164 398 C164 426, 168 450, 174 474 M186 284 C178 328, 176 364, 178 398 C178 426, 180 448, 184 472"
+        fill="none" stroke="#0284c7" stroke-opacity="0.45" stroke-width="1.4"/>
+      <path d="M262 272 C276 314, 282 350, 280 384 C276 414, 266 438, 256 462 M248 274 C260 314, 266 350, 264 384 C260 412, 252 436, 244 460"
+        fill="none" stroke="#0284c7" stroke-opacity="0.45" stroke-width="1.4"/>
+      <!-- Supporting weight-bearing leg (enclosing plumb line x=216) + relaxed free leg -->
+      <path d="M182 446 C182 512, 194 568, 206 618 C202 674, 206 728, 212 764 L196 780 L236 780 L226 762 C230 726, 232 674, 224 618 C230 568, 226 512, 220 462"
+        fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.55" stroke-width="1.6"/>
+      <path d="M250 452 C264 510, 272 562, 266 614 C276 668, 278 722, 274 764 L294 780 L262 780 L262 764"
+        fill="none" stroke="#0284c7" stroke-opacity="0.38" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <text x="108" y="388" font-size="11" fill="#4f46e5" fill-opacity="0.78">S 型主弧线</text>
+      <text x="278" y="546" font-size="11" fill="#475569" fill-opacity="0.72">承重腿压正垂线</text>
 
       <!-- Zone 2: Big C-Curve Leap / Stretch vs Pinch -->
       <rect x="420" y="92" width="356" height="764" rx="12" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6"/>
@@ -135,27 +151,42 @@ export const FIGURE_TEMPLATES = [
       <!-- 2-head width bracket above shoulders -->
       <line x1="252" y1="242" x2="428" y2="242" stroke="#6366f1" stroke-opacity="0.55" stroke-width="1.4" marker-start="url(#tpl-arrow-indigo)" marker-end="url(#tpl-arrow-indigo)"/>
 
-      <g fill="none" stroke="#0284c7" stroke-opacity="0.52" stroke-width="1.7">
+      <g fill="none" stroke="#0284c7" stroke-opacity="0.6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
         <!-- Head (1 head = 95px tall, width ~ 66px) -->
-        <path d="M340 120 C366 120, 374 146, 372 174 C370 198, 356 215, 340 215 C324 215, 310 198, 308 174 C306 146, 314 120, 340 120 Z"/>
-        <!-- Neck + Clavicle -->
-        <path d="M324 210 L324 246 M356 210 L356 246"/>
-        <path d="M254 266 Q298 250 340 256 Q382 250 426 266" stroke="#4f46e5" stroke-opacity="0.62" stroke-width="2"/>
-        <!-- Tapered Ribcage Egg (y=256..386) -->
-        <path d="M340 256 C386 256, 404 294, 396 346 C392 374, 374 388, 340 388 C306 388, 288 374, 284 346 C276 294, 294 256, 340 256 Z"/>
+        <path d="M340 120 C366 120, 374 146, 372 174 C370 198, 356 215, 340 215 C324 215, 310 198, 308 174 C306 146, 314 120, 340 120 Z" fill="#38bdf8" fill-opacity="0.06"/>
+        <line x1="308" y1="168" x2="372" y2="168" stroke-opacity="0.32" stroke-dasharray="3 3"/>
+        <!-- Neck cylinder & Trapezius slope -->
+        <path d="M324 210 L322 246 Q292 254 252 266 M356 210 L358 246 Q388 254 428 266"/>
+        <!-- Clavicle S-bar + Acromion landmarks -->
+        <path d="M254 266 Q298 250 340 256 Q382 250 426 266" stroke="#e11d48" stroke-opacity="0.68" stroke-width="2"/>
+        <!-- Deltoid shoulder spheres -->
+        <circle cx="252" cy="276" r="16" fill="#6366f1" fill-opacity="0.07" stroke="#4f46e5" stroke-opacity="0.52"/>
+        <circle cx="428" cy="276" r="16" fill="#6366f1" fill-opacity="0.07" stroke="#4f46e5" stroke-opacity="0.52"/>
+        <!-- Tapered Ribcage Egg (y=256..390) -->
+        <path d="M340 256 C384 256, 400 294, 392 346 C388 374, 370 390, 340 390 C310 390, 292 374, 288 346 C280 294, 296 256, 340 256 Z" fill="#38bdf8" fill-opacity="0.07"/>
         <!-- Thoracic Arch -->
-        <path d="M308 380 Q340 338 372 380" stroke-dasharray="4 3" stroke-opacity="0.42"/>
-        <!-- Waist contours -->
-        <path d="M294 374 C296 394, 292 406, 286 420 M386 374 C384 394, 388 406, 394 420" stroke-opacity="0.42"/>
-        <!-- Pelvis Trapezoid Box (y=414..482) -->
-        <path d="M286 418 L394 418 L400 456 L360 482 L320 482 L280 456 Z"/>
-        <!-- Arms: Shoulder -> Elbow (y=405) -> Wrist (y=480) -> Fingertips (y=544) -->
-        <path d="M254 266 C244 316, 240 364, 244 405 C242 436, 236 462, 234 480 L226 538"/>
-        <path d="M426 266 C436 316, 440 364, 436 405 C438 436, 444 462, 446 480 L454 538"/>
-        <!-- Legs: Trochanter (y=466) -> Knee (y=642) -> Ankle (y=792) -> Foot wedge (y=832) -->
-        <path d="M286 462 C282 528, 294 590, 304 642 C298 698, 306 752, 314 792 L296 832 L328 832 L322 792"/>
-        <path d="M394 462 C398 528, 386 590, 376 642 C382 698, 374 752, 366 792 L384 832 L352 832 L358 792"/>
-        <path d="M326 482 C328 544, 326 600, 318 642 M354 482 C352 544, 354 600, 362 642" stroke-opacity="0.38"/>
+        <path d="M310 382 Q340 340 370 382" stroke-dasharray="4 3" stroke-opacity="0.46"/>
+        <!-- Compact Waist cylinder (navel at y=405 = 3.0H) -->
+        <path d="M298 378 C298 394, 296 406, 288 418 M382 378 C382 394, 384 406, 392 418"/>
+        <!-- Pelvis Trapezoid Box (y=418..482) -->
+        <path d="M288 418 L392 418 L398 456 L356 482 L324 482 L282 456 Z" fill="#e11d48" fill-opacity="0.06" stroke="#e11d48" stroke-opacity="0.58"/>
+        <!-- Hip socket ellipses -->
+        <circle cx="294" cy="466" r="12" stroke="#d97706" stroke-opacity="0.55"/>
+        <circle cx="386" cy="466" r="12" stroke="#d97706" stroke-opacity="0.55"/>
+
+        <!-- 3D Tapered Arms: Upper Arm (y=282..405) + Elbow Sphere (405) + Forearm (405..480) + Mitten Hand (480..542) -->
+        <path d="M238 282 C234 328, 234 370, 236 405 C228 432, 226 458, 229 480 L220 524 L228 542 L238 524 L239 480 C246 456, 250 430, 252 405 C258 368, 264 328, 266 286"/>
+        <circle cx="244" cy="405" r="10" stroke="#4f46e5" stroke-opacity="0.48"/>
+        <path d="M442 282 C446 328, 446 370, 444 405 C452 432, 454 458, 451 480 L460 524 L452 542 L442 524 L441 480 C434 456, 430 430, 428 405 C422 368, 416 328, 414 286"/>
+        <circle cx="436" cy="405" r="10" stroke="#4f46e5" stroke-opacity="0.48"/>
+
+        <!-- 3D Tapered Legs: Thigh (466..642) + Knee Patella (5.5H=642) + Calf (642..792) + Wedge Feet (792..832) -->
+        <!-- Left Leg -->
+        <path d="M282 456 C276 520, 286 588, 298 642 C288 688, 294 742, 308 792 L292 832 L332 832 L322 792 C328 742, 330 688, 322 642 C332 588, 334 528, 332 482" fill="#38bdf8" fill-opacity="0.06"/>
+        <rect x="298" y="630" width="24" height="24" rx="6" stroke="#4f46e5" stroke-opacity="0.55"/>
+        <!-- Right Leg -->
+        <path d="M398 456 C404 520, 394 588, 382 642 C392 688, 386 742, 372 792 L388 832 L348 832 L358 792 C352 742, 350 688, 358 642 C348 588, 346 528, 348 482" fill="#38bdf8" fill-opacity="0.06"/>
+        <rect x="358" y="630" width="24" height="24" rx="6" stroke="#4f46e5" stroke-opacity="0.55"/>
       </g>
 
       <!-- Key Bone Landmark Dots -->
@@ -218,38 +249,40 @@ export const FIGURE_TEMPLATES = [
       <text x="66" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">区 1 · 3/4 视角蛋盒体块转面示范</text>
       <text x="66" y="140" font-size="11.5" fill="#475569" fill-opacity="0.7">先画胸廓正面中线与侧面转折，明确朝向</text>
 
-      <!-- 3/4 Ribcage Egg -->
-      <g transform="translate(220, 320)">
-        <path d="M-8 -118 C64 -118, 96 -52, 86 42 C78 104, 42 126, -10 126 C-64 126, -94 94, -90 28 C-86 -52, -62 -118, -8 -118 Z" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.62" stroke-width="2"/>
+      <!-- 3/4 Ribcage Egg (centered around y=296, compact waist directly below) -->
+      <g transform="translate(220, 298)">
+        <path d="M-8 -106 C58 -106, 84 -46, 76 38 C68 90, 36 108, -8 108 C-56 108, -82 80, -78 22 C-74 -46, -54 -106, -8 -106 Z" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.62" stroke-width="2"/>
         <!-- Front centerline curving around 3/4 egg -->
-        <path d="M22 -114 C52 -46, 54 44, 30 122" fill="none" stroke="#6366f1" stroke-opacity="0.65" stroke-width="2"/>
+        <path d="M20 -102 C46 -40, 48 38, 26 104" fill="none" stroke="#6366f1" stroke-opacity="0.68" stroke-width="2"/>
         <!-- Thoracic arch -->
-        <path d="M-24 114 Q30 34 74 96" fill="none" stroke="#4f46e5" stroke-opacity="0.52" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <path d="M-20 98 Q26 28 66 84" fill="none" stroke="#4f46e5" stroke-opacity="0.54" stroke-width="1.6" stroke-dasharray="5 4"/>
         <!-- Side plane ellipse -->
-        <ellipse cx="-58" cy="-16" rx="22" ry="64" fill="none" stroke="#0284c7" stroke-opacity="0.38" stroke-dasharray="4 4"/>
-        <!-- Neck opening ellipse -->
-        <ellipse cx="4" cy="-112" rx="34" ry="13" fill="none" stroke="#4f46e5" stroke-opacity="0.55" stroke-width="1.5"/>
-        <text x="0" y="-134" font-size="11.5" font-weight="600" fill="#4f46e5" fill-opacity="0.8" text-anchor="middle">胸腔蛋（前中线向右转）</text>
+        <ellipse cx="-50" cy="-14" rx="18" ry="54" fill="none" stroke="#0284c7" stroke-opacity="0.4" stroke-dasharray="4 4"/>
+        <!-- Neck opening & S-clavicle hint -->
+        <ellipse cx="4" cy="-100" rx="30" ry="11" fill="none" stroke="#4f46e5" stroke-opacity="0.55" stroke-width="1.5"/>
+        <path d="M-12 -102 L-14 -132 M20 -100 L18 -132" fill="none" stroke="#0284c7" stroke-opacity="0.48" stroke-width="1.6"/>
+        <text x="0" y="-142" font-size="11.5" font-weight="600" fill="#4f46e5" fill-opacity="0.8" text-anchor="middle">胸腔蛋（颈筒衔接，前中线向右转）</text>
       </g>
 
-      <!-- Flexible waist wrap contour -->
-      <path d="M142 442 C148 486, 152 518, 146 544 M290 436 C284 480, 286 516, 294 548" fill="none" stroke="#0284c7" stroke-opacity="0.42" stroke-width="1.6" stroke-dasharray="5 4"/>
-      <path d="M148 492 Q226 514 288 490" fill="none" stroke="#10b981" stroke-opacity="0.52" stroke-width="1.5" stroke-dasharray="4 4"/>
-      <text x="220" y="508" font-size="11" fill="#059669" fill-opacity="0.78" text-anchor="middle">腰部软组织连接区</text>
+      <!-- Compact Lumbar Waist Connector (~40px natural anatomical waist) -->
+      <path d="M156 402 C162 422, 162 436, 156 452 M278 398 C272 418, 274 434, 282 450" fill="none" stroke="#0284c7" stroke-opacity="0.48" stroke-width="1.7" stroke-dasharray="5 3"/>
+      <path d="M160 428 Q224 446 276 426" fill="none" stroke="#10b981" stroke-opacity="0.58" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <text x="220" y="440" font-size="10.5" fill="#059669" fill-opacity="0.82" text-anchor="middle">紧凑腰段衔接</text>
 
-      <!-- 3/4 Pelvis Box -->
-      <g transform="translate(220, 626)">
+      <!-- 3/4 Pelvis Box (y=450..608, directly interlocking beneath waist) -->
+      <g transform="translate(220, 526)">
         <!-- Top plane -->
-        <polygon points="-78,-78 52,-88 92,-62 -36,-50" fill="#6366f1" fill-opacity="0.08" stroke="#4f46e5" stroke-opacity="0.58" stroke-width="1.8"/>
+        <polygon points="-72,-74 46,-82 86,-58 -32,-48" fill="#6366f1" fill-opacity="0.08" stroke="#e11d48" stroke-opacity="0.6" stroke-width="1.8"/>
         <!-- Front plane -->
-        <polygon points="-36,-50 92,-62 78,42 26,80 -18,80 -32,36" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.62" stroke-width="2"/>
+        <polygon points="-32,-48 86,-58 72,38 24,74 -16,74 -28,32" fill="#38bdf8" fill-opacity="0.06" stroke="#e11d48" stroke-opacity="0.62" stroke-width="2"/>
         <!-- Side plane -->
-        <polygon points="-78,-78 -36,-50 -32,36 -74,10" fill="#0284c7" fill-opacity="0.09" stroke="#0284c7" stroke-opacity="0.58" stroke-width="1.8"/>
+        <polygon points="-72,-74 -32,-48 -28,32 -68,8" fill="#e11d48" fill-opacity="0.08" stroke="#e11d48" stroke-opacity="0.58" stroke-width="1.8"/>
         <!-- Front centerline -->
-        <line x1="30" y1="-56" x2="10" y2="80" stroke="#6366f1" stroke-opacity="0.65" stroke-width="1.8"/>
-        <!-- Hip socket ellipse on side plane -->
-        <ellipse cx="-54" cy="4" rx="14" ry="26" fill="none" stroke="#d97706" stroke-opacity="0.62" stroke-width="1.6"/>
-        <text x="0" y="106" font-size="11.5" font-weight="600" fill="#0284c7" fill-opacity="0.8" text-anchor="middle">骨盆盒（顶面 + 正面 + 侧髋面）</text>
+        <line x1="28" y1="-52" x2="10" y2="74" stroke="#6366f1" stroke-opacity="0.68" stroke-width="1.8"/>
+        <!-- Hip socket ellipse on side plane + upper femur cylinder cue -->
+        <ellipse cx="-48" cy="4" rx="13" ry="24" fill="none" stroke="#d97706" stroke-opacity="0.68" stroke-width="1.6"/>
+        <path d="M-58 26 L-50 112 M-34 22 L-22 110 M62 34 L54 112 M26 70 L22 112" fill="none" stroke="#0284c7" stroke-opacity="0.34" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <text x="0" y="138" font-size="11.5" font-weight="600" fill="#e11d48" fill-opacity="0.82" text-anchor="middle">红线骨盆盒（顶面 + 耻骨正面 + 大转子髋臼）</text>
       </g>
 
       <!-- Zone 2: Contrapposto Counter-Tilt Practice -->
@@ -271,10 +304,16 @@ export const FIGURE_TEMPLATES = [
       <path d="M474 340 Q452 430 474 520" fill="none" stroke="#0284c7" stroke-opacity="0.55" stroke-width="1.8" marker-start="url(#tpl-arrow)" marker-end="url(#tpl-arrow)"/>
       <text x="434" y="434" font-size="11.5" font-weight="700" fill="#0284c7" fill-opacity="0.82">拉伸</text>
 
-      <!-- Center spine guide & light dashed placeholders -->
+      <!-- Center spine guide & 3D Counter-Tilted Ribcage Egg + Pelvis Trapezoid Box -->
       <path d="M602 252 C572 346, 568 470, 598 634" fill="none" stroke="#6366f1" stroke-opacity="0.55" stroke-width="2.6" stroke-linecap="round"/>
-      <ellipse cx="592" cy="364" rx="74" ry="96" fill="none" stroke="#38bdf8" stroke-opacity="0.34" stroke-width="1.5" stroke-dasharray="5 5" transform="rotate(13 592 364)"/>
-      <rect x="520" y="520" width="144" height="106" rx="10" fill="none" stroke="#38bdf8" stroke-opacity="0.34" stroke-width="1.5" stroke-dasharray="5 5" transform="rotate(-13 592 573)"/>
+      <g transform="translate(596, 360) rotate(11)" fill="none" stroke="#0284c7" stroke-opacity="0.48" stroke-width="1.6" stroke-dasharray="5 4">
+        <path d="M0 -84 C48 -84, 68 -42, 62 24 C56 68, 32 82, 0 82 C-34 82, -58 66, -62 22 C-66 -42, -46 -84, 0 -84 Z"/>
+        <path d="M-24 72 Q6 32 32 70"/>
+      </g>
+      <g transform="translate(594, 546) rotate(-11)" fill="none" stroke="#e11d48" stroke-opacity="0.48" stroke-width="1.6" stroke-dasharray="5 4">
+        <polygon points="-60,-46 60,-46 70,18 32,48 -32,48 -70,18"/>
+        <line x1="-60" y1="-26" x2="60" y2="-26" stroke-opacity="0.32"/>
+      </g>
       <text x="596" y="796" font-size="11.5" fill="#4f46e5" fill-opacity="0.75" text-anchor="middle">右侧承重腿顶高右胯 → 右腰挤压，左腰拉长</text>
 
       <!-- Zone 3: Twist & Foreshortened Tilt Challenges -->
@@ -315,20 +354,20 @@ export const FIGURE_TEMPLATES = [
       <text x="68" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">上区 · 手臂锥形圆柱与前伸透视叠压</text>
 
       <!-- Arm 1: Standard Tapered Arm Breakdown (left) -->
-      <g transform="translate(86, 152)" fill="none" stroke="#0284c7" stroke-opacity="0.56" stroke-width="1.7">
+      <g transform="translate(86, 152)" fill="none" stroke="#0284c7" stroke-opacity="0.6" stroke-width="1.7">
         <!-- Shoulder cap -->
-        <path d="M36 28 C16 42, 16 84, 38 98 C56 108, 78 96, 86 78" stroke="#4f46e5" stroke-opacity="0.62"/>
+        <path d="M36 28 C14 42, 14 84, 38 98 C56 108, 78 96, 86 78" fill="#38bdf8" fill-opacity="0.06" stroke="#4f46e5" stroke-opacity="0.64"/>
         <!-- Upper arm tapered cylinder -->
         <path d="M52 36 L176 58 M42 92 L166 106"/>
-        <ellipse cx="110" cy="74" rx="14" ry="29" stroke="#6366f1" stroke-opacity="0.45" stroke-dasharray="4 3"/>
-        <!-- Elbow hinge wedge -->
-        <circle cx="174" cy="82" r="24" stroke="#d97706" stroke-opacity="0.55" stroke-dasharray="4 3"/>
-        <!-- Forearm wider near elbow, tapering sharply to flat wrist box -->
-        <path d="M180 58 C222 54, 256 64, 304 74 M174 106 C214 112, 254 102, 304 94"/>
-        <ellipse cx="234" cy="83" rx="12" ry="26" stroke="#6366f1" stroke-opacity="0.45" stroke-dasharray="4 3"/>
-        <!-- Flat wrist section -->
-        <rect x="304" y="72" width="22" height="24" rx="3" stroke="#10b981" stroke-opacity="0.62"/>
-        <text x="174" y="144" font-size="11.5" fill="#475569" fill-opacity="0.78" stroke="none" text-anchor="middle">上臂筒 → 肘关节绞链 → 小臂近肘粗、近腕扁</text>
+        <ellipse cx="110" cy="74" rx="14" ry="29" stroke="#6366f1" stroke-opacity="0.48" stroke-dasharray="4 3"/>
+        <!-- Elbow hinge sphere -->
+        <circle cx="174" cy="82" r="22" fill="#e11d48" fill-opacity="0.05" stroke="#d97706" stroke-opacity="0.58" stroke-dasharray="4 3"/>
+        <!-- Forearm wider brachioradialis near elbow, tapering to flat 2:1 wrist box + mitten hand hint -->
+        <path d="M180 60 C216 48, 256 64, 304 75 M174 106 C214 112, 254 100, 304 91"/>
+        <ellipse cx="234" cy="82" rx="12" ry="26" stroke="#6366f1" stroke-opacity="0.48" stroke-dasharray="4 3"/>
+        <rect x="304" y="72" width="18" height="22" rx="3" stroke="#10b981" stroke-opacity="0.65"/>
+        <polygon points="322,73 356,70 364,84 352,98 322,93" fill="#10b981" fill-opacity="0.07" stroke="#059669" stroke-opacity="0.58"/>
+        <text x="190" y="144" font-size="11.5" fill="#475569" fill-opacity="0.78" stroke="none" text-anchor="middle">三角肌球 → 上臂筒 → 肘绞链 → 小臂近肘粗、腕扁</text>
       </g>
 
       <!-- Arm 2: Foreshortened Reaching Toward Viewer (center) -->
@@ -357,20 +396,23 @@ export const FIGURE_TEMPLATES = [
       <text x="68" y="512" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">下区 · 腿部 S 型力学韵律与屈膝透视穿插</text>
 
       <!-- Leg 1: Side View S-Rhythm (left) -->
-      <g transform="translate(116, 536)" fill="none" stroke="#0284c7" stroke-opacity="0.58" stroke-width="1.8">
+      <g transform="translate(116, 536)" fill="none" stroke="#0284c7" stroke-opacity="0.6" stroke-width="1.8">
         <!-- Spine of leg S-rhythm -->
-        <path d="M96 14 C118 76, 114 128, 92 162 C76 198, 72 246, 86 286" stroke="#6366f1" stroke-opacity="0.58" stroke-width="2.4" stroke-dasharray="6 4"/>
+        <path d="M96 14 C118 74, 114 126, 92 158 C76 192, 72 238, 86 274" stroke="#6366f1" stroke-opacity="0.58" stroke-width="2.4" stroke-dasharray="6 4"/>
         <!-- Thigh curves forward -->
-        <path d="M60 12 C50 68, 60 122, 74 156 M136 14 C150 68, 134 118, 112 152"/>
+        <path d="M60 12 C50 68, 60 118, 74 150 M136 14 C150 66, 134 114, 112 146"/>
+        <ellipse cx="96" cy="78" rx="36" ry="12" stroke="#6366f1" stroke-opacity="0.4" stroke-dasharray="4 3"/>
         <!-- Knee box/patella plane -->
-        <path d="M112 146 L118 172 L106 184" stroke="#d97706" stroke-opacity="0.7" stroke-width="2"/>
+        <path d="M112 142 L118 166 L106 178" stroke="#d97706" stroke-opacity="0.72" stroke-width="2"/>
         <!-- Calf sweeps back -->
-        <path d="M74 156 C52 192, 54 236, 74 286 M106 184 C104 220, 98 256, 98 286"/>
-        <!-- Foot wedge -->
-        <path d="M74 286 L68 302 L144 302 L100 284"/>
+        <path d="M74 150 C52 186, 54 228, 74 274 M106 178 C104 212, 98 246, 98 272"/>
+        <ellipse cx="82" cy="212" rx="22" ry="9" stroke="#6366f1" stroke-opacity="0.4" stroke-dasharray="4 3"/>
+        <!-- Grounded 1:2.5 Wedge Foot -->
+        <path d="M74 274 L68 298 L150 298 L152 288 L122 276 L98 272" fill="#38bdf8" fill-opacity="0.06"/>
+        <line x1="50" y1="298" x2="170" y2="298" stroke="#94a3b8" stroke-opacity="0.55" stroke-width="1.4"/>
         <text x="156" y="74" font-size="11" fill="#0284c7" fill-opacity="0.8" stroke="none">大腿前拱</text>
-        <text x="132" y="168" font-size="11" fill="#d97706" fill-opacity="0.82" stroke="none">膝盖方切</text>
-        <text x="12" y="218" font-size="11" fill="#4f46e5" fill-opacity="0.8" stroke="none">小腿后弓</text>
+        <text x="132" y="164" font-size="11" fill="#d97706" fill-opacity="0.82" stroke="none">膝盖方切</text>
+        <text x="12" y="214" font-size="11" fill="#4f46e5" fill-opacity="0.8" stroke="none">小腿后弓</text>
       </g>
 
       <!-- Leg 2: Foreshortened Bent Knee Overlap (center) -->
@@ -418,25 +460,30 @@ export const FIGURE_TEMPLATES = [
       <rect x="48" y="92" width="540" height="372" rx="12" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6"/>
       <text x="68" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">区 1 · 五边形手掌盒与扇形弧比例</text>
 
-      <g transform="translate(152, 146)" fill="none" stroke="#0284c7" stroke-opacity="0.6" stroke-width="1.8">
-        <!-- Wrist -->
-        <path d="M72 288 L76 244 M156 288 L152 244" stroke-opacity="0.45"/>
+      <g transform="translate(152, 146)" fill="none" stroke="#0284c7" stroke-opacity="0.62" stroke-width="1.8" stroke-linejoin="round">
+        <!-- Wrist cylinder -->
+        <path d="M72 288 L76 244 M156 288 L152 244" stroke-opacity="0.48"/>
         <!-- Pentagonal Palm Box -->
         <polygon points="76,244 152,244 166,154 114,138 64,154" fill="#38bdf8" fill-opacity="0.06"/>
-        <!-- Thumb triangular base (Thenar wedge) -->
-        <polygon points="152,244 188,208 166,154" fill="#d97706" fill-opacity="0.08" stroke="#d97706" stroke-opacity="0.62"/>
-        <path d="M188 208 L216 168 L224 134" stroke="#d97706" stroke-opacity="0.62"/>
-        <!-- Knuckle Arch & Fingertip Fan Arch -->
+        <!-- Thumb 3D Thenar Oval Cushion + Articulated 2-Phalanx Cylinder -->
+        <ellipse cx="170" cy="204" rx="18" ry="30" transform="rotate(24 170 204)" fill="#d97706" fill-opacity="0.08" stroke="#d97706" stroke-opacity="0.62"/>
+        <path d="M168 232 C188 214, 206 188, 222 158 C230 142, 226 126, 214 130 C206 144, 198 158, 186 172" fill="#d97706" fill-opacity="0.06" stroke="#d97706" stroke-opacity="0.68"/>
+        <line x1="199" y1="164" x2="213" y2="171" stroke="#d97706" stroke-opacity="0.52"/>
+        <!-- Knuckle Arch & PIP/Fingertip Fan Arches -->
         <path d="M56 156 Q114 128 172 156" stroke="#6366f1" stroke-opacity="0.68" stroke-width="1.8" stroke-dasharray="5 4"/>
+        <path d="M46 106 Q114 66 178 102" stroke="#6366f1" stroke-opacity="0.42" stroke-width="1.4" stroke-dasharray="4 4"/>
         <path d="M40 58 Q114 4 182 54" stroke="#10b981" stroke-opacity="0.68" stroke-width="1.8" stroke-dasharray="5 4"/>
         <!-- Middle finger length = Palm length divider -->
-        <line x1="114" y1="244" x2="114" y2="26" stroke="#6366f1" stroke-opacity="0.42" stroke-dasharray="4 4"/>
-        <circle cx="114" cy="138" r="4" fill="#6366f1" fill-opacity="0.7"/>
-        <!-- 4 finger axis rays fanning slightly -->
-        <line x1="74" y1="150" x2="54" y2="62" stroke-opacity="0.45"/>
-        <line x1="98" y1="142" x2="88" y2="34" stroke-opacity="0.45"/>
-        <line x1="128" y1="142" x2="134" y2="32" stroke-opacity="0.45"/>
-        <line x1="154" y1="150" x2="168" y2="54" stroke-opacity="0.45"/>
+        <line x1="114" y1="244" x2="114" y2="26" stroke="#6366f1" stroke-opacity="0.38" stroke-dasharray="4 4"/>
+        <!-- 4 Articulated Tapered Finger Cylinders -->
+        <path d="M64 154 L46 66 C45 58, 59 56, 61 64 L80 148" fill="#38bdf8" fill-opacity="0.05"/>
+        <path d="M84 146 L78 40 C78 32, 95 31, 96 39 L104 142" fill="#38bdf8" fill-opacity="0.05"/>
+        <path d="M110 140 L114 26 C115 18, 133 19, 133 27 L132 142" fill="#38bdf8" fill-opacity="0.06"/>
+        <path d="M138 144 L156 50 C158 42, 174 46, 172 54 L158 152" fill="#38bdf8" fill-opacity="0.05"/>
+        <line x1="53" y1="106" x2="69" y2="102" stroke-opacity="0.42"/>
+        <line x1="81" y1="92" x2="98" y2="90" stroke-opacity="0.42"/>
+        <line x1="113" y1="84" x2="132" y2="85" stroke-opacity="0.42"/>
+        <line x1="147" y1="98" x2="164" y2="101" stroke-opacity="0.42"/>
       </g>
       <text x="412" y="216" font-size="11.5" font-weight="600" fill="#059669" fill-opacity="0.82">指尖呈饱满扇形弧</text>
       <text x="412" y="274" font-size="11.5" fill="#4f46e5" fill-opacity="0.8">掌长 ≈ 中指长度</text>
@@ -536,47 +583,48 @@ export const FIGURE_TEMPLATES = [
       <rect x="48" y="92" width="1104" height="368" rx="12" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6"/>
       <text x="68" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">上区 · 侧 / 正 / 3/4 三角度楔形分解</text>
 
-      <!-- Angle 1: Medial Side View (Arch + Wedge) -->
+      <!-- Angle 1: Medial Side View (Proportional 1 : 2.6 Height:Length Wedge + Arch) -->
       <g transform="translate(86, 162)" fill="none" stroke-width="1.8">
         <!-- Ground plane -->
         <line x1="8" y1="234" x2="296" y2="234" stroke="#94a3b8" stroke-opacity="0.58" stroke-width="1.5"/>
-        <!-- Lower leg cylinder -->
-        <path d="M62 24 L56 124 M118 24 L118 118" stroke="#0284c7" stroke-opacity="0.55"/>
-        <!-- Wedge Foot -->
-        <path d="M56 124 L40 202 L48 234 L104 234 Q146 212 192 234 L268 234 L274 214 L224 192 L118 118 Z" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
+        <!-- Lower leg cylinder tapering nicely to ankle (y=164, height=70px vs length=212px) -->
+        <path d="M62 48 L56 158 M116 48 L114 156" stroke="#0284c7" stroke-opacity="0.58"/>
+        <!-- Wedge Foot (heel at x=46, ball at x=196, toe at x=258) -->
+        <path d="M56 158 C44 182, 42 212, 50 234 L102 234 Q142 212 188 234 L256 234 L260 218 L216 202 L114 156 Z" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
         <!-- Medial arch highlight -->
-        <path d="M104 234 Q148 206 194 234" stroke="#10b981" stroke-width="2.4" stroke-opacity="0.78"/>
-        <!-- Inner ankle bone (high) -->
-        <circle cx="88" cy="134" r="9" stroke="#d97706" stroke-opacity="0.75"/>
-        <text x="150" y="264" font-size="11.5" fill="#059669" fill-opacity="0.82" stroke="none" text-anchor="middle">内侧视：脚跟+前掌落地，中段足弓挑空</text>
+        <path d="M102 234 Q144 206 188 234" stroke="#10b981" stroke-width="2.4" stroke-opacity="0.8"/>
+        <!-- Inner ankle bone (high medial malleolus) -->
+        <circle cx="88" cy="166" r="8" stroke="#d97706" stroke-opacity="0.78"/>
+        <text x="150" y="264" font-size="11.5" fill="#059669" fill-opacity="0.82" stroke="none" text-anchor="middle">内侧视（高长比 1:2.6）：脚跟+前掌落地，中段挑起足弓</text>
       </g>
 
-      <!-- Angle 2: Front View (Asymmetric Ankle + Toe Slope) -->
+      <!-- Angle 2: Front View (Asymmetric Ankle + Low-Profile Dorsum Trapezoid) -->
       <g transform="translate(468, 162)" fill="none" stroke-width="1.8">
         <line x1="12" y1="234" x2="220" y2="234" stroke="#94a3b8" stroke-opacity="0.58" stroke-width="1.5"/>
-        <path d="M84 24 L86 128 M142 24 L140 144" stroke="#0284c7" stroke-opacity="0.55"/>
-        <!-- Asymmetric ankle slant: Inner (left) high, Outer (right) low -->
-        <line x1="76" y1="126" x2="152" y2="148" stroke="#d97706" stroke-width="2" stroke-dasharray="5 3" stroke-opacity="0.78"/>
-        <circle cx="84" cy="128" r="6" fill="#d97706" fill-opacity="0.65"/>
-        <circle cx="144" cy="146" r="6" fill="#d97706" fill-opacity="0.65"/>
-        <!-- Front wedge trapezoid (higher inner arch, lower outer edge) -->
-        <path d="M86 128 L66 198 L62 234 L172 234 L174 214 L140 144 Z" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
-        <!-- Toe box slope -->
-        <line x1="66" y1="202" x2="172" y2="216" stroke="#6366f1" stroke-opacity="0.58"/>
-        <text x="116" y="264" font-size="11.5" fill="#d97706" fill-opacity="0.82" stroke="none" text-anchor="middle">正视：内踝高外踝低 · 脚背内厚外薄</text>
+        <path d="M84 48 L86 164 M142 48 L140 176" stroke="#0284c7" stroke-opacity="0.58"/>
+        <!-- Asymmetric ankle slant: Inner (left) high y=164, Outer (right) low y=178 -->
+        <line x1="76" y1="162" x2="150" y2="180" stroke="#d97706" stroke-width="2" stroke-dasharray="5 3" stroke-opacity="0.8"/>
+        <circle cx="84" cy="164" r="5.5" fill="#d97706" fill-opacity="0.7"/>
+        <circle cx="144" cy="178" r="5.5" fill="#d97706" fill-opacity="0.7"/>
+        <!-- Low-profile Front wedge trapezoid (y=164..234, height=70px, width=106px) -->
+        <path d="M86 164 L66 206 L64 234 L170 234 L170 218 L140 176 Z" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
+        <!-- Toe box slope & big toe divider -->
+        <line x1="66" y1="208" x2="168" y2="220" stroke="#6366f1" stroke-opacity="0.58"/>
+        <line x1="94" y1="212" x2="94" y2="234" stroke="#6366f1" stroke-opacity="0.45"/>
+        <text x="116" y="264" font-size="11.5" fill="#d97706" fill-opacity="0.82" stroke="none" text-anchor="middle">正视：内踝高外踝低 · 脚背内厚外薄斜梯形</text>
       </g>
 
-      <!-- Angle 3: 3/4 Perspective Wedge Block -->
+      <!-- Angle 3: 3/4 Perspective Wedge Block (height ~70px, length ~190px) -->
       <g transform="translate(796, 162)" fill="none" stroke-width="1.8">
         <line x1="8" y1="234" x2="312" y2="234" stroke="#94a3b8" stroke-opacity="0.58" stroke-width="1.5"/>
         <!-- Shin cylinder -->
-        <path d="M86 24 L84 114 M136 24 L138 112" stroke="#0284c7" stroke-opacity="0.55"/>
-        <ellipse cx="111" cy="113" rx="27" ry="10" stroke="#6366f1" stroke-opacity="0.55"/>
-        <!-- 3D Wedge top slope + inner side + toe front -->
-        <polygon points="84,114 138,112 246,196 196,210" fill="#6366f1" fill-opacity="0.08" stroke="#4f46e5" stroke-opacity="0.62"/>
-        <polygon points="84,114 196,210 192,234 140,224 108,232 66,222 64,174" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
-        <polygon points="196,210 246,196 266,224 202,236" fill="#10b981" fill-opacity="0.08" stroke="#059669" stroke-opacity="0.65"/>
-        <text x="164" y="264" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" stroke="none" text-anchor="middle">3/4 视：脚背斜面 + 脚趾梯形楔块</text>
+        <path d="M86 48 L84 156 M136 48 L138 154" stroke="#0284c7" stroke-opacity="0.58"/>
+        <ellipse cx="111" cy="155" rx="26" ry="9" stroke="#6366f1" stroke-opacity="0.58"/>
+        <!-- 3D Wedge top slope + inner side + boxy toe front -->
+        <polygon points="84,156 138,154 242,204 192,216" fill="#6366f1" fill-opacity="0.08" stroke="#4f46e5" stroke-opacity="0.64"/>
+        <polygon points="84,156 192,216 188,234 142,226 112,234 64,228 62,190" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
+        <polygon points="192,216 242,204 260,226 198,236" fill="#10b981" fill-opacity="0.08" stroke="#059669" stroke-opacity="0.65"/>
+        <text x="164" y="264" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" stroke="none" text-anchor="middle">3/4 视：脚背斜面 + 内侧足弓 + 脚趾梯形楔块</text>
       </g>
 
       <!-- Bottom Half: Perspective Floor Grid + Sole Footprints Practice -->
@@ -638,13 +686,34 @@ export const FIGURE_TEMPLATES = [
       <rect x="48" y="92" width="348" height="764" rx="12" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6"/>
       <text x="66" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">区 1 · 正面躯干（胸·肩·腹·背阔）</text>
 
-      <g transform="translate(222, 178)" fill="none" stroke-width="1.7">
+      <g transform="translate(222, 188)" fill="none" stroke-width="1.7">
+        <!-- Underlying mannequin skeleton: Head + Neck cylinder + Ribcage ovoid + Pelvis box + Limb shells -->
+        <g stroke="#0284c7" stroke-opacity="0.28" stroke-width="1.35">
+          <!-- Cranium & jaw -->
+          <path d="M0 -44 C20 -44, 26 -24, 24 4 L15 28 L0 36 L-15 28 L-24 4 C-26 -24, -20 -44, 0 -44 Z" fill="#38bdf8" fill-opacity="0.03"/>
+          <line x1="-22" y1="-8" x2="22" y2="-8" stroke-dasharray="3 3"/>
+          <!-- Neck cylinder -->
+          <path d="M-19 22 L-22 72 M19 22 L22 72"/>
+          <!-- Ribcage ovoid -->
+          <ellipse cx="0" cy="196" rx="82" ry="110" stroke-dasharray="5 4"/>
+          <!-- Pelvis block + Hip sockets -->
+          <path d="M-68 372 L68 372 L76 426 L44 452 L-44 452 L-76 426 Z" fill="#38bdf8" fill-opacity="0.03" stroke-dasharray="5 4"/>
+          <ellipse cx="-66" cy="422" rx="11" ry="13"/>
+          <ellipse cx="66" cy="422" rx="11" ry="13"/>
+          <!-- Continuous upper arm & forearm cylinders -->
+          <path d="M-104 88 C-134 104, -140 154, -124 210 L-114 316 C-110 326, -96 326, -94 314 L-90 198"/>
+          <path d="M104 88 C134 104, 140 154, 124 210 L114 316 C110 326, 96 326, 94 314 L90 198"/>
+          <!-- Continuous upper thigh cylinders -->
+          <path d="M-76 424 C-86 472, -80 520, -64 562 M-32 452 L-34 562"/>
+          <path d="M76 424 C86 472, 80 520, 64 562 M32 452 L34 562"/>
+        </g>
+
         <!-- Neck & Sternocleidomastoid V -->
-        <path d="M-24 22 L0 74 L24 22" stroke="#6366f1" stroke-opacity="0.58"/>
+        <path d="M-21 24 L0 76 L21 24" stroke="#6366f1" stroke-opacity="0.62"/>
         <!-- Trapezius slope -->
-        <path d="M-24 38 Q-58 62 -106 86 M24 38 Q58 62 106 86" stroke="#0284c7" stroke-opacity="0.58"/>
+        <path d="M-21 38 Q-58 64 -104 88 M21 38 Q58 64 104 88" stroke="#0284c7" stroke-opacity="0.62"/>
         <!-- Clavicle bone -->
-        <path d="M-104 88 Q-54 70 0 78 Q54 70 104 88" stroke="#d97706" stroke-width="2.2" stroke-opacity="0.75"/>
+        <path d="M-104 88 Q-54 70 0 78 Q54 70 104 88" stroke="#d97706" stroke-width="2.2" stroke-opacity="0.78"/>
         <!-- Pectoralis Major fanning into humerus under deltoid -->
         <path d="M0 84 C-38 82, -78 96, -110 128 C-98 156, -72 184, -36 184 C-16 184, -4 176, 0 166" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
         <path d="M0 84 C38 82, 78 96, 110 128 C98 156, 72 184, 36 184 C16 184, 4 176, 0 166" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.65"/>
@@ -668,18 +737,34 @@ export const FIGURE_TEMPLATES = [
           <circle cx="64" cy="382" r="4"/>
         </g>
       </g>
-      <text x="222" y="656" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" text-anchor="middle">胸大肌末端钻入三角肌下方</text>
-      <text x="222" y="678" font-size="11.5" fill="#059669" fill-opacity="0.82" text-anchor="middle">腹直肌收束于耻骨 · 腹外斜肌扣住髂嵴</text>
+      <text x="222" y="794" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" text-anchor="middle">胸大肌末端钻入三角肌下方</text>
+      <text x="222" y="816" font-size="11.5" fill="#059669" fill-opacity="0.82" text-anchor="middle">腹直肌收束于耻骨 · 腹外斜肌扣住髂嵴</text>
 
       <!-- Panel 2: Back Torso (Trapezius + Scapulae + Lats + Glutes) -->
       <rect x="420" y="92" width="356" height="764" rx="12" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6"/>
       <text x="438" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">区 2 · 背面躯干（斜方菱形 + 背阔倒三角）</text>
 
-      <g transform="translate(598, 178)" fill="none" stroke-width="1.7">
+      <g transform="translate(598, 188)" fill="none" stroke-width="1.7">
+        <!-- Underlying mannequin skeleton: Occiput + Neck + Ribcage + Pelvis + Arms + Thighs -->
+        <g stroke="#0284c7" stroke-opacity="0.28" stroke-width="1.35">
+          <!-- Back of cranium & occiput ridge -->
+          <path d="M0 -44 C22 -44, 28 -22, 24 8 C20 22, 10 28, 0 28 C-10 28, -20 22, -24 8 C-28 -22, -22 -44, 0 -44 Z" fill="#38bdf8" fill-opacity="0.03"/>
+          <!-- Neck cylinder -->
+          <path d="M-20 20 L-22 68 M20 20 L22 68"/>
+          <!-- Ribcage ovoid -->
+          <ellipse cx="0" cy="198" rx="84" ry="112" stroke-dasharray="5 4"/>
+          <!-- Upper arm & forearm cylinders -->
+          <path d="M-106 86 C-136 102, -142 154, -124 210 L-114 316 C-110 326, -96 326, -94 314 L-90 198"/>
+          <path d="M106 86 C136 102, 142 154, 124 210 L114 316 C110 326, 96 326, 94 314 L90 198"/>
+          <!-- Continuous upper thigh cylinders -->
+          <path d="M-74 456 C-82 496, -74 532, -62 562 M-20 462 L-28 562"/>
+          <path d="M74 456 C82 496, 74 532, 62 562 M20 462 L28 562"/>
+        </g>
+
         <!-- Spine vertical furrow -->
-        <line x1="0" y1="26" x2="0" y2="418" stroke="#6366f1" stroke-opacity="0.52" stroke-dasharray="6 4"/>
+        <line x1="0" y1="22" x2="0" y2="418" stroke="#6366f1" stroke-opacity="0.52" stroke-dasharray="6 4"/>
         <!-- Trapezius Diamond (kite shape) -->
-        <polygon points="0,30 -106,86 0,256 106,86" fill="#6366f1" fill-opacity="0.07" stroke="#4f46e5" stroke-opacity="0.65"/>
+        <polygon points="0,24 -106,86 0,256 106,86" fill="#6366f1" fill-opacity="0.07" stroke="#4f46e5" stroke-opacity="0.65"/>
         <!-- Winged Scapulae triangles -->
         <polygon points="-24,108 -86,102 -54,196" stroke="#d97706" stroke-opacity="0.55" stroke-dasharray="4 3"/>
         <polygon points="24,108 86,102 54,196" stroke="#d97706" stroke-opacity="0.55" stroke-dasharray="4 3"/>
@@ -691,35 +776,49 @@ export const FIGURE_TEMPLATES = [
         <polygon points="-26,356 26,356 0,398" stroke="#d97706" stroke-opacity="0.65"/>
         <path d="M-54 344 C-86 364, -92 426, -72 470 C-44 486, -12 474, 0 448 C12 474, 44 486, 72 470 C92 426, 86 364, 54 344" stroke="#0284c7" stroke-opacity="0.62"/>
       </g>
-      <text x="598" y="698" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" text-anchor="middle">斜方肌呈风筝菱形 · 肩胛骨随抬臂旋转</text>
-      <text x="598" y="720" font-size="11.5" fill="#059669" fill-opacity="0.82" text-anchor="middle">背阔肌拉出上宽下窄倒三角</text>
+      <text x="598" y="794" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" text-anchor="middle">斜方肌呈风筝菱形 · 肩胛骨随抬臂旋转</text>
+      <text x="598" y="816" font-size="11.5" fill="#059669" fill-opacity="0.82" text-anchor="middle">背阔肌拉出上宽下窄倒三角</text>
 
       <!-- Panel 3: Limb Chain Interlocking (Arm + Leg) -->
       <rect x="800" y="92" width="352" height="764" rx="12" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6"/>
       <text x="818" y="120" font-size="13.5" font-weight="700" fill="#0284c7" fill-opacity="0.78">区 3 · 四肢肌群链条式穿插</text>
 
-      <!-- Upper: Arm Chain -->
-      <g transform="translate(888, 154)" fill="none" stroke-width="1.8">
+      <!-- Upper: Arm Chain wrapped in continuous 3D tapered arm shell -->
+      <g transform="translate(888, 148)" fill="none" stroke-width="1.8">
+        <!-- Underlying 3D tapered arm shell + elbow + 2:1 wrist + mitten hand -->
+        <g stroke="#0284c7" stroke-opacity="0.32" stroke-width="1.4">
+          <path d="M56 10 C32 20, 26 42, 32 70 L46 164 L54 274 L98 274 L112 164 L106 66 C104 34, 86 14, 56 10 Z" fill="#38bdf8" fill-opacity="0.03"/>
+          <ellipse cx="78" cy="166" rx="28" ry="8" stroke-dasharray="3 3"/>
+          <ellipse cx="76" cy="274" rx="22" ry="6"/>
+          <path d="M54 276 L46 306 L62 320 L92 318 L100 294 L96 276" fill="#38bdf8" fill-opacity="0.03"/>
+        </g>
         <!-- Deltoid teardrop -->
         <path d="M56 12 C96 20, 104 68, 78 112 C56 84, 50 48, 56 12 Z" fill="#6366f1" fill-opacity="0.09" stroke="#4f46e5" stroke-opacity="0.68"/>
         <!-- Biceps (front) + Triceps (back) flanking deltoid tip -->
         <path d="M58 58 C34 86, 36 144, 62 174 M94 64 C118 96, 114 148, 92 176" stroke="#0284c7" stroke-opacity="0.65"/>
         <!-- Brachioradialis bridging from outer upper arm across elbow into forearm -->
         <path d="M90 128 C118 164, 116 218, 96 274 M62 174 C52 214, 60 250, 72 276" fill="#10b981" fill-opacity="0.07" stroke="#059669" stroke-opacity="0.68"/>
-        <text x="84" y="302" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" stroke="none" text-anchor="middle">三角肌楔入二/三头肌 · 肱桡肌跨肘锁链</text>
+        <text x="84" y="338" font-size="11.5" fill="#4f46e5" fill-opacity="0.82" stroke="none" text-anchor="middle">三角肌楔入二/三头肌 · 肱桡肌跨肘锁链</text>
       </g>
 
-      <!-- Lower: Leg Chain -->
-      <g transform="translate(888, 492)" fill="none" stroke-width="1.8">
+      <!-- Lower: Leg Chain wrapped in continuous 3D tapered leg shell -->
+      <g transform="translate(888, 502)" fill="none" stroke-width="1.8">
+        <!-- Underlying 3D tapered femur -> knee -> calf -> ankle -> grounded foot wedge -->
+        <g stroke="#0284c7" stroke-opacity="0.32" stroke-width="1.4">
+          <path d="M48 8 C28 56, 34 114, 56 158 C42 204, 46 258, 66 306 L94 306 C114 258, 118 202, 104 158 C126 112, 130 54, 112 8 Z" fill="#38bdf8" fill-opacity="0.03"/>
+          <ellipse cx="80" cy="84" rx="44" ry="10" stroke-dasharray="3 3"/>
+          <line x1="66" y1="296" x2="94" y2="304" stroke="#d97706" stroke-opacity="0.45"/>
+          <path d="M66 302 L58 318 L108 318 L94 302" fill="#38bdf8" fill-opacity="0.03"/>
+        </g>
         <!-- Quadriceps teardrop wrapping above knee -->
         <path d="M52 14 C28 64, 34 126, 62 156 M108 14 C130 62, 124 122, 98 156" stroke="#0284c7" stroke-opacity="0.65"/>
         <path d="M50 18 C72 78, 92 124, 104 166" stroke="#d97706" stroke-opacity="0.68" stroke-dasharray="5 3"/>
         <!-- Patella -->
         <rect x="66" y="152" width="28" height="24" rx="8" stroke="#4f46e5" stroke-opacity="0.65"/>
         <!-- Gastrocnemius: outer head higher, inner head lower! -->
-        <path d="M62 178 C38 214, 46 266, 68 312 M98 178 C122 204, 112 254, 92 312" fill="#10b981" fill-opacity="0.07" stroke="#059669" stroke-opacity="0.68"/>
+        <path d="M62 178 C38 214, 46 266, 68 306 M98 178 C122 204, 112 254, 92 306" fill="#10b981" fill-opacity="0.07" stroke="#059669" stroke-opacity="0.68"/>
         <line x1="46" y1="242" x2="114" y2="216" stroke="#d97706" stroke-opacity="0.68" stroke-dasharray="4 3"/>
-        <text x="84" y="340" font-size="11.5" fill="#059669" fill-opacity="0.82" stroke="none" text-anchor="middle">小腿肚外高内低 · 大腿肌群收束于膝盖</text>
+        <text x="84" y="336" font-size="11.5" fill="#059669" fill-opacity="0.82" stroke="none" text-anchor="middle">小腿肚外高内低 · 大腿肌群收束于膝盖</text>
       </g>
       `
     )
@@ -745,16 +844,29 @@ export const FIGURE_TEMPLATES = [
       <text x="176" y="140" font-size="11" fill="#475569" fill-opacity="0.72" text-anchor="middle">肩宽 ≈ 2.2 头 · 胯宽 ≈ 1.4 头</text>
       <line x1="176" y1="156" x2="176" y2="818" stroke="#6366f1" stroke-opacity="0.26" stroke-dasharray="5 5"/>
       <g transform="translate(176, 166)" fill="none" stroke-width="1.8">
-        <!-- Head (82px tall) -->
-        <path d="M0 0 C22 0, 28 24, 26 52 L16 78 L-16 78 L-26 52 C-28 24, -22 0, 0 0 Z" stroke="#0284c7" stroke-opacity="0.58"/>
-        <!-- Inverted Trapezoid Geometric Silhouette -->
-        <polygon points="-92,126 92,126 48,292 -48,292" fill="#6366f1" fill-opacity="0.06" stroke="#4f46e5" stroke-opacity="0.62" stroke-dasharray="5 4"/>
-        <!-- Pelvis narrower -->
-        <polygon points="-52,292 52,292 58,368 -58,368" fill="#38bdf8" fill-opacity="0.05" stroke="#0284c7" stroke-opacity="0.55"/>
+        <!-- Head (1H = 81.5px, y=0..81) -->
+        <path d="M0 0 C22 0, 28 24, 25 52 L14 78 L0 81 L-14 78 L-25 52 C-28 24, -22 0, 0 0 Z" stroke="#0284c7" stroke-opacity="0.68"/>
+        <line x1="-22" y1="36" x2="22" y2="36" stroke="#0284c7" stroke-opacity="0.3" stroke-dasharray="3 3"/>
+        <!-- Neck cylinder + broad trapezius slopes -->
+        <path d="M-16 68 L-19 108 M16 68 L19 108" stroke="#0284c7" stroke-opacity="0.62"/>
+        <path d="M-18 86 L-68 116 M18 86 L68 116" stroke="#4f46e5" stroke-opacity="0.62"/>
         <!-- Shoulder width marker -->
-        <line x1="-92" y1="108" x2="92" y2="108" stroke="#d97706" stroke-opacity="0.65" marker-start="url(#tpl-arrow-amber)" marker-end="url(#tpl-arrow-amber)"/>
-        <!-- Leg guide lines -->
-        <path d="M-54 368 L-34 504 L-26 652 M54 368 L34 504 L26 652" stroke="#0284c7" stroke-opacity="0.42"/>
+        <line x1="-90" y1="106" x2="90" y2="106" stroke="#d97706" stroke-opacity="0.65" marker-start="url(#tpl-arrow-amber)" marker-end="url(#tpl-arrow-amber)"/>
+        <!-- Inverted Trapezoid Ribcage (1.33H..3.3H) -->
+        <polygon points="-88,120 88,120 48,266 -48,266" fill="#6366f1" fill-opacity="0.06" stroke="#4f46e5" stroke-opacity="0.65" stroke-dasharray="5 4"/>
+        <path d="M-90 124 Q-44 114 0 118 Q44 114 90 124" stroke="#d97706" stroke-opacity="0.62"/>
+        <!-- Lumbar waist + Narrower Pelvis aligned at 4H (326..344) -->
+        <path d="M-48 266 L-52 292 M48 266 L52 292" stroke="#0284c7" stroke-opacity="0.55"/>
+        <polygon points="-54,288 54,288 58,334 0,346 -58,334" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.62"/>
+        <!-- Tapered 3D Arms: deltoid -> elbow (244) -> wrist (328) -> mitten hand (386) -->
+        <path d="M-88 120 C-108 128, -112 162, -104 196 L-98 244 L-94 328 L-86 386 L-76 378 L-74 328 L-74 244 L-76 172" stroke="#0284c7" stroke-opacity="0.52"/>
+        <path d="M88 120 C108 128, 112 162, 104 196 L98 244 L94 328 L86 386 L76 378 L74 328 L74 244 L76 172" stroke="#0284c7" stroke-opacity="0.52"/>
+        <!-- Tapered 3D Legs: thigh -> knee (486) -> muscular calf -> ankle (626) -> grounded foot wedge (652) -->
+        <path d="M-58 326 C-62 384, -52 442, -44 486 C-52 528, -46 576, -34 626 L-40 652 L-14 652 L-18 626 C-12 576, -12 528, -20 486 C-12 442, -6 388, -6 346" fill="#38bdf8" fill-opacity="0.04" stroke="#0284c7" stroke-opacity="0.62"/>
+        <path d="M58 326 C62 384, 52 442, 44 486 C52 528, 46 576, 34 626 L40 652 L14 652 L18 626 C12 576, 12 528, 20 486 C12 442, 6 388, 6 346" fill="#38bdf8" fill-opacity="0.04" stroke="#0284c7" stroke-opacity="0.62"/>
+        <!-- Knee boxes at 6H -->
+        <line x1="-44" y1="488" x2="-20" y2="488" stroke="#6366f1" stroke-opacity="0.45"/>
+        <line x1="20" y1="488" x2="44" y2="488" stroke="#6366f1" stroke-opacity="0.45"/>
       </g>
       <text x="176" y="844" font-size="11" fill="#4f46e5" fill-opacity="0.8" text-anchor="middle">直线硬朗转折 · 低腰线</text>
 
@@ -764,15 +876,26 @@ export const FIGURE_TEMPLATES = [
       <text x="458" y="140" font-size="11" fill="#475569" fill-opacity="0.72" text-anchor="middle">柔斜肩 ≈ 1.6 头 · 胯宽 ≈ 1.75 头</text>
       <line x1="458" y1="156" x2="458" y2="818" stroke="#6366f1" stroke-opacity="0.26" stroke-dasharray="5 5"/>
       <g transform="translate(458, 206)" fill="none" stroke-width="1.8">
-        <!-- Head (84px tall) -->
-        <ellipse cx="0" cy="40" rx="26" ry="40" stroke="#0284c7" stroke-opacity="0.58"/>
-        <!-- Hourglass Geometric Silhouette -->
-        <path d="M-64 128 C-56 190, -34 224, -36 252 C-66 286, -74 324, -68 364 L68 364 C74 324, 66 286, 36 252 C34 224, 56 190, 64 128 Z" fill="#10b981" fill-opacity="0.06" stroke="#059669" stroke-opacity="0.62" stroke-dasharray="5 4"/>
+        <!-- Head (1H ≈ 87px, y=0..86) -->
+        <path d="M0 0 C22 0, 26 24, 23 54 L13 78 L0 86 L-13 78 L-23 54 C-26 24, -22 0, 0 0 Z" stroke="#0284c7" stroke-opacity="0.68"/>
+        <line x1="-20" y1="38" x2="20" y2="38" stroke="#0284c7" stroke-opacity="0.3" stroke-dasharray="3 3"/>
+        <!-- Slender neck + sloping trapezius -->
+        <path d="M-12 76 L-14 114 M12 76 L14 114" stroke="#0284c7" stroke-opacity="0.62"/>
+        <path d="M-14 96 Q-36 112 -64 126 M14 96 Q36 112 64 126" stroke="#059669" stroke-opacity="0.62"/>
+        <!-- Hourglass Torso + Rounded Pelvis (y=126..356) -->
+        <path d="M-64 126 C-56 184, -32 218, -32 246 C-62 280, -72 316, -66 346 L0 356 L66 346 C72 316, 62 280, 32 246 C32 218, 56 184, 64 126 Z" fill="#10b981" fill-opacity="0.06" stroke="#059669" stroke-opacity="0.65" stroke-dasharray="5 4"/>
         <!-- High waist marker -->
-        <line x1="-54" y1="252" x2="54" y2="252" stroke="#d97706" stroke-opacity="0.68" stroke-dasharray="4 3"/>
-        <text x="64" y="256" font-size="10.5" fill="#d97706" fill-opacity="0.85" stroke="none">高腰线</text>
-        <!-- Soft leg S-taper -->
-        <path d="M-64 364 C-56 436, -34 494, -22 612 M64 364 C56 436, 34 494, 22 612" stroke="#0284c7" stroke-opacity="0.45"/>
+        <line x1="-46" y1="246" x2="46" y2="246" stroke="#d97706" stroke-opacity="0.68" stroke-dasharray="4 3"/>
+        <text x="54" y="250" font-size="10.5" fill="#d97706" fill-opacity="0.85" stroke="none">高腰线</text>
+        <!-- Slender Tapered Arms -->
+        <path d="M-64 126 C-80 134, -84 164, -78 198 L-74 246 L-76 322 L-72 374 L-64 368 L-62 322 L-58 246 L-56 172" stroke="#0284c7" stroke-opacity="0.52"/>
+        <path d="M64 126 C80 134, 84 164, 78 198 L74 246 L76 322 L72 374 L64 368 L62 322 L58 246 L56 172" stroke="#0284c7" stroke-opacity="0.52"/>
+        <!-- Graceful S-curve Tapered Legs grounded at y=612 (818 global) -->
+        <path d="M-66 334 C-68 386, -50 434, -40 478 C-48 518, -40 554, -28 592 L-34 612 L-12 612 L-16 592 C-10 554, -10 518, -18 478 C-10 436, -4 390, -5 356" fill="#10b981" fill-opacity="0.04" stroke="#0284c7" stroke-opacity="0.62"/>
+        <path d="M66 334 C68 386, 50 434, 40 478 C48 518, 40 554, 28 592 L34 612 L12 612 L16 592 C10 554, 10 518, 18 478 C10 436, 4 390, 5 356" fill="#10b981" fill-opacity="0.04" stroke="#0284c7" stroke-opacity="0.62"/>
+        <!-- Knee markers -->
+        <ellipse cx="-29" cy="478" rx="9" ry="5" stroke="#059669" stroke-opacity="0.45"/>
+        <ellipse cx="29" cy="478" rx="9" ry="5" stroke="#059669" stroke-opacity="0.45"/>
       </g>
       <text x="458" y="844" font-size="11" fill="#059669" fill-opacity="0.8" text-anchor="middle">柔和 S 曲线 · 肩窄胯圆润</text>
 
@@ -782,12 +905,23 @@ export const FIGURE_TEMPLATES = [
       <text x="740" y="140" font-size="11" fill="#475569" fill-opacity="0.72" text-anchor="middle">头偏大 · 肩胯近等宽 · 四肢细长</text>
       <line x1="740" y1="156" x2="740" y2="818" stroke="#6366f1" stroke-opacity="0.26" stroke-dasharray="5 5"/>
       <g transform="translate(740, 244)" fill="none" stroke-width="1.8">
-        <!-- Head slightly larger relative to body -->
-        <ellipse cx="0" cy="42" rx="28" ry="42" stroke="#0284c7" stroke-opacity="0.58"/>
-        <!-- Narrow straight column torso -->
-        <polygon points="-50,124 50,124 44,322 -44,322" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.58" stroke-dasharray="5 4"/>
-        <!-- Slender legs -->
-        <path d="M-38 322 L-24 452 L-18 574 M38 322 L24 452 L18 574" stroke="#0284c7" stroke-opacity="0.45"/>
+        <!-- Head slightly larger relative to body (1H ≈ 88px, y=0..88) -->
+        <ellipse cx="0" cy="44" rx="28" ry="44" stroke="#0284c7" stroke-opacity="0.68"/>
+        <line x1="-24" y1="42" x2="24" y2="42" stroke="#0284c7" stroke-opacity="0.3" stroke-dasharray="3 3"/>
+        <!-- Slender neck + narrow clavicles -->
+        <path d="M-12 80 L-13 118 M12 80 L13 118" stroke="#0284c7" stroke-opacity="0.62"/>
+        <path d="M-13 98 Q-32 114 -52 124 M13 98 Q32 114 52 124" stroke="#0284c7" stroke-opacity="0.58"/>
+        <!-- Narrow straight column ribcage + subtle waist + narrow pelvis -->
+        <polygon points="-50,124 50,124 38,248 -38,248" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.6" stroke-dasharray="5 4"/>
+        <polygon points="-40,256 40,256 44,322 0,332 -44,322" fill="#38bdf8" fill-opacity="0.06" stroke="#0284c7" stroke-opacity="0.6"/>
+        <!-- Slender 3D Arms -->
+        <path d="M-50 124 C-62 132, -64 162, -60 194 L-58 242 L-56 312 L-52 362 L-44 356 L-44 312 L-44 242 L-44 168" stroke="#0284c7" stroke-opacity="0.5"/>
+        <path d="M50 124 C62 132, 64 162, 60 194 L58 242 L56 312 L52 362 L44 356 L44 312 L44 242 L44 168" stroke="#0284c7" stroke-opacity="0.5"/>
+        <!-- Slender 3D Legs with clear bony knee joints grounded at y=574 (818 global) -->
+        <path d="M-44 314 C-46 364, -38 408, -32 448 C-38 486, -32 522, -22 554 L-28 574 L-8 574 L-12 554 C-8 522, -8 486, -14 448 C-10 408, -4 364, -4 332" fill="#38bdf8" fill-opacity="0.04" stroke="#0284c7" stroke-opacity="0.62"/>
+        <path d="M44 314 C46 364, 38 408, 32 448 C38 486, 32 522, 22 554 L28 574 L8 574 L12 554 C8 522, 8 486, 14 448 C10 408, 4 364, 4 332" fill="#38bdf8" fill-opacity="0.04" stroke="#0284c7" stroke-opacity="0.62"/>
+        <circle cx="-23" cy="448" r="6" stroke="#6366f1" stroke-opacity="0.48"/>
+        <circle cx="23" cy="448" r="6" stroke="#6366f1" stroke-opacity="0.48"/>
       </g>
       <text x="740" y="844" font-size="11" fill="#0284c7" fill-opacity="0.8" text-anchor="middle">关节骨感清晰 · 肌肉起伏平缓</text>
 
@@ -947,6 +1081,10 @@ export const FIGURE_LESSONS = [
     estimatedMinutes: 20,
     templateId: 'tpl-figure-torso',
     cheatSheetSVG: PLATE_FIGURE_TORSO_HAND,
+    variants: [
+      { id: 'redblue', label: '📐 红蓝躯干/手足三维块面', svg: PLATE_FIGURE_TORSO_HAND },
+      { id: 'nanobanana', label: '🎨 人体比例与反斜动态总览', svg: PLATE_FIGURE_BODY_SYSTEM },
+    ],
     keyPoints: [
       { title: '胸腔是微倾的蛋', detail: '胸腔不是扁方块，画成上窄下圆的3D蛋，正面切出倒U形肋弓。' },
       { title: '骨盆是有厚度的盒', detail: '把骨盆概括为带顶面、正面与侧髋面的 3D 斜切盒，一眼锁定朝向。' },
@@ -1132,6 +1270,10 @@ export const FIGURE_LESSONS = [
     estimatedMinutes: 20,
     templateId: 'tpl-figure-feet',
     cheatSheetSVG: PLATE_FIGURE_TORSO_HAND,
+    variants: [
+      { id: 'redblue', label: '📐 红蓝躯干/手足三维块面', svg: PLATE_FIGURE_TORSO_HAND },
+      { id: 'nanobanana', label: '🎨 人体比例与反斜动态总览', svg: PLATE_FIGURE_BODY_SYSTEM },
+    ],
     keyPoints: [
       { title: '三角楔形体概括', detail: '别先抠脚趾，把脚看作「后跟方块+脚背斜坡+趾端楔块」。' },
       { title: '内踝高、外踝低', detail: '脚踝两侧并非水平对称，内侧踝骨明显偏高、外侧偏低且略靠后。' },
