@@ -3081,3 +3081,286 @@ dialog::backdrop {
     grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   }
 }
+
+
+/* ==========================================================================
+   Declarative Teaching Diagram Deck & Modal Lightbox (v2 Asset Architecture)
+   ========================================================================== */
+
+.cheatsheet-diagram-host {
+  width: 100%;
+}
+
+.diagram-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.diagram-deck-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.diagram-deck-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.diagram-deck-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.diagram-source-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.16rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand) 14%, transparent);
+  color: var(--brand);
+  border: 1px solid color-mix(in srgb, var(--brand) 32%, transparent);
+}
+
+.diagram-svg-surface {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 0.45rem;
+  overflow: hidden;
+}
+
+.diagram-svg-surface svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.diagram-panels-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.diagram-panels-grid.diagram-cols-2 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.diagram-panels-grid.diagram-cols-3 {
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+}
+
+.diagram-panel {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.diagram-panel:hover {
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--border-strong));
+}
+
+.diagram-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.45rem 0.65rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.diagram-panel-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.diagram-tone-blue .diagram-panel-badge { color: #0284c7; }
+.diagram-tone-red .diagram-panel-badge { color: #e11d48; }
+.diagram-tone-green .diagram-panel-badge { color: #059669; }
+.diagram-tone-ink .diagram-panel-badge { color: var(--text-primary); }
+
+[data-theme="dark"] .diagram-tone-blue .diagram-panel-badge { color: #38bdf8; }
+[data-theme="dark"] .diagram-tone-red .diagram-panel-badge { color: #fb7185; }
+[data-theme="dark"] .diagram-tone-green .diagram-panel-badge { color: #34d399; }
+
+.diagram-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.diagram-mini-btn,
+.diagram-action-btn {
+  appearance: none;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.diagram-mini-btn:hover,
+.diagram-action-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, var(--bg-surface));
+}
+
+/* Crisp bright drafting-paper stage ensures transparent red/blue/navy lineart pops cleanly in both light & dark themes */
+.diagram-plate-stage {
+  background: #ffffff;
+  background-image:
+    radial-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+  background-size: 16px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  min-height: 240px;
+  height: 310px;
+}
+
+.diagram-plate-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.diagram-plate-stage-svg svg {
+  width: 100%;
+  height: 100%;
+  max-height: 285px;
+  display: block;
+}
+
+.diagram-panel-caption {
+  padding: 0.55rem 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.48;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  flex: 1;
+}
+
+.diagram-tags-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.diagram-tag-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--brand) 8%, var(--bg-surface));
+  border: 1px solid color-mix(in srgb, var(--brand) 24%, var(--border-subtle));
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.diagram-custom-stage {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 0.5rem;
+}
+
+.diagram-custom-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+/* Lightbox Zoom Modal */
+dialog.dialog-lightbox {
+  width: min(94vw, 960px);
+}
+
+.lightbox-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lightbox-stage {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 64vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-svg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.lightbox-svg svg {
+  width: 100%;
+  max-height: 64vh;
+  height: auto;
+  display: block;
+}
+
+.lightbox-caption {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .diagram-plate-stage {
+    height: 260px;
+  }
+}

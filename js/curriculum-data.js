@@ -16,6 +16,11 @@ import {
   CHALLENGES,
   CHALLENGE_GENERATOR
 } from './curriculum/challenges-data.js';
+import {
+  getLessonDiagramSpec,
+  getTemplateSpec,
+  getAllDeclaredPlatePaths
+} from './curriculum/asset-manifest.js';
 
 export const TRACKS = [
   {
@@ -154,7 +159,13 @@ export const LOCKED_LESSONS = [
   ...FURRY_LESSONS
 ];
 
-export { CHALLENGES, CHALLENGE_GENERATOR };
+export {
+  CHALLENGES,
+  CHALLENGE_GENERATOR,
+  getLessonDiagramSpec,
+  getTemplateSpec,
+  getAllDeclaredPlatePaths
+};
 
 export function normalizeTrackId(trackId) {
   if (!trackId) return 'core';
@@ -163,6 +174,10 @@ export function normalizeTrackId(trackId) {
 }
 
 export function getTemplateSVGDataURL(templateId) {
+  const spec = getTemplateSpec(templateId);
+  if (spec && typeof spec.renderScaffoldSvg === 'function') {
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(spec.renderScaffoldSvg());
+  }
   const tpl = PRACTICE_TEMPLATES.find((item) => item.id === templateId);
   if (!tpl) return null;
   if (tpl.imageUrl) return tpl.imageUrl;

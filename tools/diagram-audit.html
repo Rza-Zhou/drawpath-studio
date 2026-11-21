@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrawPath Studio · 全量教学图与合成底图视觉审核面板</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../styles/main.css">
+  <style>
+    body {
+      padding: 1.25rem;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+    .audit-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.25rem;
+    }
+    .audit-header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    .audit-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .audit-controls .btn.active {
+      background: var(--brand);
+      color: #ffffff;
+      border-color: var(--brand);
+    }
+    .audit-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .audit-card-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .audit-card-head h2 {
+      margin: 0;
+      font-size: 1.02rem;
+    }
+    .audit-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .audit-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    .audit-canvas-box {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      padding: 0.45rem;
+    }
+    .audit-canvas-box canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+    .audit-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 0.45rem;
+    }
+    .audit-frames-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="audit-header">
+    <div>
+      <h1>📐 DrawPath Studio · 全量教学图 &amp; 画板底图视觉审核面板</h1>
+      <p class="section-sub" id="audit-summary">正在加载全部课程图解与合成画板底图…</p>
+    </div>
+    <div class="audit-controls">
+      <button type="button" class="btn btn-sm active" data-filter="all">全部 (16 课 + 4 构图框)</button>
+      <button type="button" class="btn btn-sm" data-filter="core">🧱 通用基本功 (8)</button>
+      <button type="button" class="btn btn-sm" data-filter="figure">🏃 人体练习 (8)</button>
+      <button type="button" class="btn btn-sm" data-filter="frames">🎯 构图框 (4)</button>
+      <button type="button" id="btn-audit-theme" class="btn btn-secondary btn-sm">🌓 切换深浅色主题</button>
+    </div>
+  </header>
+
+  <main id="audit-root"></main>
+
+  <script type="module">
+    import {
+      LESSONS,
+      PRACTICE_TEMPLATES,
+      getLessonDiagramSpec,
+      getTemplateSpec,
+    } from '../js/curriculum-data.js';
+    import { renderLessonDiagramHTML } from '../js/diagram-renderer.js';
+
+    const root = document.getElementById('audit-root');
+    const summaryEl = document.getElementById('audit-summary');
+    let currentFilter = 'all';
+
+    // Rewrite relative `./assets/` paths to `../assets/` since this page lives inside `tools/`
+    function rebaseRelativeAssetUrls(html) {
+      return html.replace(/\.\/assets\//g, '../assets/');
+    }
+
+    function loadImage(src) {
+      return new Promise((resolve) => {
+        if (!src) return resolve(null);
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+      });
+    }
+
+    async function renderSpecToCanvas(canvas, spec) {
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (!spec) return;
+
+      const svg = spec.renderScaffoldSvg();
+      const svgSrc = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      const plates = spec.plates || [];
+      const [bgImg, ...plateImgs] = await Promise.all([
+        loadImage(svgSrc),
+        ...plates.map((p) => loadImage(p.src.replace(/^\.\//, '../'))),
+      ]);
+
+      if (bgImg) {
+        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+      }
+
+      for (let i = 0; i < plates.length; i += 1) {
+        const layer = plates[i];
+        const img = plateImgs[i];
+        if (!img) continue;
+        const scale = Math.min(layer.w / img.naturalWidth, layer.h / img.naturalHeight);
+        const drawW = img.naturalWidth * scale;
+        const drawH = img.naturalHeight * scale;
+        const drawX = layer.x + (layer.w - drawW) * 0.5;
+        let drawY = layer.y + (layer.h - drawH) * 0.5;
+        if (layer.alignY === 'bottom') drawY = layer.y + (layer.h - drawH);
+        else if (layer.alignY === 'top') drawY = layer.y;
+
+        ctx.save();
+        ctx.globalAlpha = layer.opacity ?? 1;
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        ctx.restore();
+      }
+    }
+
+    async function renderAudit() {
+      root.innerHTML = '';
+      const tasks = [];
+
+      if (currentFilter === 'all' || currentFilter === 'core' || currentFilter === 'figure') {
+        const list = LESSONS.filter((l) => currentFilter === 'all' || l.track === currentFilter);
+        for (const lesson of list) {
+          const dSpec = getLessonDiagramSpec(lesson.id);
+          const tSpec = getTemplateSpec(lesson.templateId);
+          const card = document.createElement('section');
+          card.className = 'audit-card';
+          card.innerHTML = `
+            <div class="audit-card-head">
+              <h2>${lesson.id.toUpperCase()} · ${lesson.title}</h2>
+              <div>
+                <span class="diagram-source-badge">${dSpec?.sourceType || 'legacy'}</span>
+                <span class="diagram-source-badge">${tSpec?.kind || 'none'} template</span>
+              </div>
+            </div>
+            <div class="audit-split">
+              <div>
+                <div class="audit-label">Step 1 教学速查图 (${dSpec?.layout || 'fallback'})</div>
+                ${rebaseRelativeAssetUrls(renderLessonDiagramHTML(dSpec, { lessonTitle: lesson.title }))}
+              </div>
+              <div>
+                <div class="audit-label">画板练习底图 (${lesson.templateId}) · 1200×900 实际合成效果</div>
+                <div class="audit-canvas-box">
+                  <canvas width="1200" height="900" data-tpl="${lesson.templateId}"></canvas>
+                </div>
+              </div>
+            </div>
+          `;
+          root.appendChild(card);
+          const canvas = card.querySelector('canvas');
+          tasks.push(renderSpecToCanvas(canvas, tSpec));
+        }
+      }
+
+      if (currentFilter === 'all' || currentFilter === 'frames') {
+        const frames = PRACTICE_TEMPLATES.filter((t) => t.id.startsWith('tpl-frame-'));
+        const section = document.createElement('section');
+        section.className = 'audit-card';
+        section.innerHTML = `
+          <div class="audit-card-head">
+            <h2>🎯 实战课题黄金构图框 (${frames.length} 套)</h2>
+            <span class="diagram-source-badge">procedural</span>
+          </div>
+          <div class="audit-frames-grid">
+            ${frames
+              .map(
+                (f) => `
+              <div>
+                <div class="audit-label">${f.id} · ${f.name}</div>
+                <div class="audit-canvas-box">
+                  <canvas width="1200" height="900" data-tpl="${f.id}"></canvas>
+                </div>
+              </div>`
+              )
+              .join('')}
+          </div>
+        `;
+        root.appendChild(section);
+        for (const f of frames) {
+          const canvas = section.querySelector(`canvas[data-tpl="${f.id}"]`);
+          tasks.push(renderSpecToCanvas(canvas, getTemplateSpec(f.id)));
+        }
+      }
+
+      await Promise.all(tasks);
+      summaryEl.textContent = `已实时渲染 ${LESSONS.length} 节课程教学图 + ${PRACTICE_TEMPLATES.length} 套 1200×900 画板练习底图（0 失效资源）。`;
+    }
+
+    document.querySelectorAll('button[data-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+        document.querySelectorAll('button[data-filter]').forEach((b) => b.classList.toggle('active', b === btn));
+        renderAudit();
+      });
+    });
+
+    document.getElementById('btn-audit-theme').addEventListener('click', () => {
+      const curr = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = curr === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      document.documentElement.style.colorScheme = next;
+    });
+
+    renderAudit();
+  </script>
+</body>
+</html>

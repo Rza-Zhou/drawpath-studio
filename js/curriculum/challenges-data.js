@@ -1,7 +1,7 @@
 /**
  * DrawPath Studio · 实战课题与随机灵感出题器 (4套构图底图 + 14个分级综合挑战)
  */
-import { wrapTemplateSVG } from './svg-helpers.js';
+import { CORE_TEMPLATE_GENERATORS } from '../generators/core-generators.js';
 
 export const CHALLENGE_TEMPLATES = [
   {
@@ -10,30 +10,9 @@ export const CHALLENGE_TEMPLATES = [
     track: 'core',
     lessonId: 'chal-2',
     description: '带三分线交点、头顶留白安全距与肩颈斜角切线的头像特写构图底图。',
-    svgContent: wrapTemplateSVG(
-      'FRAME-1 · 头像特写黄金构图框',
-      '构图口诀：视线落在上三分线交点 · 脸朝向哪边就在哪边多留呼吸空间',
-      `
-      <!-- Outer safe portrait frame -->
-      <rect x="260" y="96" width="680" height="756" rx="14" fill="none" stroke="#6366f1" stroke-opacity="0.52" stroke-width="2"/>
-      <!-- Rule of thirds -->
-      <g stroke="#38bdf8" stroke-opacity="0.34" stroke-width="1.3" stroke-dasharray="6 5">
-        <line x1="486" y1="96" x2="486" y2="852"/>
-        <line x1="714" y1="96" x2="714" y2="852"/>
-        <line x1="260" y1="348" x2="940" y2="348"/>
-        <line x1="260" y1="600" x2="940" y2="600"/>
-      </g>
-      <!-- Headroom & eye interest points -->
-      <line x1="280" y1="158" x2="920" y2="158" stroke="#10b981" stroke-opacity="0.4" stroke-dasharray="4 4"/>
-      <text x="290" y="148" font-size="11.5" fill="#059669" fill-opacity="0.72">▲ 头顶/发饰呼吸线（避免顶到画框上沿）</text>
-      <circle cx="486" cy="348" r="10" fill="none" stroke="#6366f1" stroke-opacity="0.55" stroke-width="1.8"/>
-      <circle cx="714" cy="348" r="10" fill="none" stroke="#6366f1" stroke-opacity="0.55" stroke-width="1.8"/>
-      <!-- Light subtle oval suggestion -->
-      <ellipse cx="600" cy="378" rx="148" ry="188" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6" stroke-width="1.6"/>
-      <path d="M542 562 L530 665 L355 775 M658 562 L670 665 L845 775" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="6 6" stroke-width="1.6"/>
-      <text x="600" y="832" font-size="12" fill="#475569" fill-opacity="0.72" text-anchor="middle">建议：把主视点眼睛放在上方两个圆环交点附近，肩膀微斜打破死板</text>
-      `
-    )
+    get svgContent() {
+      return CORE_TEMPLATE_GENERATORS['tpl-frame-portrait']();
+    },
   },
   {
     id: 'tpl-frame-halfbody',
@@ -41,87 +20,19 @@ export const CHALLENGE_TEMPLATES = [
     track: 'figure',
     lessonId: 'chal-6',
     description: '标准 4 头高半身构图：标出头顶、下巴、胸线、手肘/腰线及跨步/手势延伸区。',
-    svgContent: wrapTemplateSVG(
-      'FRAME-2 · 半身人像胸腰构图框（约 4 头高裁切）',
-      '构图口诀：尽量避开正好切在「手肘、手腕、腰最细」等关节正中处，留出斜向肩胯韵律',
-      `
-      <rect x="210" y="92" width="780" height="768" rx="14" fill="none" stroke="#6366f1" stroke-opacity="0.52" stroke-width="2"/>
-      <!-- Rule of thirds -->
-      <g stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.2" stroke-dasharray="6 5">
-        <line x1="470" y1="92" x2="470" y2="860"/>
-        <line x1="730" y1="92" x2="730" y2="860"/>
-        <line x1="210" y1="348" x2="990" y2="348"/>
-        <line x1="210" y1="604" x2="990" y2="604"/>
-      </g>
-      <!-- 4-Head vertical proportion ticks -->
-      <g stroke="#0ea5e9" stroke-opacity="0.36" stroke-width="1.2" stroke-dasharray="4 4">
-        <line x1="226" y1="155" x2="974" y2="155"/>
-        <line x1="226" y1="315" x2="974" y2="315"/>
-        <line x1="226" y1="475" x2="974" y2="475"/>
-        <line x1="226" y1="635" x2="974" y2="635"/>
-        <line x1="226" y1="795" x2="974" y2="795"/>
-      </g>
-      <g font-size="11" fill="#0284c7" fill-opacity="0.72">
-        <text x="234" y="148">0 头顶安全线</text>
-        <text x="234" y="308">1 头 · 下巴</text>
-        <text x="234" y="468">2 头 · 胸线</text>
-        <text x="234" y="628">3 头 · 肚脐 / 手肘</text>
-        <text x="234" y="788">4 头 · 胯骨裁切线</text>
-      </g>
-      <!-- Faint tilted dynamic torso scaffold -->
-      <ellipse cx="600" cy="235" rx="56" ry="76" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-dasharray="5 5"/>
-      <line x1="475" y1="365" x2="725" y2="395" stroke="#6366f1" stroke-opacity="0.34" stroke-dasharray="5 5" stroke-width="1.8"/>
-      <line x1="505" y1="735" x2="695" y2="710" stroke="#6366f1" stroke-opacity="0.34" stroke-dasharray="5 5" stroke-width="1.8"/>
-      <text x="600" y="840" font-size="12" fill="#475569" fill-opacity="0.72" text-anchor="middle">提示：胸口与手臂动作可大胆穿出左右三分线，制造纵深视觉张力</text>
-      `
-    )
+    get svgContent() {
+      return CORE_TEMPLATE_GENERATORS['tpl-frame-halfbody']();
+    },
   },
   {
     id: 'tpl-frame-fullbody',
     name: '全身动态 7.5 头身与地面透视框',
     track: 'figure',
     lessonId: 'chal-3',
-    description: '带 7.5 头身纵向参考标尺与透视地面网格的全身动态构图框，让角色稳踩地面不飘浮。',
-    svgContent: wrapTemplateSVG(
-      'FRAME-3 · 全身动态 7.5 头身与地面透视框',
-      '构图口诀：脚踩进地面透视网格 + 投影贴紧脚掌 · 重心垂线决定动态稳不稳',
-      `
-      <rect x="140" y="92" width="920" height="768" rx="14" fill="none" stroke="#6366f1" stroke-opacity="0.5" stroke-width="2"/>
-      <!-- Perspective Horizon & Floor Grid -->
-      <line x1="140" y1="540" x2="1060" y2="540" stroke="#6366f1" stroke-opacity="0.32" stroke-dasharray="6 5" stroke-width="1.4"/>
-      <text x="158" y="532" font-size="11" fill="#4f46e5" fill-opacity="0.68">参考视平线 HL（人物腰胯附近）</text>
-      <g stroke="#38bdf8" stroke-opacity="0.28" stroke-width="1.2">
-        <line x1="600" y1="540" x2="170" y2="860"/>
-        <line x1="600" y1="540" x2="380" y2="860"/>
-        <line x1="600" y1="540" x2="600" y2="860" stroke-dasharray="5 5"/>
-        <line x1="600" y1="540" x2="820" y2="860"/>
-        <line x1="600" y1="540" x2="1030" y2="860"/>
-        <line x1="140" y1="680" x2="1060" y2="680" stroke-opacity="0.2"/>
-        <line x1="140" y1="745" x2="1060" y2="745" stroke-opacity="0.22"/>
-        <line x1="140" y1="810" x2="1060" y2="810" stroke-opacity="0.26"/>
-      </g>
-      <!-- 7.5 Head Scale on Left Margin -->
-      <g stroke="#10b981" stroke-opacity="0.4" stroke-width="1.2" stroke-dasharray="4 4">
-        <line x1="156" y1="130" x2="360" y2="130"/>
-        <line x1="156" y1="220" x2="360" y2="220"/>
-        <line x1="156" y1="310" x2="360" y2="310"/>
-        <line x1="156" y1="400" x2="360" y2="400"/>
-        <line x1="156" y1="490" x2="360" y2="490"/>
-        <line x1="156" y1="625" x2="360" y2="625"/>
-        <line x1="156" y1="805" x2="360" y2="805"/>
-      </g>
-      <g font-size="10.5" fill="#059669" fill-opacity="0.78">
-        <text x="162" y="124">0 头顶</text>
-        <text x="162" y="214">1 下巴</text>
-        <text x="162" y="304">2 胸线</text>
-        <text x="162" y="394">3 肚脐/肘</text>
-        <text x="162" y="484">4 耻骨/腕</text>
-        <text x="162" y="619">5.5 膝盖</text>
-        <text x="162" y="799">7.5 落脚地线</text>
-      </g>
-      <text x="600" y="844" font-size="11.5" fill="#475569" fill-opacity="0.72" text-anchor="middle">画完骨架后，务必在地面网格里补出脚下地面投影</text>
-      `
-    )
+    description: '带精确 7.5 头身纵向参考标尺与透视地面网格的全身动态构图框，让角色稳踩地面不飘浮。',
+    get svgContent() {
+      return CORE_TEMPLATE_GENERATORS['tpl-frame-fullbody']();
+    },
   },
   {
     id: 'tpl-frame-sheet',
@@ -129,40 +40,10 @@ export const CHALLENGE_TEMPLATES = [
     track: 'core',
     lessonId: 'chal-4',
     description: '2×2 均等设定格，带跨格眼睛基准对齐线与底部标签区，适合画表情四宫格或头型三视图。',
-    svgContent: wrapTemplateSVG(
-      'FRAME-4 · 四格表情 / 多角度角色设定排版框',
-      '排版口诀：用跨格参考线保持四个画面的「头大小与眼睛基线」统一 · 留出角色特征标签位',
-      `
-      <!-- 4 panels (2x2) -->
-      <g stroke="#6366f1" stroke-opacity="0.45" stroke-width="1.8" fill="none">
-        <rect x="76" y="96" width="504" height="364" rx="12"/>
-        <rect x="620" y="96" width="504" height="364" rx="12"/>
-        <rect x="76" y="492" width="504" height="364" rx="12"/>
-        <rect x="620" y="492" width="504" height="364" rx="12"/>
-      </g>
-      <!-- Continuous eye alignment bands across row 1 and row 2 -->
-      <g stroke="#38bdf8" stroke-opacity="0.34" stroke-width="1.3" stroke-dasharray="5 5">
-        <line x1="76" y1="248" x2="1124" y2="248"/>
-        <line x1="76" y1="286" x2="1124" y2="286"/>
-        <line x1="76" y1="644" x2="1124" y2="644"/>
-        <line x1="76" y1="682" x2="1124" y2="682"/>
-      </g>
-      <!-- Light cranium circles inside each panel -->
-      <g stroke="#38bdf8" stroke-opacity="0.28" stroke-width="1.5" stroke-dasharray="6 5" fill="none">
-        <circle cx="328" cy="252" r="88"/>
-        <circle cx="872" cy="252" r="88"/>
-        <circle cx="328" cy="648" r="88"/>
-        <circle cx="872" cy="648" r="88"/>
-      </g>
-      <g font-size="12" font-weight="700" fill="#4f46e5" fill-opacity="0.72">
-        <text x="96" y="122">格 01 · 正面 / 常态</text>
-        <text x="640" y="122">格 02 · 3/4 半侧面 / 开心大笑</text>
-        <text x="96" y="518">格 03 · 侧面或微仰 / 愤怒咬牙</text>
-        <text x="640" y="518">格 04 · 自由角度 / 委屈或惊慌</text>
-      </g>
-      `
-    )
-  }
+    get svgContent() {
+      return CORE_TEMPLATE_GENERATORS['tpl-frame-sheet']();
+    },
+  },
 ];
 
 const ALL_CHALLENGES = [

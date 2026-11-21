@@ -1,4 +1,4 @@
-const CACHE_NAME = 'drawpath-studio-v9';
+const CACHE_NAME = 'drawpath-studio-v11';
 
 const APP_ASSETS = [
   './',
@@ -6,18 +6,30 @@ const APP_ASSETS = [
   './styles/main.css',
   './manifest.webmanifest',
   './assets/icon.svg',
-  './assets/diagrams/furry-kemono-muzzle.jpg',
-  './assets/diagrams/furry-western-muzzle.jpg',
-  './assets/diagrams/furry-kemono-ears-body.jpg',
-  './assets/diagrams/furry-kemono-expressions.jpg',
-  './assets/diagrams/furry-kemono-fur-tufts.jpg',
-  './assets/diagrams/anime-head-loomis.jpg',
-  './assets/diagrams/anime-face-hair.jpg',
-  './assets/diagrams/anime-body-pose.jpg',
-  './assets/templates/tpl-anime-cel-lineart.jpg',
+  './assets/plates/figure/fig1-standing-balance.webp',
+  './assets/plates/figure/fig1-dynamic-action.webp',
+  './assets/plates/figure/fig2-proportions-front.webp',
+  './assets/plates/figure/fig2-proportions-side.webp',
+  './assets/plates/figure/fig3-torso-3q-eggbox.webp',
+  './assets/plates/figure/fig3-torso-contrapposto.webp',
+  './assets/plates/figure/fig4-arm-cylinders.webp',
+  './assets/plates/figure/fig4-leg-s-rhythm.webp',
+  './assets/plates/figure/fig5-hand-open-grouped.webp',
+  './assets/plates/figure/fig5-hand-fist-box.webp',
+  './assets/plates/figure/fig6-foot-medial-side.webp',
+  './assets/plates/figure/fig7-muscles-front.webp',
+  './assets/plates/figure/fig7-muscles-back.webp',
+  './assets/plates/figure/fig8-body-male-athletic.webp',
+  './assets/plates/figure/fig8-body-female-hourglass.webp',
+  './assets/plates/figure/fig8-body-youth-slender.webp',
   './js/app.js',
+  './js/diagram-renderer.js',
   './js/pose-3d-helper.js',
   './js/curriculum-data.js',
+  './js/generators/math-3d.js',
+  './js/generators/core-generators.js',
+  './js/generators/figure-generators.js',
+  './js/curriculum/asset-manifest.js',
   './js/curriculum/svg-helpers.js',
   './js/curriculum/redblue-plates.js',
   './js/curriculum/core-track.js',
@@ -33,7 +45,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_ASSETS))
+      .then((cache) => cache.addAll(APP_ASSETS.map((url) => new Request(url, { cache: 'reload' }))))
       .then(() => self.skipWaiting())
   );
 });

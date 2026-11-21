@@ -135,6 +135,7 @@ export class PressureCanvasStudio {
 
     // Template & grid state.
     this._bgImage = null;
+    this._compositeLayers = [];
     this._templateOpacity = 45;
     this._gridType = 'none';
     this._templateLoadToken = 0;
@@ -228,7 +229,7 @@ export class PressureCanvasStudio {
   }
 
   /**
-   * Loads an SVG data URL (or empty value to clear) onto the template underlay.
+   * Loads an SVG data URL or image URL (or empty value to clear) onto the template underlay.
    * @param {string} svgDataUrl
    * @param {number} [opacity=45]
    * @returns {Promise<void>}
@@ -240,6 +241,7 @@ export class PressureCanvasStudio {
     }
 
     const token = ++this._templateLoadToken;
+    this._compositeLayers = [];
 
     if (!svgDataUrl) {
       this._bgImage = null;
@@ -255,18 +257,76 @@ export class PressureCanvasStudio {
           return;
         }
         this._bgImage = img;
+        this._compositeLayers = [];
         this._renderTemplateLayer();
         resolve();
       };
       img.onerror = () => {
         if (token === this._templateLoadToken) {
           this._bgImage = null;
+          this._compositeLayers = [];
           this._renderTemplateLayer();
         }
         resolve();
       };
       img.src = svgDataUrl;
     });
+  }
+
+  /**
+   * Loads a structured procedural or composite template specification:
+   *   { renderScaffoldSvg: () => string, plates?: [{ src, x, y, w, h, alignY, opacity }] }
+   * Renders the self-contained vector worksheet scaffold and composites all transparent
+   * raster lineart plates natively onto the template canvas (zero SVG <image> taint issues).
+   * @param {Object|null} spec
+   * @param {number} [opacity=45]
+   * @returns {Promise<void>}
+   */
+  async loadTemplateSpec(spec, opacity = 45) {
+    const numericOpacity = Number(opacity);
+    if (Number.isFinite(numericOpacity)) {
+      this._templateOpacity = clamp(numericOpacity, 0, 100);
+    }
+
+    const token = ++this._templateLoadToken;
+
+    if (!spec) {
+      this._bgImage = null;
+      this._compositeLayers = [];
+      this._renderTemplateLayer();
+      return;
+    }
+
+    const loadImage = (src) =>
+      new Promise((resolve) => {
+        if (!src) {
+          resolve(null);
+          return;
+        }
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+      });
+
+    const scaffoldSvg = typeof spec.renderScaffoldSvg === 'function' ? spec.renderScaffoldSvg() : '';
+    const scaffoldSrc = scaffoldSvg
+      ? 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(scaffoldSvg)
+      : '';
+    const plateSpecs = Array.isArray(spec.plates) ? spec.plates : [];
+
+    const [scaffoldImg, ...plateImgs] = await Promise.all([
+      loadImage(scaffoldSrc),
+      ...plateSpecs.map((p) => loadImage(p.src)),
+    ]);
+
+    if (token !== this._templateLoadToken) return;
+
+    this._bgImage = scaffoldImg;
+    this._compositeLayers = plateSpecs
+      .map((p, idx) => (plateImgs[idx] ? { ...p, img: plateImgs[idx] } : null))
+      .filter(Boolean);
+    this._renderTemplateLayer();
   }
 
   /**
@@ -371,6 +431,7 @@ export class PressureCanvasStudio {
 
     this._templateLoadToken += 1;
     this._bgImage = null;
+    this._compositeLayers = [];
     this._templateOpacity = 45;
     this._gridType = 'none';
     this._renderTemplateLayer();
@@ -1052,6 +1113,8 @@ export class PressureCanvasStudio {
     const ctx = this.templateCtx;
     ctx.clearRect(0, 0, this.width, this.height);
 
+    const baseAlpha = clamp(this._templateOpacity / 100, 0, 1);
+
     if (this._bgImage) {
       const imgW = this._bgImage.naturalWidth || this._bgImage.width || this.width;
       const imgH = this._bgImage.naturalHeight || this._bgImage.height || this.height;
@@ -1062,9 +1125,39 @@ export class PressureCanvasStudio {
       const drawY = (this.height - drawH) * 0.5;
 
       ctx.save();
-      ctx.globalAlpha = clamp(this._templateOpacity / 100, 0, 1);
+      ctx.globalAlpha = baseAlpha;
       ctx.drawImage(this._bgImage, drawX, drawY, drawW, drawH);
       ctx.restore();
+    }
+
+    if (Array.isArray(this._compositeLayers) && this._compositeLayers.length > 0) {
+      for (const layer of this._compositeLayers) {
+        if (!layer?.img) continue;
+        const imgW = layer.img.naturalWidth || layer.img.width;
+        const imgH = layer.img.naturalHeight || layer.img.height;
+        if (!imgW || !imgH) continue;
+
+        const boxX = Number(layer.x) || 0;
+        const boxY = Number(layer.y) || 0;
+        const boxW = Number(layer.w) || this.width;
+        const boxH = Number(layer.h) || this.height;
+
+        const scale = Math.min(boxW / imgW, boxH / imgH);
+        const drawW = imgW * scale;
+        const drawH = imgH * scale;
+        const drawX = boxX + (boxW - drawW) * 0.5;
+        let drawY = boxY + (boxH - drawH) * 0.5;
+        if (layer.alignY === 'bottom') {
+          drawY = boxY + (boxH - drawH);
+        } else if (layer.alignY === 'top') {
+          drawY = boxY;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = baseAlpha * clamp(layer.opacity ?? 1, 0, 1);
+        ctx.drawImage(layer.img, drawX, drawY, drawW, drawH);
+        ctx.restore();
+      }
     }
 
     this._drawGridOverlay(ctx);

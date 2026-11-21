@@ -14,7 +14,10 @@ import {
   CHALLENGE_GENERATOR,
   normalizeTrackId,
   getTemplateSVGDataURL,
+  getLessonDiagramSpec,
+  getTemplateSpec,
 } from './curriculum-data.js';
+import { renderLessonDiagramHTML } from './diagram-renderer.js';
 import { PressureCanvasStudio } from './pressure-canvas.js';
 import {
   initDB,
@@ -927,9 +930,24 @@ class DrawPathApp {
         this.renderLessonDetail(this.currentLessonId);
         if (document.getElementById('canvas-template-select')?.value === tplKeyId) {
           const opacity = Number(document.getElementById('template-opacity-slider')?.value ?? 45);
-          await this.studio?.loadTemplateSVG(getTemplateSVGDataURL(tplKeyId) || '', opacity);
+          await this._loadStudioTemplateById(tplKeyId, opacity);
         }
         this.showToast('已恢复默认练习底图。', 'info');
+        return;
+      }
+
+      const zoomBtn = e.target.closest('button[data-diagram-zoom]');
+      if (zoomBtn) {
+        this._openDiagramLightbox(zoomBtn, detail);
+        return;
+      }
+
+      const pinBtn = e.target.closest('button[data-diagram-pin]');
+      if (pinBtn) {
+        const pinSrc = pinBtn.dataset.diagramPin || '';
+        if (pinSrc) {
+          await this._applyClipboardReferenceImage(pinSrc);
+        }
         return;
       }
 
@@ -1157,6 +1175,12 @@ class DrawPathApp {
       ? variants.find((v) => v.id === savedVariantId) || variants[0]
       : null;
     const activeDiagramSvg = activeVariant?.svg || lesson.cheatSheetSVG || '';
+    const diagramSpec = getLessonDiagramSpec(lesson.id);
+    const diagramMarkup = renderLessonDiagramHTML(diagramSpec, {
+      customDiagramUrl,
+      fallbackSvg: activeDiagramSvg,
+      lessonTitle: lesson.title,
+    });
 
     container.innerHTML = `
       <div class="lesson-detail-header">
@@ -1208,12 +1232,8 @@ class DrawPathApp {
                 </div>`
               : ''
           }
-          <div class="cheatsheet-svg-wrap">
-            ${
-              customDiagramUrl
-                ? `<img src="${escapeHtml(customDiagramUrl)}" alt="${escapeHtml(lesson.title)} 自定义画师示意图" class="custom-diagram-img">`
-                : activeDiagramSvg
-            }
+          <div class="cheatsheet-diagram-host">
+            ${diagramMarkup}
           </div>
         </div>
 
@@ -1448,6 +1468,86 @@ class DrawPathApp {
     if (!dialog.open) dialog.showModal();
   }
 
+  async _loadStudioTemplateById(templateId, opacity = 45) {
+    if (!this.studio) return;
+    if (!templateId) {
+      await this.studio.loadTemplateSVG('', opacity);
+      return;
+    }
+    const customUrl = this.customAssets?.[`template:${templateId}`] || '';
+    if (customUrl) {
+      await this.studio.loadTemplateSVG(customUrl, opacity);
+      return;
+    }
+    const spec = getTemplateSpec(templateId);
+    if (spec) {
+      await this.studio.loadTemplateSpec(spec, opacity);
+      return;
+    }
+    const tplObj = PRACTICE_TEMPLATES.find((t) => t.id === templateId);
+    const svgUrl = tplObj?.imageUrl || getTemplateSVGDataURL(templateId) || '';
+    await this.studio.loadTemplateSVG(svgUrl, opacity);
+  }
+
+  _openDiagramLightbox(triggerBtn, scopeEl) {
+    const dialog = document.getElementById('dialog-diagram-lightbox');
+    if (!dialog) return;
+
+    const titleEl = document.getElementById('title-diagram-lightbox');
+    const imgEl = document.getElementById('diagram-lightbox-img');
+    const svgEl = document.getElementById('diagram-lightbox-svg');
+    const capEl = document.getElementById('diagram-lightbox-caption');
+    const pinBtn = document.getElementById('btn-lightbox-pin-ref');
+
+    const mode = triggerBtn.dataset.diagramZoom || 'image';
+    const title = triggerBtn.dataset.zoomTitle || '结构图解高清放大';
+    const caption = triggerBtn.dataset.zoomCaption || '';
+    const imgSrc = triggerBtn.dataset.zoomSrc || '';
+
+    if (titleEl) titleEl.textContent = `📐 ${title}`;
+    if (capEl) {
+      capEl.textContent = caption;
+      capEl.hidden = !caption;
+    }
+
+    if (mode === 'image' || mode === 'custom') {
+      if (svgEl) {
+        svgEl.innerHTML = '';
+        svgEl.hidden = true;
+      }
+      if (imgEl) {
+        imgEl.src = imgSrc;
+        imgEl.alt = title;
+        imgEl.hidden = false;
+      }
+      if (pinBtn) {
+        pinBtn.hidden = !imgSrc;
+        pinBtn.onclick = async () => {
+          dialog.close();
+          await this._applyClipboardReferenceImage(imgSrc);
+        };
+      }
+    } else {
+      const panelId = triggerBtn.dataset.zoomPanelId || 'procedural';
+      const sourceWrap = scopeEl?.querySelector(`[data-diagram-zoom-source="${panelId}"]`);
+      const svgNode = sourceWrap?.querySelector('svg');
+      if (imgEl) {
+        imgEl.removeAttribute('src');
+        imgEl.hidden = true;
+      }
+      if (svgEl) {
+        svgEl.innerHTML = svgNode ? svgNode.outerHTML : '';
+        svgEl.hidden = !svgNode;
+      }
+      if (pinBtn) {
+        pinBtn.hidden = true;
+        pinBtn.onclick = null;
+      }
+    }
+
+    if (!dialog.open) dialog.showModal();
+  }
+
   async _loadTemplateAndOpenCanvas(templateId, contextInfo = null) {
     if (!this.studio) return;
 
@@ -1470,10 +1570,7 @@ class DrawPathApp {
       this._setActiveBrushButton('pencil');
     }
 
-    const customUrl = templateId ? this.customAssets?.[`template:${templateId}`] : '';
-    const tplObj = templateId ? PRACTICE_TEMPLATES.find((t) => t.id === templateId) : null;
-    const svgUrl = customUrl || tplObj?.imageUrl || (templateId ? getTemplateSVGDataURL(templateId) : '');
-    await this.studio.loadTemplateSVG(svgUrl, opacity);
+    await this._loadStudioTemplateById(templateId, opacity);
 
     if (contextInfo?.type === 'challenge') {
       this.activeChallengeContext = contextInfo;
@@ -1817,10 +1914,7 @@ class DrawPathApp {
       this.isRedlineOverlay = false;
       this.redlineContext = null;
       this._setPinboardTemplateState(false);
-      const customUrl = tplId ? this.customAssets?.[`template:${tplId}`] : '';
-      const tplObj = tplId ? PRACTICE_TEMPLATES.find((t) => t.id === tplId) : null;
-      const svgUrl = customUrl || tplObj?.imageUrl || (tplId ? getTemplateSVGDataURL(tplId) : '');
-      await this.studio?.loadTemplateSVG(svgUrl, opacity);
+      await this._loadStudioTemplateById(tplId, opacity);
     });
 
     opSlider?.addEventListener('input', () => {
@@ -2021,10 +2115,7 @@ class DrawPathApp {
         const tplId = document.getElementById('canvas-template-select')?.value || '';
         const opSlider = document.getElementById('template-opacity-slider');
         const opacity = Number(opSlider?.value ?? 45);
-        const customUrl = tplId ? this.customAssets?.[`template:${tplId}`] : '';
-        const tplObj = tplId ? PRACTICE_TEMPLATES.find((t) => t.id === tplId) : null;
-        const svgUrl = customUrl || tplObj?.imageUrl || (tplId ? getTemplateSVGDataURL(tplId) : '');
-        await this.studio.loadTemplateSVG(svgUrl, opacity);
+        await this._loadStudioTemplateById(tplId, opacity);
         this._setPinboardTemplateState(false);
         this.showToast('📌 已撤掉垫底参考，切回仅悬浮对临模式。', 'info');
       } else {

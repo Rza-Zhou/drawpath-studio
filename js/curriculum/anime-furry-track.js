@@ -30,7 +30,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-1',
     description: '标准颅骨球、颞部切面椭圆、柔和下颌曲线与颈肩引导架，附底部自由练习空球。',
-    imageUrl: './assets/diagrams/anime-head-loomis.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-1 · 二次元十字球：正面与 3/4 侧面头型骨架',
       '口诀：先定圆球与切面，再拉弧形中线，下颌用顺滑曲线轻收至下巴尖',
@@ -139,7 +138,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-2',
     description: '三组对比透视头球骨架（仰视拱弧露下颌底面、平视基准、俯视下弯大颅顶），附自由角度挑战球。',
-    imageUrl: './assets/diagrams/anime-head-loomis.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-2 · 仰视与俯视头像：纬线弯曲方向与耳朵高低规律',
       '口诀：仰视纬线向上拱 ∩（耳降露下巴底），俯视纬线向下弯 ∪（耳升颅顶大）',
@@ -246,7 +244,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-3',
     description: '正面「三庭五眼」眼带标尺、3/4 远侧眼睛透视收缩架、以及圆眼/挑眼/半眯眼三组框线练习。',
-    imageUrl: './assets/diagrams/anime-face-hair.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-3 · 动漫五官定位：眼距标尺、远侧眼收缩与鼻口缩略',
       '口诀：两眼间隔一只眼 · 上睫毛厚而弯 · 虹膜轻藏上眼睑 · 鼻子用小点或小三角点到即止',
@@ -361,7 +358,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-4',
     description: '4 个完整 Loomis 头像骨架，预置眉弓矢量箭头、下睑挤压弧与张口下巴下沉参考线。',
-    imageUrl: './assets/diagrams/anime-face-hair.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-4 · 表情联动四宫格：眉弓、下眼睑与脸颊挤压同步变化',
       '口诀：笑时下睑往上顶、怒时眉头往下压、大张嘴时下巴必下沉',
@@ -464,7 +460,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-5',
     description: '正面「发际线-蓬松层-前中后三层」分解架与 3/4 侧面发旋放射流线引导，彻底告别贴头皮假发。',
-    imageUrl: './assets/diagrams/anime-face-hair.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-5 · 空气感头发：颅顶蓬松留空、发旋放射与大中小发束',
       '口诀：头发永远高出头骨一圈 · 所有发束追随发旋源头 · 大块定剪影，小丝造空气感',
@@ -552,7 +547,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-6',
     description: '左侧提供胸锁乳突肌 V 型引导、斜方肌缓坡与锁骨 S 线架；右侧提供三分法半身构图与头肩错位动势框。',
-    imageUrl: './assets/diagrams/anime-body-pose.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-6 · 颈肩锁骨衔接与半身像构图节奏',
       '口诀：胸锁乳突肌汇聚胸骨窝 · 斜方肌呈柔和斜坡 · 头肩反向微倾立刻出灵动感',
@@ -633,7 +627,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-7',
     description: '三区专项衣褶练习架：标注明确支撑应力点、弯曲肘部张力放射线与袖口/裙摆 S 丝带转折。',
-    imageUrl: './assets/diagrams/anime-body-pose.jpg',
     svgContent: wrapTemplateSVG(
       'ANIME-7 · 服装衣褶入门：找准应力支点，区分重力、拉力与堆积褶',
       '口诀：无支点不生褶 · 重力垂直下挂 · 拉力指向关节 · 堆积呈管状/Z字堆叠',
@@ -728,7 +721,6 @@ export const ANIME_TEMPLATES = [
     track: 'anime',
     lessonId: 'anime-8',
     description: '高清闭合日系半身像线稿（多层级线宽），附左上方 45° 赛璐璐二分投影虚线引导。',
-    imageUrl: './assets/templates/tpl-anime-cel-lineart.jpg',
     svgContent: PLATE_TPL_ANIME_CEL
   }
 ];
@@ -1230,7 +1222,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-1',
     description: '正面、3/4 与正侧面犬科头骨+梯形吻部棱柱架，明确额鼻台阶、顶/侧体面与下颌咬合，附底部 3 组空球挑战。',
-    imageUrl: './assets/diagrams/furry-kemono-muzzle.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-1 · 动物头骨球体 + 犬科 3D 梯形吻部透视骨架',
       '口诀：吻部从球面眉心中线生长出来 · 必有清晰额鼻台阶 · 顶面收窄、两侧包颊、下颌轻托',
@@ -1341,7 +1332,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-2',
     description: '左侧为猫科紧凑圆润短吻 + 双球胡须垫架构；右侧为龙类长棱角吻部、眉脊与龙角基座架构。',
-    imageUrl: './assets/diagrams/furry-kemono-muzzle.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-2 · 物种差异：猫科短吻胡须垫 vs 龙类棱角长吻',
       '口诀：猫科吻短圆、胡须垫饱满成 ω；龙类吻长棱角明、眉脊压眼角基稳',
@@ -1432,7 +1422,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-3',
     description: '上区标出正面、3/4 与侧后方头骨的斜向椭圆耳座；下区提供尖立犬耳、圆宽猫耳与大狐耳的曲线厚度架。',
-    imageUrl: './assets/diagrams/furry-kemono-ears-body.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-3 · 兽耳斜向球面基座、耳廓翻转厚度与耳毛流线',
       '口诀：先在头球斜侧面画椭圆耳座，再用柔顺 S 曲线立起耳廓，外缘必须交代卷边厚度',
@@ -1523,7 +1512,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-4',
     description: '开心竖耳、委屈飞机耳、愤怒龇牙低吼与警觉歪头 4 格完整兽头骨架，标注耳位旋转轴与吻部弯折方向。',
-    imageUrl: './assets/diagrams/furry-kemono-expressions.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-4 · 兽人表情四宫格：耳位倾角、鼻皱挤压与吻部咧嘴联动',
       '口诀：兽耳是第二对眉毛！开心竖前、委屈压平飞机耳、低吼耳后贴 + 鼻梁起横皱',
@@ -1613,7 +1601,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-5',
     description: '左侧标出从鼻梁到腮毛、颈鬃的毛发生长矢量；右侧提供长短毛大中小簇状节奏与肘/尾挂毛骨架。',
-    imageUrl: './assets/diagrams/furry-kemono-fur-tufts.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-5 · 簇状毛发概括、生长流向与长短毛节奏控制',
       '口诀：先定顺滑体块轮廓，仅在转折与重力处加毛簇；大中小错落分组，严禁绕圈画锯齿',
@@ -1689,7 +1676,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-6',
     description: '左侧为掌心视图肉垫（心形掌垫 + 4 椭圆指豆）与指节圆柱架；右侧为背面/半握拳爪尖立体套筒架构。',
-    imageUrl: './assets/diagrams/furry-kemono-ears-body.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-6 · 兽掌（Paw）体块、肉垫分布与立体爪尖衔接',
       '口诀：兽掌不是平海星！先画厚实掌盒与 4 根粗短指柱，再贴心形主垫与饱满指豆',
@@ -1776,7 +1762,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-7',
     description: '左侧为标准侧面 Z 字三折兽足解剖与重力铅垂线架；右侧为 3/4 跨步动态兽腿与脊柱延伸大尾巴骨架。',
-    imageUrl: './assets/diagrams/furry-kemono-ears-body.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-7 · 反关节兽足 (Digitigrade) Z 字力学与尾巴脊柱流线',
       '口诀：没有「反向膝盖」！大腿前倾 → 真膝盖 → 小腿后斜 → 高位踝关节 → 脚掌正落重心线',
@@ -1848,7 +1833,6 @@ export const FURRY_TEMPLATES = [
     track: 'furry',
     lessonId: 'furry-8',
     description: '左侧提供 6.5 头身动势兽人全身骨架（头吻/胸腔/骨盆/Z腿/大尾一体化）；右侧提供大剪影缩略图自检区。',
-    imageUrl: './assets/diagrams/furry-kemono-ears-body.jpg',
     svgContent: wrapTemplateSVG(
       'FURRY-8 · 兽人全身比例融合与角色大剪影设计',
       '口诀：头颈靠毛领自然过渡 · 6.5 头身平衡力量与萌感 · 耳朵与大尾巴是拉升剪影辨识度的双翼',
