@@ -23,6 +23,11 @@ import {
   projectTaperedCylinder,
   projectSphere,
 } from '../js/generators/math-3d.js';
+import {
+  calibratePenPressure,
+  extractTiltState,
+  computeBrushStampGeometry,
+} from '../js/pressure-canvas.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -205,6 +210,109 @@ const sphProj = projectSphere({ radius: 80, cam, lightDir: { x: -0.7, y: 0.7, z:
 check(
   'Math-3D Sphere produces analytical terminator & convex ground shadow',
   sphProj.terminator.visiblePaths.length >= 1 && sphProj.shadowPolygon.length >= 8
+);
+
+// 5. Curated Direct Video Links Coverage (16 active lessons -> 16 Bilibili BV + 16 YouTube direct URLs)
+for (const lesson of LESSONS) {
+  const vids = Array.isArray(lesson.videos) ? lesson.videos : [];
+  const hasBiliDirect = vids.some((v) => /https:\/\/www\.bilibili\.com\/video\/BV[0-9A-Za-z]{8,14}/i.test(v.url || ''));
+  const hasYtDirect = vids.some((v) => /https:\/\/www\.youtube\.com\/watch\?v=[A-Za-z0-9_-]{11}/i.test(v.url || ''));
+  const hasSearchUrl = vids.some((v) => /search\.bilibili\.com|youtube\.com\/results/i.test(v.url || ''));
+  check(
+    `Lesson ${lesson.id} has direct Bilibili BV & YouTube URLs (zero search URLs)`,
+    hasBiliDirect && hasYtDirect && !hasSearchUrl,
+    `bili=${hasBiliDirect}, yt=${hasYtDirect}, hasSearch=${hasSearchUrl}`
+  );
+}
+
+// 6. Zero Decorative Emojis in UI & Core Curriculum Files
+const emojiScanFiles = [
+  'index.html',
+  'tools/diagram-audit.html',
+  'js/app.js',
+  'js/icons.js',
+  'js/diagram-renderer.js',
+  'js/journal.js',
+  'js/pose-3d-helper.js',
+  'js/pressure-canvas.js',
+  'js/storage-db.js',
+  'js/curriculum-data.js',
+  'js/curriculum/core-track.js',
+  'js/curriculum/figure-track.js',
+  'js/curriculum/challenges-data.js',
+  'js/curriculum/anime-furry-track.js',
+  'js/curriculum/redblue-plates.js',
+  'js/curriculum/svg-helpers.js',
+];
+// Strip monochrome typographic directional arrows & rating stars before checking for color/decorative pictographs
+const NON_EMOJI_SYMBOLS = /[\u2190-\u21FF\u2605\u2606]/gu;
+const EMOJI_RE = /\p{Extended_Pictographic}/gu;
+const emojiHits = [];
+for (const rel of emojiScanFiles) {
+  const txt = fs.readFileSync(path.join(ROOT, rel), 'utf-8').replace(NON_EMOJI_SYMBOLS, '');
+  const matches = txt.match(EMOJI_RE);
+  if (matches && matches.length > 0) {
+    emojiHits.push(`${rel} (${[...new Set(matches)].join(' ')})`);
+  }
+}
+check(
+  'Zero decorative emojis across active UI & curriculum files',
+  emojiHits.length === 0,
+  `Found in: ${emojiHits.join(', ')}`
+);
+check(
+  'sw.js caches ./js/icons.js',
+  swAssetSet.has('./js/icons.js'),
+  'Missing ./js/icons.js in sw.js APP_ASSETS'
+);
+
+// 7. iPad Apple Pencil Pressure Calibration, Tilt & Brush Geometry Unit Tests
+const pLight = calibratePenPressure(0.15, 'normal');
+const pMid = calibratePenPressure(0.42, 'normal');
+const pHeavy = calibratePenPressure(0.78, 'normal');
+check(
+  'Apple Pencil low-force calibration lifts 0.15 physical pressure above 0.30 & stays monotonic',
+  pLight > 0.30 && pLight < pMid && pMid < pHeavy && pHeavy <= 1,
+  `pLight=${pLight.toFixed(3)}, pMid=${pMid.toFixed(3)}, pHeavy=${pHeavy.toFixed(3)}`
+);
+
+const safariTiltNormal = extractTiltState({ altitudeAngle: 0.45, azimuthAngle: 0.7 }, false);
+const safariTiltFlipped = extractTiltState({ altitudeAngle: 0.45, azimuthAngle: 0.7 }, true);
+check(
+  'Safari altitudeAngle/azimuthAngle tilt extracts side-shading & mirrors azimuth when flipped',
+  safariTiltNormal.tiltFactor > 0.5 &&
+    Math.abs((safariTiltNormal.azimuth + safariTiltFlipped.azimuth) - Math.PI) < 0.001,
+  `tiltFactor=${safariTiltNormal.tiltFactor.toFixed(3)}, az=${safariTiltNormal.azimuth.toFixed(3)}, azFlip=${safariTiltFlipped.azimuth.toFixed(3)}`
+);
+
+const w3cTilt = extractTiltState({ tiltX: 45, tiltY: 0 }, false);
+check(
+  'W3C tiltX/tiltY fallback computes ~45° tilt from vertical',
+  w3cTilt.tiltFromVerticalDeg >= 43 && w3cTilt.tiltFromVerticalDeg <= 47 && w3cTilt.tiltFactor > 0.35,
+  `deg=${w3cTilt.tiltFromVerticalDeg}, tiltFactor=${w3cTilt.tiltFactor.toFixed(3)}`
+);
+
+const geomBelow3 = computeBrushStampGeometry('pencil', 5, 0.40, 0, 0, false);
+const geomAbove3 = computeBrushStampGeometry('pencil', 5, 0.42, 0, 0, false);
+check(
+  'Pencil brush opacity/overlap is continuous across 3px width (no beading/density cliff)',
+  Math.abs(geomBelow3.dabAlpha - geomAbove3.dabAlpha) < 0.03 &&
+    Math.abs(geomBelow3.spacing - geomAbove3.spacing) < 0.1,
+  `alpha diff=${Math.abs(geomBelow3.dabAlpha - geomAbove3.dabAlpha).toFixed(4)}, rx1=${geomBelow3.rx.toFixed(2)}, rx2=${geomAbove3.rx.toFixed(2)}`
+);
+
+const geomTilted = computeBrushStampGeometry('pencil', 10, 0.5, 0.85, 0.4, true);
+check(
+  'Pencil side-shading tilt elongates stamp aspect ratio (>= 2.0x) along azimuth',
+  geomTilted.isElliptical && geomTilted.rx / geomTilted.ry >= 2.0 && Math.abs(geomTilted.angle - 0.4) < 0.001,
+  `ratio=${(geomTilted.rx / geomTilted.ry).toFixed(2)}x, angle=${geomTilted.angle.toFixed(2)}`
+);
+
+const geomMarker = computeBrushStampGeometry('marker', 12, 0.5, 0.5, 1.1, true);
+check(
+  'Marker chisel dynamically aligns rotation to pen azimuth when tilted',
+  geomMarker.isElliptical && geomMarker.rx > geomMarker.ry * 1.5 && Math.abs(geomMarker.angle - 1.1) < 0.001,
+  `ratio=${(geomMarker.rx / geomMarker.ry).toFixed(2)}x, angle=${geomMarker.angle.toFixed(2)}`
 );
 
 console.log(`\nSummary: ${passed} passed, ${failed} failed.`);

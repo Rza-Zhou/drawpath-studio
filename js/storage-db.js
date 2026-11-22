@@ -401,7 +401,7 @@ function createSeedIllustration(kind) {
 
     ctx.fillStyle = '#dc2626';
     ctx.font = '14px system-ui, sans-serif';
-    ctx.fillText('❌ 肩线与胯线完全平行，重心僵直', 86, 535);
+    ctx.fillText('× 肩线与胯线完全平行，重心僵直', 86, 535);
 
     // Divider arrow
     ctx.fillStyle = '#94a3b8';
@@ -481,7 +481,7 @@ function createSeedIllustration(kind) {
 
     ctx.fillStyle = '#16a34a';
     ctx.font = 'bold 14px system-ui, sans-serif';
-    ctx.fillText('✅ 肩线↘ 与胯线↗ 形成夹角，重心落左腿', 455, 570);
+    ctx.fillText('✓ 肩线↘ 与胯线↗ 形成夹角，重心落左腿', 455, 570);
   }
 
   return canvas.toDataURL('image/png');

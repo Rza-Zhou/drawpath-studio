@@ -28,7 +28,7 @@ export const TRACKS = [
     name: '通用基本功主线',
     badge: '阶段一 · 线条透视光影',
     color: '#6366f1',
-    icon: '🧱',
+    iconName: 'cube',
     description: '从控笔长直线、几何体块、透视网格到光影色彩的底层造型主线。'
   },
   {
@@ -36,7 +36,7 @@ export const TRACKS = [
     name: '人体练习',
     badge: '阶段二 · 动态比例与结构',
     color: '#f59e0b',
-    icon: '🏃',
+    iconName: 'figure',
     description: '动作线重心、头身比例、胸胯扭转、手足块面与全身肌群穿插。'
   }
 ];
@@ -46,18 +46,18 @@ export const LOCKED_TRACKS = [
   {
     id: 'anime',
     name: '二次元角色插画',
-    badge: '🔒 待完善底图 · 暂未开放',
+    badge: '待完善底图 · 暂未开放',
     color: '#ec4899',
-    icon: '✨',
+    iconName: 'lock',
     locked: true,
     description: '十字球定位、多角度五官表情、空气感发束、常服衣褶与赛璐璐二分。'
   },
   {
     id: 'furry',
     name: 'Furry / 兽人专项',
-    badge: '🔒 待完善底图 · 暂未开放',
+    badge: '待完善底图 · 暂未开放',
     color: '#10b981',
-    icon: '🐾',
+    iconName: 'lock',
     locked: true,
     description: '3D 梯形吻部、斜向兽耳插座、簇状毛发、立体肉垫兽掌与 Z 字趾行腿。'
   }
@@ -66,26 +66,23 @@ export const LOCKED_TRACKS = [
 export const TIERS = [
   {
     id: 'beginner',
-    label: '🌱 入门',
+    label: '入门',
     name: '入门',
-    icon: '🌱',
-    badge: '🌱 入门 · 零基础起步',
+    badge: '入门 · 零基础起步',
     color: '#10b981'
   },
   {
     id: 'foundation',
-    label: '📘 基础',
+    label: '基础',
     name: '基础',
-    icon: '📘',
-    badge: '📘 基础 · 立体与结构',
+    badge: '基础 · 立体与结构',
     color: '#3b82f6'
   },
   {
     id: 'advanced',
-    label: '🔥 进阶',
+    label: '进阶',
     name: '进阶',
-    icon: '🔥',
-    badge: '🔥 进阶 · 综合与表现',
+    badge: '进阶 · 综合与表现',
     color: '#f59e0b'
   }
 ];
@@ -100,7 +97,7 @@ export const ONBOARDING_GUIDE = [
       '一笔拉通代替蹭毛线，立刻提升线稿自信度',
       '头像五官全靠底层的球体与方体确定立体朝向'
     ],
-    tip: '每天只要 20 分钟短时聚焦，先刷完各路线🌱入门课。'
+    tip: '每天只要 20 分钟短时聚焦，先刷完各路线「入门」课。'
   },
   {
     id: 'guide-2',

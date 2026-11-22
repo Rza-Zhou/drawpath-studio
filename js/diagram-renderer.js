@@ -5,6 +5,8 @@
  * accessible modal lightbox zoom, and 1-click pinning to the canvas reference board.
  */
 
+import { icon } from './icons.js';
+
 function escapeHtml(str) {
   return String(str ?? '')
     .replace(/&/g, '&amp;')
@@ -43,8 +45,8 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
           >
         </div>
         <div class="diagram-custom-actions">
-          <button type="button" class="btn btn-sm" data-diagram-zoom="custom" data-zoom-src="${escapeHtml(customDiagramUrl)}" data-zoom-title="${escapeHtml(lessonTitle)} · 自定义画师图">🔍 放大查看</button>
-          <button type="button" class="btn btn-sm" data-diagram-pin="${escapeHtml(customDiagramUrl)}" data-pin-label="${escapeHtml(lessonTitle)} 自定义参考">📌 钉入参考小窗</button>
+          <button type="button" class="btn btn-sm" data-diagram-zoom="custom" data-zoom-src="${escapeHtml(customDiagramUrl)}" data-zoom-title="${escapeHtml(lessonTitle)} · 自定义画师图">${icon('zoom-in')} 放大查看</button>
+          <button type="button" class="btn btn-sm" data-diagram-pin="${escapeHtml(customDiagramUrl)}" data-pin-label="${escapeHtml(lessonTitle)} 自定义参考">${icon('pin')} 钉入参考小窗</button>
         </div>
       </div>
     `;
@@ -69,7 +71,7 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
           <span class="diagram-deck-title">${escapeHtml(spec.title || lessonTitle)}</span>
           <div class="diagram-deck-meta">
             <span class="diagram-source-badge">${escapeHtml(spec.badge || '精确矢量图解')}</span>
-            <button type="button" class="diagram-action-btn" data-diagram-zoom="procedural" data-zoom-title="${escapeHtml(spec.title || lessonTitle)}" title="全屏放大查看">🔍 放大</button>
+            <button type="button" class="diagram-action-btn" data-diagram-zoom="procedural" data-zoom-title="${escapeHtml(spec.title || lessonTitle)}" title="全屏放大查看">${icon('zoom-in')} 放大</button>
           </div>
         </div>
         <div class="diagram-svg-surface" data-diagram-zoom-source="procedural">
@@ -105,7 +107,7 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
             >
           </div>
         `;
-        pinBtnHtml = `<button type="button" class="diagram-mini-btn" data-diagram-pin="${escapeHtml(panel.imageUrl)}" data-pin-label="${escapeHtml(panel.badge || lessonTitle)}" title="将这张纯线稿钉到画板角落悬浮参考小窗">📌 参考窗</button>`;
+        pinBtnHtml = `<button type="button" class="diagram-mini-btn" data-diagram-pin="${escapeHtml(panel.imageUrl)}" data-pin-label="${escapeHtml(panel.badge || lessonTitle)}" title="将这张纯线稿钉到画板角落悬浮参考小窗">${icon('pin')} 参考窗</button>`;
       } else if (panel.kind === 'svg' && typeof panel.renderSvg === 'function') {
         mediaHtml = `
           <div class="diagram-plate-stage diagram-plate-stage-svg" data-panel-id="${escapeHtml(panel.id || '')}" data-diagram-zoom-source="${escapeHtml(panel.id || '')}">
@@ -125,7 +127,7 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
             <span class="diagram-panel-badge">${escapeHtml(panel.badge || '')}</span>
             <div class="diagram-panel-actions">
               ${pinBtnHtml}
-              <button type="button" class="diagram-mini-btn" ${zoomBtnAttrs} title="放大细看结构线">🔍 放大</button>
+              <button type="button" class="diagram-mini-btn" ${zoomBtnAttrs} title="放大细看结构线">${icon('zoom-in')} 放大</button>
             </div>
           </div>
           ${mediaHtml}

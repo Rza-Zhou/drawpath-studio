@@ -5,6 +5,7 @@
 
 import { getAllPosts, savePost, deletePost } from './storage-db.js';
 import { TRACKS, LESSONS, normalizeTrackId } from './curriculum-data.js';
+import { icon } from './icons.js';
 
 const SOURCE_META = {
   web: { label: '网页压感练习', badgeClass: 'badge-web' },
@@ -203,7 +204,7 @@ export class JournalManager {
 
   _getTrackMeta(trackId) {
     const normalized = typeof normalizeTrackId === 'function' ? normalizeTrackId(trackId) : trackId;
-    return TRACKS.find((t) => t.id === normalized) || TRACKS[0] || { id: 'core', name: '通用基本功', icon: '🧱', color: '#6366f1' };
+    return TRACKS.find((t) => t.id === normalized) || TRACKS[0] || { id: 'core', name: '通用基本功', iconName: 'cube', color: '#6366f1' };
   }
 
   _getLessonMeta(lessonId) {
@@ -224,7 +225,7 @@ export class JournalManager {
 
     for (const track of TRACKS) {
       const group = document.createElement('optgroup');
-      group.label = `${track.icon} ${track.name}`;
+      group.label = track.name;
       const trackLessons = LESSONS.filter((l) => l.track === track.id).sort((a, b) => a.order - b.order);
       for (const lesson of trackLessons) {
         const opt = document.createElement('option');
@@ -268,7 +269,7 @@ export class JournalManager {
       hintBar.style.cssText =
         'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding:8px 12px;border:1px dashed var(--border-color, #94a3b8);border-radius:10px;font-size:0.85rem;cursor:pointer;';
       hintBar.innerHTML =
-        '<span>📁 支持点击选择或直接拖拽 Procreate / CSP / 本地图片到弹窗内</span><button type="button" class="btn btn-sm">选择图片</button>';
+        `<span class="inline-icon-text">${icon('folder')} 支持点击选择或直接拖拽 Procreate / CSP / 本地图片到弹窗内</span><button type="button" class="btn btn-sm">选择图片</button>`;
       hintBar.addEventListener('click', () => {
         this._externalFileInput?.click();
       });
@@ -394,7 +395,7 @@ export class JournalManager {
     if (this._confirmDeleteId !== postId) {
       this._confirmDeleteId = postId;
       if (this._confirmDeleteTimer) clearTimeout(this._confirmDeleteTimer);
-      btnEl.textContent = '⚠ 确认删除?';
+      btnEl.innerHTML = `${icon('alert')} 确认删除?`;
       btnEl.classList.add('is-confirming');
       this._confirmDeleteTimer = setTimeout(() => {
         if (this._confirmDeleteId === postId) {
@@ -554,7 +555,7 @@ export class JournalManager {
     if (filtered.length === 0) {
       grid.innerHTML = `
         <div class="journal-empty-state">
-          <p class="empty-title">📒 暂无符合条件的练习画帖</p>
+          <p class="empty-title">${icon('notebook')} 暂无符合条件的练习画帖</p>
           <p class="empty-desc">去“压感练习 & 红线画板”画一张，或点击右上角“上传外部App作品打卡”记录今天的进步吧！</p>
         </div>
       `;
@@ -567,7 +568,7 @@ export class JournalManager {
         const lesson = this._getLessonMeta(post.lessonId);
         const sourceMeta = SOURCE_META[post.source] || SOURCE_META.web;
         const duration = post.durationMinutes ?? post.duration ?? 20;
-        const lessonLabel = lesson ? `${track.icon} ${lesson.title}` : `${track.icon} ${track.name}`;
+        const lessonLabel = lesson ? lesson.title : track.name;
 
         return `
           <article class="journal-card" data-post-id="${escapeHtml(post.id)}">
@@ -577,20 +578,20 @@ export class JournalManager {
             </div>
             <div class="journal-card-body">
               <div class="journal-meta-row">
-                <span class="badge journal-track-badge" style="--track-color: ${escapeHtml(track.color)}">${escapeHtml(lessonLabel)}</span>
-                ${post.challengeId ? '<span class="badge badge-track">🎯 实战课题</span>' : ''}
+                <span class="badge journal-track-badge" style="--track-color: ${escapeHtml(track.color)}">${icon(track.iconName || 'cube')} ${escapeHtml(lessonLabel)}</span>
+                ${post.challengeId ? `<span class="badge badge-track">${icon('target')} 实战课题</span>` : ''}
                 <time class="journal-date" datetime="${escapeHtml(post.createdAt)}">${escapeHtml(formatDate(post.createdAt))}</time>
               </div>
               <h3 class="journal-card-title">${escapeHtml(post.title)}</h3>
               <div class="journal-stats-row">
-                <span class="journal-duration">⏱ ${escapeHtml(String(duration))} 分钟</span>
+                <span class="journal-duration">${icon('clock')} ${escapeHtml(String(duration))} 分钟</span>
                 <span class="journal-rating" aria-label="评分 ${escapeHtml(String(post.rating))} 星">${formatStars(post.rating)}</span>
               </div>
               ${post.notes ? `<p class="journal-card-notes">${escapeHtml(post.notes)}</p>` : ''}
               <div class="journal-card-actions">
-                <button type="button" class="btn btn-sm" data-action="redline" data-post-id="${escapeHtml(post.id)}">✍️ 红线批注</button>
-                <button type="button" class="btn btn-sm" data-action="compare" data-post-id="${escapeHtml(post.id)}">⚖️ 选为对比</button>
-                <button type="button" class="btn btn-sm btn-danger-subtle" data-action="delete" data-post-id="${escapeHtml(post.id)}">🗑 删除</button>
+                <button type="button" class="btn btn-sm" data-action="redline" data-post-id="${escapeHtml(post.id)}">${icon('pen-tool')} 红线批注</button>
+                <button type="button" class="btn btn-sm" data-action="compare" data-post-id="${escapeHtml(post.id)}">${icon('compare')} 选为对比</button>
+                <button type="button" class="btn btn-sm btn-danger-subtle" data-action="delete" data-post-id="${escapeHtml(post.id)}">${icon('trash')} 删除</button>
               </div>
             </div>
           </article>

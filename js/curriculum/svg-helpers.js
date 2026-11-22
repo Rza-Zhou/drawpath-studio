@@ -67,7 +67,7 @@ export function wrapCheatSheetSVG(wrongTitle, rightTitle, wrongBody, rightBody) 
   </defs>
   <rect x="10" y="10" width="376" height="300" rx="14" fill="#fff5f5" stroke="#fecaca" stroke-width="1.5"/>
   <rect x="20" y="20" width="356" height="30" rx="8" fill="#fee2e2"/>
-  <text x="32" y="40" font-size="13.5" font-weight="700" fill="#b91c1c">❌ ${escapeXML(wrongTitle)}</text>
+  <text x="32" y="40" font-size="13.5" font-weight="700" fill="#b91c1c">× ${escapeXML(wrongTitle)}</text>
   <g transform="translate(20, 58)">
     ${wrongBody}
   </g>
@@ -75,7 +75,7 @@ export function wrapCheatSheetSVG(wrongTitle, rightTitle, wrongBody, rightBody) 
   <text x="400" y="165" font-size="14" font-weight="700" fill="#475569" text-anchor="middle">→</text>
   <rect x="414" y="10" width="376" height="300" rx="14" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5"/>
   <rect x="424" y="20" width="356" height="30" rx="8" fill="#dcfce7"/>
-  <text x="436" y="40" font-size="13.5" font-weight="700" fill="#15803d">✅ ${escapeXML(rightTitle)}</text>
+  <text x="436" y="40" font-size="13.5" font-weight="700" fill="#15803d">✓ ${escapeXML(rightTitle)}</text>
   <g transform="translate(424, 58)">
     ${rightBody}
   </g>
@@ -84,7 +84,7 @@ export function wrapCheatSheetSVG(wrongTitle, rightTitle, wrongBody, rightBody) 
 
 /**
  * 清晰数码板绘红蓝线稿风 · 双栏结构图容器
- * 支持自定义左右徽章色（如「🇯🇵 日系 Kemono vs 🇺🇸 美系 Furry」或「红蓝骨架 → 黑线正稿」）
+ * 支持自定义左右徽章色（如「日系 Kemono vs 美系 Furry」或「红蓝骨架 → 黑线正稿」）
  */
 export function wrapRedBlueCheatSheetSVG({
   leftTitle,

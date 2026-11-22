@@ -1,4 +1,4 @@
-const CACHE_NAME = 'drawpath-studio-v11';
+const CACHE_NAME = 'drawpath-studio-v12';
 
 const APP_ASSETS = [
   './',
@@ -23,6 +23,7 @@ const APP_ASSETS = [
   './assets/plates/figure/fig8-body-female-hourglass.webp',
   './assets/plates/figure/fig8-body-youth-slender.webp',
   './js/app.js',
+  './js/icons.js',
   './js/diagram-renderer.js',
   './js/pose-3d-helper.js',
   './js/curriculum-data.js',

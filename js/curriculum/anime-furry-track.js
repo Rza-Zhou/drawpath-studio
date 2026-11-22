@@ -1,6 +1,6 @@
 /**
  * DrawPath Studio · 画路工坊
- * ✨ 二次元角色插画 (anime, 8课) + 🐾 Furry / 兽人专项 (furry, 8课)
+ * 二次元角色插画 (anime, 8课) + Furry / 兽人专项 (furry, 8课)
  * 包含 16 套 1200x900 建筑感辅助练习底图与 16 张 800x320 正误对比结构速查 SVG
  */
 
@@ -20,7 +20,7 @@ import {
 } from './redblue-plates.js';
 
 // ============================================================================
-// ✨ ANIME PRACTICE TEMPLATES (8 × 1200x900 Construction Scaffolds)
+// ANIME PRACTICE TEMPLATES (8 × 1200x900 Construction Scaffolds)
 // ============================================================================
 
 export const ANIME_TEMPLATES = [
@@ -726,7 +726,7 @@ export const ANIME_TEMPLATES = [
 ];
 
 // ============================================================================
-// ✨ ANIME LESSONS (8 Progressive Lessons: anime-1 .. anime-8)
+// ANIME LESSONS (8 Progressive Lessons: anime-1 .. anime-8)
 // ============================================================================
 
 export const ANIME_LESSONS = [
@@ -738,7 +738,7 @@ export const ANIME_LESSONS = [
     title: '二次元十字球：正与3/4头型',
     mantra: '先画圆球与颞部切面，顺滑曲线轻收下巴，绝不画死板五边形。',
     subtitle: '用十字球稳住二次元头骨与下颌弧度',
-    difficulty: '入门 ⭐',
+    difficulty: '入门',
     estimatedMinutes: 20,
     templateId: 'tpl-anime-head',
     cheatSheetSVG: PLATE_ANIME_HEAD_LOOMIS,
@@ -798,7 +798,7 @@ export const ANIME_LESSONS = [
     title: '仰视与俯视头像透视规律',
     mantra: '仰视纬线向上拱∩露下颌底，俯视纬线向下弯∪显大颅顶。',
     subtitle: '掌握球面纬线弧度与耳朵反向升降规律',
-    difficulty: '入门 ⭐',
+    difficulty: '入门',
     estimatedMinutes: 20,
     templateId: 'tpl-anime-angles',
     cheatSheetSVG: PLATE_ANIME_HEAD_LOOMIS,
@@ -858,7 +858,7 @@ export const ANIME_LESSONS = [
     title: '动漫五官定位：眼鼻口比例',
     mantra: '眼距留一宽、上睫毛为主弧、虹膜微藏上睑、鼻口点到即止。',
     subtitle: '掌握二次元眼框结构、远侧收缩与鼻口极简概括',
-    difficulty: '入门 ⭐',
+    difficulty: '入门',
     estimatedMinutes: 25,
     templateId: 'tpl-anime-features',
     cheatSheetSVG: PLATE_ANIME_FACE_HAIR,
@@ -918,7 +918,7 @@ export const ANIME_LESSONS = [
     title: '表情联动：眉眼嘴与脸颊挤压',
     mantra: '绝不单换嘴巴！眉毛、下眼睑、脸颊与下巴必须同步联动。',
     subtitle: '让喜怒哀乐活起来的五官肌肉挤压规律',
-    difficulty: '基础 ⭐⭐',
+    difficulty: '基础',
     estimatedMinutes: 25,
     templateId: 'tpl-anime-expressions',
     cheatSheetSVG: PLATE_ANIME_EXPRESSIONS,
@@ -978,7 +978,7 @@ export const ANIME_LESSONS = [
     title: '空气感头发：发旋与大中小发束',
     mantra: '先架蓬松外廓，再从发旋放射出大中小穿插的丝带发束。',
     subtitle: '告别贴头皮假发与均匀锯齿刘海，画出日系空气感',
-    difficulty: '基础 ⭐⭐',
+    difficulty: '基础',
     estimatedMinutes: 25,
     templateId: 'tpl-anime-hair',
     cheatSheetSVG: PLATE_ANIME_FACE_HAIR,
@@ -1038,7 +1038,7 @@ export const ANIME_LESSONS = [
     title: '颈肩锁骨衔接与半身像构图',
     mantra: '胸锁乳突肌汇入胸骨窝，斜方肌缓坡接圆肩，头肩反向微倾。',
     subtitle: '把头像自然接入身体，建立耐看的半身像节奏',
-    difficulty: '基础 ⭐⭐',
+    difficulty: '基础',
     estimatedMinutes: 25,
     templateId: 'tpl-anime-bust',
     cheatSheetSVG: PLATE_ANIME_BODY_POSE,
@@ -1098,7 +1098,7 @@ export const ANIME_LESSONS = [
     title: '服装衣褶：重力、拉力与堆积褶',
     mantra: '先找支点再画褶：重力垂管、关节放射、袖口错落堆积。',
     subtitle: '掌握三大衣褶逻辑，让衣服贴合身体不杂乱',
-    difficulty: '进阶 ⭐⭐⭐',
+    difficulty: '进阶',
     estimatedMinutes: 30,
     templateId: 'tpl-anime-folds',
     cheatSheetSVG: PLATE_ANIME_BODY_POSE,
@@ -1158,7 +1158,7 @@ export const ANIME_LESSONS = [
     title: '日系线稿层级与赛璐璐二分',
     mantra: '外轮廓实、内结构稳、细节轻；赛璐璐先硬边二分再微透渐变。',
     subtitle: '打通日系清稿线宽层级与通透赛璐璐上色闭环',
-    difficulty: '进阶 ⭐⭐⭐',
+    difficulty: '进阶',
     estimatedMinutes: 30,
     templateId: 'tpl-anime-cel',
     cheatSheetSVG: PLATE_ANIME_CEL_SHEET,
@@ -1212,7 +1212,7 @@ export const ANIME_LESSONS = [
 ];
 
 // ============================================================================
-// 🐾 FURRY PRACTICE TEMPLATES (8 × 1200x900 Construction Scaffolds)
+// FURRY PRACTICE TEMPLATES (8 × 1200x900 Construction Scaffolds)
 // ============================================================================
 
 export const FURRY_TEMPLATES = [
@@ -1920,7 +1920,7 @@ export const FURRY_TEMPLATES = [
 ];
 
 // ============================================================================
-// 🐾 FURRY LESSONS (8 Progressive Lessons: furry-1 .. furry-8)
+// FURRY LESSONS (8 Progressive Lessons: furry-1 .. furry-8)
 // ============================================================================
 
 export const FURRY_LESSONS = [
@@ -1932,7 +1932,7 @@ export const FURRY_LESSONS = [
     title: '动物头骨球体与3D吻部(日/美对比)',
     mantra: '日系 Kemono 靠大球配紧凑圆吻显萌，美系 Furry 靠长棱柱吻显骨相。',
     subtitle: '以日系 Kemono 为主线，同时对比美系长吻结构差异',
-    difficulty: '入门 ⭐',
+    difficulty: '入门',
     estimatedMinutes: 25,
     templateId: 'tpl-furry-canine',
     cheatSheetSVG: PLATE_FURRY_KEMONO_MUZZLE,
@@ -1996,7 +1996,7 @@ export const FURRY_LESSONS = [
     title: '猫科短吻胡须垫 vs 龙类长吻',
     mantra: '猫科短吻靠圆润双球胡须垫，龙类长吻靠硬朗多面棱角与眉脊。',
     subtitle: '告别全员狗头，一眼区分日系萌猫与龙类头骨特征',
-    difficulty: '入门 ⭐',
+    difficulty: '入门',
     estimatedMinutes: 25,
     templateId: 'tpl-furry-species',
     cheatSheetSVG: PLATE_FURRY_WESTERN_MUZZLE,
@@ -2060,7 +2060,7 @@ export const FURRY_LESSONS = [
     title: '兽耳斜向球面基座与耳廓厚度',
     mantra: '先画球侧斜向椭圆耳座，再用曲线立起带卷边厚度的漏斗耳。',
     subtitle: '彻底告别纸片直边三角形，画出立体毛茸茸的日系兽耳',
-    difficulty: '入门 ⭐',
+    difficulty: '入门',
     estimatedMinutes: 20,
     templateId: 'tpl-furry-ears',
     cheatSheetSVG: PLATE_FURRY_KEMONO_EARS_BODY,
@@ -2120,7 +2120,7 @@ export const FURRY_LESSONS = [
     title: '兽人表情：耳位、鼻皱与咧嘴',
     mantra: '兽耳是第二对眉毛！耳位偏转、鼻梁挤皱与吻角曲折同步联动。',
     subtitle: '把动物天性融入拟人表情，让兽设情绪鲜活十倍',
-    difficulty: '基础 ⭐⭐',
+    difficulty: '基础',
     estimatedMinutes: 25,
     templateId: 'tpl-furry-expressions',
     cheatSheetSVG: PLATE_FURRY_KEMONO_EXPRESSIONS,
@@ -2180,7 +2180,7 @@ export const FURRY_LESSONS = [
     title: '簇状毛发概括与长短毛节奏',
     mantra: '先画顺滑大轮廓，只在转折加毛簇；大中小分组，严禁锯齿。',
     subtitle: '告别重复小尖刺，画出柔软蓬松的皮毛质感',
-    difficulty: '基础 ⭐⭐',
+    difficulty: '基础',
     estimatedMinutes: 25,
     templateId: 'tpl-furry-fur',
     cheatSheetSVG: PLATE_FURRY_KEMONO_FUR_TUFTS,
@@ -2240,7 +2240,7 @@ export const FURRY_LESSONS = [
     title: '兽掌肉垫结构与爪尖立体感',
     mantra: '厚实掌盒配粗短指柱，贴心形主垫与饱满指豆，爪自指背弯出。',
     subtitle: '把平扁海星手变成肉呼呼、有握力的立体兽掌',
-    difficulty: '基础 ⭐⭐',
+    difficulty: '基础',
     estimatedMinutes: 25,
     templateId: 'tpl-furry-paws',
     cheatSheetSVG: PLATE_FURRY_KEMONO_EARS_BODY,
@@ -2300,13 +2300,13 @@ export const FURRY_LESSONS = [
     title: '反关节兽足Z字力学与尾流线',
     mantra: '大腿前、小腿后、高踝抬起，脚掌正落重心线，尾顺脊柱延出。',
     subtitle: '彻底厘清趾行兽足解剖真相，告别站不稳的断腿感',
-    difficulty: '进阶 ⭐⭐⭐',
+    difficulty: '进阶',
     estimatedMinutes: 30,
     templateId: 'tpl-furry-legs',
     cheatSheetSVG: PLATE_FURRY_KEMONO_EARS_BODY,
     variants: [
-      { id: 'kemono', label: '🌸 日系 Kemono 反关节Z腿与重心', svg: PLATE_FURRY_KEMONO_EARS_BODY },
-      { id: 'fur-tufts', label: '🦊 骨盆S型蓬松大尾与毛流', svg: PLATE_FURRY_KEMONO_FUR_TUFTS },
+      { id: 'kemono', label: '日系 Kemono 反关节Z腿与重心', svg: PLATE_FURRY_KEMONO_EARS_BODY },
+      { id: 'fur-tufts', label: '骨盆S型蓬松大尾与毛流', svg: PLATE_FURRY_KEMONO_FUR_TUFTS },
     ],
     keyPoints: [
       { title: '高位踝关节不是反膝', detail: '后折的高位关节其实是悬空脚后跟，真正膝盖仍在上方朝前弯。' },
@@ -2364,13 +2364,13 @@ export const FURRY_LESSONS = [
     title: '兽人全身比例融合与角色剪影',
     mantra: '颈毛过渡人兽躯干，6.5头身稳重心，靠耳与大尾拉满剪影。',
     subtitle: '融合兽头、躯干、兽掌与兽足，完成兽设立绘',
-    difficulty: '进阶 ⭐⭐⭐',
+    difficulty: '进阶',
     estimatedMinutes: 30,
     templateId: 'tpl-furry-fullbody',
     cheatSheetSVG: PLATE_FURRY_KEMONO_EARS_BODY,
     variants: [
-      { id: 'kemono', label: '🌸 日系 Kemono 6头身全身比例', svg: PLATE_FURRY_KEMONO_EARS_BODY },
-      { id: 'fur-tufts', label: '🦊 簇状毛发与蓬松大尾节奏', svg: PLATE_FURRY_KEMONO_FUR_TUFTS },
+      { id: 'kemono', label: '日系 Kemono 6头身全身比例', svg: PLATE_FURRY_KEMONO_EARS_BODY },
+      { id: 'fur-tufts', label: '簇状毛发与蓬松大尾节奏', svg: PLATE_FURRY_KEMONO_FUR_TUFTS },
     ],
     keyPoints: [
       { title: '颈毛是人兽融合枢纽', detail: '用蓬松脖颈毛领自然连接兽头与人体肩胸，彻底消除玩偶割裂感。' },

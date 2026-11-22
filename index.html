@@ -25,19 +25,46 @@
     </div>
 
     <nav class="main-nav" aria-label="主功能导航">
-      <button type="button" class="nav-tab active" data-view="roadmap">📖 学习说明书 &amp; 路线图</button>
-      <button type="button" class="nav-tab" data-view="lessons">🎬 精选视频 &amp; 闯关课</button>
-      <button type="button" class="nav-tab" data-view="canvas">✍️ 压感练习 &amp; 红线画板</button>
-      <button type="button" class="nav-tab" data-view="challenges">🎯 实战课题</button>
-      <button type="button" class="nav-tab" data-view="journal">📒 进步画帖 &amp; 对比</button>
+      <button type="button" class="nav-tab active" data-view="roadmap">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>学习说明书 &amp; 路线图</span>
+      </button>
+      <button type="button" class="nav-tab" data-view="lessons">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        <span>精选视频 &amp; 闯关课</span>
+      </button>
+      <button type="button" class="nav-tab" data-view="canvas">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+        <span>压感练习 &amp; 红线画板</span>
+      </button>
+      <button type="button" class="nav-tab" data-view="challenges">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        <span>实战课题</span>
+      </button>
+      <button type="button" class="nav-tab" data-view="journal">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 10h8"/><path d="M8 14h5"/></svg>
+        <span>进步画帖 &amp; 对比</span>
+      </button>
     </nav>
 
     <div class="header-actions">
-      <button type="button" id="btn-split-mode" class="btn btn-ghost btn-sm" aria-pressed="false" title="宽屏同屏模式：左边看课程或实战课题，右边直接画板练习">🧩 同屏边看边练</button>
+      <button type="button" id="btn-split-mode" class="btn btn-ghost btn-sm" aria-pressed="false" title="宽屏同屏模式：左边看课程或实战课题，右边直接画板练习">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+        <span>同屏边看边练</span>
+      </button>
       <span id="live-pressure-pill" class="pressure-pill" aria-live="polite">压感就绪 · 0%</span>
-      <button type="button" id="btn-open-onboarding" class="btn btn-ghost btn-sm">📘 新手说明书</button>
-      <button type="button" id="btn-open-backup" class="btn btn-ghost btn-sm">💾 备份 / App安装</button>
-      <button type="button" id="btn-theme-toggle" class="btn btn-ghost btn-sm" aria-label="切换浅色或深色主题">🌓 切换主题</button>
+      <button type="button" id="btn-open-onboarding" class="btn btn-ghost btn-sm">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>新手说明书</span>
+      </button>
+      <button type="button" id="btn-open-backup" class="btn btn-ghost btn-sm">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>备份 / App安装</span>
+      </button>
+      <button type="button" id="btn-theme-toggle" class="btn btn-ghost btn-sm" aria-label="切换浅色或深色主题">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"/></svg>
+        <span>切换主题</span>
+      </button>
     </div>
   </header>
 
@@ -75,7 +102,10 @@
 
       <section class="roadmap-block" aria-label="新手上手指南">
         <details id="onboarding-details" class="onboarding-collapsible">
-          <summary class="onboarding-summary-bar">📘 新手 4 步极简上手指南（点击展开，不占主视野）</summary>
+          <summary class="onboarding-summary-bar">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>新手 4 步极简上手指南（点击展开，不占主视野）</span>
+          </summary>
           <div id="onboarding-cards-container" class="onboarding-grid"></div>
         </details>
       </section>
@@ -85,10 +115,22 @@
           <h3 id="heading-skill-tree">分阶段技能树路线</h3>
           <div class="track-filter-group" role="group" aria-label="按绘画路线筛选">
             <button type="button" class="track-filter-btn active" data-track="all">全部路线</button>
-            <button type="button" class="track-filter-btn" data-track="core">🧱 通用基本功</button>
-            <button type="button" class="track-filter-btn" data-track="figure">🏃 人体练习</button>
-            <button type="button" class="track-filter-btn is-locked" disabled title="底图与课程完善中，暂未开放">🔒 二次元插画 (待完善)</button>
-            <button type="button" class="track-filter-btn is-locked" disabled title="底图与课程完善中，暂未开放">🔒 Furry 兽人 (待完善)</button>
+            <button type="button" class="track-filter-btn" data-track="core">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              <span>通用基本功</span>
+            </button>
+            <button type="button" class="track-filter-btn" data-track="figure">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="5" r="2.2"/><path d="M12 8v6"/><path d="m8 10 4 1 4-1"/><path d="m9 21 3-7 3 7"/></svg>
+              <span>人体练习</span>
+            </button>
+            <button type="button" class="track-filter-btn is-locked" disabled title="底图与课程完善中，暂未开放">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>二次元插画 (待完善)</span>
+            </button>
+            <button type="button" class="track-filter-btn is-locked" disabled title="底图与课程完善中，暂未开放">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Furry 兽人 (待完善)</span>
+            </button>
           </div>
         </div>
         <div id="skill-tree-container" class="skill-tree-container"></div>
@@ -104,19 +146,19 @@
             <label for="lesson-track-select">筛选分支：</label>
             <select id="lesson-track-select">
               <option value="all">全部课程</option>
-              <option value="core">🧱 通用基本功主线</option>
-              <option value="figure">🏃 人体练习</option>
-              <option value="anime" disabled>🔒 二次元角色插画 (待完善暂锁)</option>
-              <option value="furry" disabled>🔒 Furry / 兽人专项 (待完善暂锁)</option>
+              <option value="core">通用基本功主线</option>
+              <option value="figure">人体练习</option>
+              <option value="anime" disabled>二次元角色插画 (待完善暂锁)</option>
+              <option value="furry" disabled>Furry / 兽人专项 (待完善暂锁)</option>
             </select>
           </div>
           <div class="inline-control">
             <label for="lesson-tier-select">难度：</label>
             <select id="lesson-tier-select">
               <option value="all">全部难度</option>
-              <option value="beginner">🌱 入门</option>
-              <option value="foundation">📘 基础</option>
-              <option value="advanced">🔥 进阶</option>
+              <option value="beginner">入门</option>
+              <option value="foundation">基础</option>
+              <option value="advanced">进阶</option>
             </select>
           </div>
         </div>
@@ -134,16 +176,31 @@
     <section id="view-canvas" class="view-section" aria-labelledby="heading-canvas">
       <div class="canvas-workspace-header">
         <h2 id="heading-canvas">压感练习 &amp; 红线画板</h2>
-        <span class="workspace-tips">快捷键：Ctrl+Z 撤销 · Ctrl+Y 重做 · H 水平翻转 · iPad 请开启防误触</span>
+        <span class="workspace-tips">快捷键：Ctrl+Z 撤销 · Ctrl+Y 重做 · H 水平翻转 · 支持 Apple Pencil 轻压与倾斜侧锋</span>
       </div>
 
       <div class="canvas-toolbar canvas-toolbar-primary" role="toolbar" aria-label="画笔、颜色与压感工具栏">
         <div class="toolbar-group brush-group" role="group" aria-label="画笔模式">
-          <button type="button" class="brush-btn active" data-brush="pencil" title="铅笔：压感同时控制粗细与浓淡">✏️ 铅笔</button>
-          <button type="button" class="brush-btn" data-brush="gpen" title="G笔：二次元清脆勾线与出锋">🖋️ G笔</button>
-          <button type="button" class="brush-btn" data-brush="redline" title="红线笔：半透明鲜亮批注纠错">🖍️ 红线笔</button>
-          <button type="button" class="brush-btn" data-brush="marker" title="马克笔：平头半透明叠色与阴影二分">🖌️ 马克笔</button>
-          <button type="button" class="brush-btn" data-brush="eraser" title="橡皮擦：擦除当前激活图层">🧽 橡皮</button>
+          <button type="button" class="brush-btn active" data-brush="pencil" title="铅笔：支持压感与倾斜侧锋排线">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+            <span>铅笔</span>
+          </button>
+          <button type="button" class="brush-btn" data-brush="gpen" title="G笔：清脆勾线与笔锋粗细变化">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+            <span>G笔</span>
+          </button>
+          <button type="button" class="brush-btn" data-brush="redline" title="红线笔：半透明鲜亮批注纠错">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
+            <span>红线笔</span>
+          </button>
+          <button type="button" class="brush-btn" data-brush="marker" title="马克笔：平头半透明叠色与阴影二分（支持倾角转向）">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg>
+            <span>马克笔</span>
+          </button>
+          <button type="button" class="brush-btn" data-brush="eraser" title="橡皮擦：擦除当前激活图层">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
+            <span>橡皮</span>
+          </button>
         </div>
 
         <div class="toolbar-group color-group" role="group" aria-label="常用色板">
@@ -173,7 +230,7 @@
           <label for="pressure-curve-select">压感曲线</label>
           <select id="pressure-curve-select">
             <option value="soft">柔和 (轻压敏锐)</option>
-            <option value="normal" selected>标准 (线性)</option>
+            <option value="normal" selected>标准 (Apple Pencil 校准)</option>
             <option value="hard">硬朗 (重压爆发)</option>
           </select>
         </div>
@@ -212,34 +269,66 @@
 
         <div class="toolbar-group">
           <input type="file" id="upload-redline-input" accept="image/*" hidden>
-          <button type="button" id="btn-upload-redline" class="btn btn-sm">📂 导入外部作品画红线</button>
-          <button type="button" id="btn-open-3d-modal" class="btn btn-sm btn-accent-subtle" title="打开 Sketchfab 3D 模型（电猫 Zeraora / 头骨 / 人体）与外部 3D 摆姿舱">🧊 3D 模型参考舱</button>
-          <button type="button" id="btn-paste-clipboard-ref" class="btn btn-sm" title="将刚截取的 3D 模型截图 (Ctrl+V) 粘贴为半透明练习底图或悬浮参考">📋 粘贴3D截图 (Ctrl+V)</button>
-          <button type="button" id="btn-toggle-ref-pinboard" class="btn btn-sm" aria-pressed="false" title="打开或关闭画板角落悬浮参考图小窗">📌 悬浮参考窗</button>
+          <button type="button" id="btn-upload-redline" class="btn btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span>导入外部作品画红线</span>
+          </button>
+          <button type="button" id="btn-open-3d-modal" class="btn btn-sm btn-accent-subtle" title="打开 Sketchfab 3D 模型与外部 3D 摆姿舱">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            <span>3D 模型参考舱</span>
+          </button>
+          <button type="button" id="btn-paste-clipboard-ref" class="btn btn-sm" title="将刚截取的 3D 模型截图 (Ctrl+V) 粘贴为半透明练习底图或悬浮参考">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+            <span>粘贴3D截图 (Ctrl+V)</span>
+          </button>
+          <button type="button" id="btn-toggle-ref-pinboard" class="btn btn-sm" aria-pressed="false" title="打开或关闭画板角落悬浮参考图小窗">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg>
+            <span>悬浮参考窗</span>
+          </button>
         </div>
 
         <div class="toolbar-group layer-group" role="group" aria-label="图层管理">
           <div class="layer-chip">
             <button type="button" class="layer-btn active" data-layer="draft">草稿层</button>
             <label class="layer-eye" title="显示或隐藏草稿层">
-              <input type="checkbox" id="toggle-layer-draft" checked aria-label="显示草稿层"> 👁
+              <input type="checkbox" id="toggle-layer-draft" checked aria-label="显示草稿层">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
             </label>
           </div>
           <div class="layer-chip">
             <button type="button" class="layer-btn" data-layer="ink">正稿/红线层</button>
             <label class="layer-eye" title="显示或隐藏正稿/红线层">
-              <input type="checkbox" id="toggle-layer-ink" checked aria-label="显示正稿/红线层"> 👁
+              <input type="checkbox" id="toggle-layer-ink" checked aria-label="显示正稿/红线层">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
             </label>
           </div>
         </div>
 
         <div class="toolbar-group canvas-actions-group">
-          <button type="button" id="btn-flip-horizontal" class="btn btn-sm" aria-pressed="false">🪞 水平翻转查崩坏</button>
-          <button type="button" id="btn-canvas-undo" class="btn btn-sm">↩ 撤销</button>
-          <button type="button" id="btn-canvas-redo" class="btn btn-sm">↪ 重做</button>
-          <button type="button" id="btn-canvas-clear" class="btn btn-sm btn-danger-ghost">🗑 清空当前层</button>
-          <button type="button" id="btn-save-to-journal" class="btn btn-primary btn-sm">💾 存入进步画帖</button>
-          <button type="button" id="btn-download-png" class="btn btn-sm">⬇ 导出PNG</button>
+          <button type="button" id="btn-flip-horizontal" class="btn btn-sm" aria-pressed="false">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/><path d="M12 20v2"/><path d="M12 14v2"/><path d="M12 8v2"/><path d="M12 2v2"/></svg>
+            <span>水平翻转查崩坏</span>
+          </button>
+          <button type="button" id="btn-canvas-undo" class="btn btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+            <span>撤销</span>
+          </button>
+          <button type="button" id="btn-canvas-redo" class="btn btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/></svg>
+            <span>重做</span>
+          </button>
+          <button type="button" id="btn-canvas-clear" class="btn btn-sm btn-danger-ghost">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            <span>清空当前层</span>
+          </button>
+          <button type="button" id="btn-save-to-journal" class="btn btn-primary btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>存入进步画帖</span>
+          </button>
+          <button type="button" id="btn-download-png" class="btn btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>导出PNG</span>
+          </button>
         </div>
       </div>
 
@@ -253,12 +342,21 @@
 
         <aside id="floating-ref-pinboard" class="floating-ref-pinboard" hidden aria-label="角落悬浮参考图小窗">
           <div id="floating-ref-pinboard-header" class="pinboard-header" title="按住此处拖动小窗位置">
-            <span class="pinboard-title">📌 3D / 画师参考小窗</span>
+            <span class="pinboard-title">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg>
+              <span>3D / 画师参考小窗</span>
+            </span>
             <div class="pinboard-header-actions">
               <button type="button" id="btn-pinboard-size" class="pinboard-icon-btn" title="切换小窗大小">小 / 大</button>
-              <button type="button" id="btn-pinboard-to-template" class="pinboard-icon-btn pinboard-action-primary" title="将此图设为画布半透明底图用于描红蓝结构线">↘ 垫入画布当底图</button>
+              <button type="button" id="btn-pinboard-to-template" class="pinboard-icon-btn pinboard-action-primary" title="将此图设为画布半透明底图用于描红蓝结构线">
+                <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/></svg>
+                <span>垫入画布当底图</span>
+              </button>
               <input type="file" id="pinboard-upload-input" accept="image/*" hidden>
-              <button type="button" id="btn-pinboard-upload" class="pinboard-icon-btn" title="选择本地参考图">📂 换图</button>
+              <button type="button" id="btn-pinboard-upload" class="pinboard-icon-btn" title="选择本地参考图">
+                <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                <span>换图</span>
+              </button>
               <button type="button" id="btn-pinboard-close" class="pinboard-icon-btn" aria-label="关闭悬浮参考窗">✕</button>
             </div>
           </div>
@@ -266,7 +364,7 @@
             <img id="pinboard-img" class="pinboard-img" alt="参考图预览" hidden>
             <div id="pinboard-empty-hint" class="pinboard-empty-hint">
               <p><strong>还没贴入参考图</strong></p>
-              <p>按 <code>Ctrl+V</code> 粘贴 3D 截图（如 Zeraora / Posemaniacs / PoseMy.Art），或点击上方 <strong>📂 换图</strong> 上传参考图。</p>
+              <p>按 <code>Ctrl+V</code> 粘贴 3D 截图（如 Posemaniacs / PoseMy.Art / JustSketch.me），或点击上方 <strong>换图</strong> 上传参考图。</p>
             </div>
           </div>
         </aside>
@@ -276,7 +374,7 @@
         <span class="telemetry-item">输入设备：<strong id="telemetry-device">等待落笔</strong></span>
         <span class="telemetry-item">实时压感：<strong id="telemetry-pressure">0%</strong></span>
         <progress id="telemetry-pressure-bar" value="0" max="100"></progress>
-        <span class="telemetry-item">笔锋倾角：<strong id="telemetry-tilt">0°, 0°</strong></span>
+        <span class="telemetry-item">笔锋倾角：<strong id="telemetry-tilt">0°</strong></span>
       </div>
     </section>
 
@@ -284,7 +382,10 @@
     <section id="view-challenges" class="view-section" aria-labelledby="heading-challenges">
       <div class="view-toolbar-bar">
         <div>
-          <h2 id="heading-challenges">🎯 实战课题 &amp; 综合创作挑战</h2>
+          <h2 id="heading-challenges" class="heading-with-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <span>实战课题 &amp; 综合创作挑战</span>
+          </h2>
           <p class="section-sub">把学到的结构、人体与光影串起来画整张练习，支持一键带构图框进画板或用外部 App 交作业。</p>
         </div>
       </div>
@@ -292,10 +393,16 @@
       <div id="challenge-random-card" class="challenge-random-card">
         <div class="challenge-random-header">
           <div>
-            <h3>🎲 随机灵感出题器</h3>
+            <h3 class="heading-with-icon">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+              <span>随机灵感出题器</span>
+            </h3>
             <p class="section-sub">不知道画什么？抽一道「构图 + 画风 + 姿态 + 光影」组合题直接开练！</p>
           </div>
-          <button type="button" id="btn-roll-challenge" class="btn btn-primary">🎲 随机抽一道综合题</button>
+          <button type="button" id="btn-roll-challenge" class="btn btn-primary">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            <span>随机抽一道综合题</span>
+          </button>
         </div>
         <div id="random-challenge-output" class="random-challenge-output"></div>
       </div>
@@ -303,17 +410,17 @@
       <div class="challenge-filter-bar">
         <div class="challenge-tier-group" role="group" aria-label="按难度筛选实战课题">
           <button type="button" class="challenge-tier-btn active" data-tier="all">全部难度</button>
-          <button type="button" class="challenge-tier-btn" data-tier="beginner">🌱 入门</button>
-          <button type="button" class="challenge-tier-btn" data-tier="foundation">📘 基础</button>
-          <button type="button" class="challenge-tier-btn" data-tier="advanced">🔥 进阶</button>
+          <button type="button" class="challenge-tier-btn" data-tier="beginner">入门</button>
+          <button type="button" class="challenge-tier-btn" data-tier="foundation">基础</button>
+          <button type="button" class="challenge-tier-btn" data-tier="advanced">进阶</button>
         </div>
 
         <select id="challenge-track-select" aria-label="按路线筛选课题">
           <option value="all">全部路线</option>
-          <option value="core">🧱 通用基本功</option>
-          <option value="figure">🏃 人体练习</option>
-          <option value="anime" disabled>🔒 二次元插画 (待完善暂锁)</option>
-          <option value="furry" disabled>🔒 Furry 兽人 (待完善暂锁)</option>
+          <option value="core">通用基本功</option>
+          <option value="figure">人体练习</option>
+          <option value="anime" disabled>二次元插画 (待完善暂锁)</option>
+          <option value="furry" disabled>Furry 兽人 (待完善暂锁)</option>
         </select>
       </div>
 
@@ -328,28 +435,34 @@
           <p class="section-sub">把网页控笔练图、Procreate/CSP 外部临摹和红线复盘按时间线存下来，随时生成前后对比分享卡。</p>
         </div>
         <div class="journal-actions">
-          <button type="button" id="btn-new-external-post" class="btn btn-primary">📤 上传外部App作品打卡</button>
-          <button type="button" id="btn-open-compare" class="btn btn-secondary">⚖️ 前后进步对比 &amp; 生成分享卡</button>
+          <button type="button" id="btn-new-external-post" class="btn btn-primary">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>上传外部App作品打卡</span>
+          </button>
+          <button type="button" id="btn-open-compare" class="btn btn-secondary">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/></svg>
+            <span>前后进步对比 &amp; 生成分享卡</span>
+          </button>
         </div>
       </div>
 
       <div class="journal-filters-bar">
         <select id="journal-filter-track" aria-label="按路线筛选画帖">
           <option value="all">全部路线</option>
-          <option value="core">🧱 通用基本功</option>
-          <option value="figure">🏃 人体练习</option>
-          <option value="anime" disabled>🔒 二次元插画 (待完善暂锁)</option>
-          <option value="furry" disabled>🔒 Furry 兽人 (待完善暂锁)</option>
+          <option value="core">通用基本功</option>
+          <option value="figure">人体练习</option>
+          <option value="anime" disabled>二次元插画 (待完善暂锁)</option>
+          <option value="furry" disabled>Furry 兽人 (待完善暂锁)</option>
         </select>
 
         <select id="journal-filter-source" aria-label="按来源筛选画帖">
           <option value="all">全部来源</option>
-          <option value="web">✍️ 网页压感练习</option>
-          <option value="external">📱 外部App作品</option>
-          <option value="redline">🖍️ 红线复盘</option>
+          <option value="web">网页压感练习</option>
+          <option value="external">外部App作品</option>
+          <option value="redline">红线复盘</option>
         </select>
 
-        <input type="search" id="journal-search-input" placeholder="🔍 搜索画帖标题、心得或课程..." aria-label="搜索画帖">
+        <input type="search" id="journal-search-input" placeholder="搜索画帖标题、心得或课程..." aria-label="搜索画帖">
       </div>
 
       <div id="journal-gallery-grid" class="journal-gallery-grid"></div>
@@ -359,7 +472,10 @@
   <!-- Dialog 1: Beginner Onboarding Manual -->
   <dialog id="dialog-onboarding" closedby="any" aria-labelledby="title-onboarding">
     <div class="dialog-header">
-      <h2 id="title-onboarding">📘 DrawPath Studio 新手学习说明书</h2>
+      <h2 id="title-onboarding" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>DrawPath Studio 新手学习说明书</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭说明书">✕</button>
       </form>
@@ -367,21 +483,21 @@
     <div class="dialog-body onboarding-manual-content">
       <div class="manual-block">
         <h3>1. 为什么新手建议从「控笔 + 体块」而不是直接画完稿头像开始？</h3>
-        <p>很多新手卡在「眼睛会了手不会」：线条抖、脸型左右歪、人体像塞棉花。每天只花 <strong>20 分钟</strong>，先在练习画板里叠着透视网格和体块底图练稳手腕、分清正面/侧面交界线，再去画人体动态、二次元或 Furry，进步速度会翻倍。</p>
+        <p>很多新手卡在「眼睛会了手不会」：线条抖、脸型左右歪、人体像塞棉花。每天只花 <strong>20 分钟</strong>，先在练习画板里叠着透视网格和体块底图练稳手腕、分清正面/侧面交界线，再去画人体动态与完整角色，进步速度会翻倍。</p>
       </div>
       <div class="manual-block">
         <h3>2. 两大秒懂自检神技：水平翻转 + 红线复盘</h3>
         <ul>
-          <li><strong>🪞 水平翻转查崩坏（快捷键 H）</strong>：大脑看久了自己的画会自动“脑补对称”。点一下水平翻转，歪掉的下巴、跑偏的眼位、倾斜的重心会立刻暴露。</li>
-          <li><strong>🖍️ 外部软件 + 红线工作流</strong>：在 Procreate / Clip Studio Paint / SAI 画完后，点击画板里的「📂 导入外部作品画红线」，它会自动放到低层并切到「正稿/红线层」与红色纠错笔，直接圈出透视与结构问题并存入画帖复盘！</li>
+          <li><strong>水平翻转查崩坏（快捷键 H）</strong>：大脑看久了自己的画会自动“脑补对称”。点一下水平翻转，歪掉的下巴、跑偏的眼位、倾斜的重心会立刻暴露。</li>
+          <li><strong>外部软件 + 红线工作流</strong>：在 Procreate / Clip Studio Paint / SAI 画完后，点击画板里的「导入外部作品画红线」，它会自动放到低层并切到「正稿/红线层」与红色纠错笔，直接圈出透视与结构问题并存入画帖复盘！</li>
         </ul>
       </div>
       <div class="manual-block">
-        <h3>3. iPad Apple Pencil &amp; 数位板压感设置贴士</h3>
+        <h3>3. iPad Apple Pencil &amp; 数位板压感与倾斜侧锋贴士</h3>
         <ul>
-          <li>在画板顶部勾选 <strong>「仅触控笔防误触」</strong>，手掌就能自然贴在 iPad 屏幕上画画而不会误触线条。</li>
-          <li>线条太抖时把 <strong>「抖动修正」</strong> 调到 4~7；想轻松画出最细笔锋可以把 <strong>「压感曲线」</strong> 设为「柔和」。</li>
-          <li>没有数位板用鼠标时，画板会自动根据运笔速度模拟粗细出锋，同样能练控笔与结构推导！</li>
+          <li>铅笔与马克笔原生响应 Apple Pencil <strong>轻压灵敏度与倾斜侧锋</strong>：直立画清晰结构线，侧卧笔身即可顺滑扫出宽幅排线与阴影二分。</li>
+          <li>在画板顶部勾选 <strong>「仅触控笔防误触」</strong>（且检测到 Apple Pencil 落笔后自动触发防误触保护），手掌可自然贴在 iPad 屏幕上画画。</li>
+          <li>线条太抖时把 <strong>「抖动修正」</strong> 调到 4~7；鼠标绘图时画板会自动根据运笔速度模拟粗细出锋。</li>
         </ul>
       </div>
       <div class="manual-block">
@@ -399,7 +515,10 @@
   <!-- Dialog 2: Save Post / External Upload -->
   <dialog id="dialog-save-post" closedby="any" aria-labelledby="title-save-post">
     <div class="dialog-header">
-      <h2 id="title-save-post">💾 存入进步画帖</h2>
+      <h2 id="title-save-post" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>存入进步画帖</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
       </form>
@@ -411,7 +530,7 @@
 
       <div class="form-field">
         <label for="post-title-input">作品标题</label>
-        <input type="text" id="post-title-input" required placeholder="例如：Day 2 · 二次元十字球侧面与下颌线练习">
+        <input type="text" id="post-title-input" required placeholder="例如：Day 2 · 胸胯反倾动态与体块练习">
       </div>
 
       <div class="form-row-2">
@@ -422,9 +541,9 @@
         <div class="form-field">
           <label for="post-source-select">作品来源</label>
           <select id="post-source-select">
-            <option value="web">✍️ 网页压感练习</option>
-            <option value="external">📱 外部App打卡 (Procreate/CSP)</option>
-            <option value="redline">🖍️ 红线复盘纠错</option>
+            <option value="web">网页压感练习</option>
+            <option value="external">外部App打卡 (Procreate/CSP)</option>
+            <option value="redline">红线复盘纠错</option>
           </select>
         </div>
       </div>
@@ -437,11 +556,11 @@
         <div class="form-field">
           <label for="post-rating-select">本次自评</label>
           <select id="post-rating-select">
-            <option value="5">⭐⭐⭐⭐⭐ 5分 · 超有手感</option>
-            <option value="4">⭐⭐⭐⭐ 4分 · 结构顺手</option>
-            <option value="3" selected>⭐⭐⭐ 3分 · 正常推进</option>
-            <option value="2">⭐⭐ 2分 · 发现卡点</option>
-            <option value="1">⭐ 1分 · 初次摸索</option>
+            <option value="5">5 分 · 超有手感</option>
+            <option value="4">4 分 · 结构顺手</option>
+            <option value="3" selected>3 分 · 正常推进</option>
+            <option value="2">2 分 · 发现卡点</option>
+            <option value="1">1 分 · 初次摸索</option>
           </select>
         </div>
       </div>
@@ -452,8 +571,14 @@
       </div>
 
       <div class="dialog-footer-actions">
-        <button type="button" id="btn-send-upload-to-redline" class="btn btn-secondary">🖍️ 送入画板做红线批注</button>
-        <button type="submit" id="btn-confirm-save-post" class="btn btn-primary">✅ 确认存入画帖</button>
+        <button type="button" id="btn-send-upload-to-redline" class="btn btn-secondary">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
+          <span>送入画板做红线批注</span>
+        </button>
+        <button type="submit" id="btn-confirm-save-post" class="btn btn-primary">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>确认存入画帖</span>
+        </button>
       </div>
     </form>
   </dialog>
@@ -461,7 +586,10 @@
   <!-- Dialog 3: Add Custom Bilibili / YouTube Video -->
   <dialog id="dialog-add-video" closedby="any" aria-labelledby="title-add-video">
     <div class="dialog-header">
-      <h2 id="title-add-video">🎬 收藏自定义教学视频</h2>
+      <h2 id="title-add-video" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg>
+        <span>收藏自定义教学视频</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
       </form>
@@ -471,7 +599,7 @@
 
       <div class="form-field">
         <label for="custom-video-title">视频标题</label>
-        <input type="text" id="custom-video-title" required placeholder="例如：零基础彻底讲透二次元十字球透视">
+        <input type="text" id="custom-video-title" required placeholder="例如：零基础彻底讲透透视方块与光影二分">
       </div>
 
       <div class="form-field">
@@ -490,7 +618,10 @@
       </div>
 
       <div class="dialog-footer-actions">
-        <button type="submit" class="btn btn-primary">➕ 添加并关联本课</button>
+        <button type="submit" class="btn btn-primary">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>添加并关联本课</span>
+        </button>
       </div>
     </form>
   </dialog>
@@ -498,7 +629,10 @@
   <!-- Dialog 4: Before / After Progress Comparator -->
   <dialog id="dialog-compare" class="dialog-wide" closedby="any" aria-labelledby="title-compare">
     <div class="dialog-header">
-      <h2 id="title-compare">⚖️ 前后进步对比 &amp; 生成分享卡</h2>
+      <h2 id="title-compare" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/></svg>
+        <span>前后进步对比 &amp; 生成分享卡</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
       </form>
@@ -520,7 +654,10 @@
       </div>
 
       <div class="dialog-footer-actions">
-        <button type="button" id="btn-download-compare-card" class="btn btn-primary">⬇ 下载高清进步对比卡 PNG</button>
+        <button type="button" id="btn-download-compare-card" class="btn btn-primary">
+          <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>下载高清进步对比卡 PNG</span>
+        </button>
         <form method="dialog">
           <button type="submit" class="btn btn-ghost">关闭</button>
         </form>
@@ -531,7 +668,10 @@
   <!-- Dialog 5: Local Backup & PWA Install Guide -->
   <dialog id="dialog-backup" closedby="any" aria-labelledby="title-backup">
     <div class="dialog-header">
-      <h2 id="title-backup">💾 数据备份 &amp; App 安装指南</h2>
+      <h2 id="title-backup" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>数据备份 &amp; App 安装指南</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
       </form>
@@ -541,10 +681,16 @@
         <h3>1. 纯本地数据备份与跨设备迁移 (零注册)</h3>
         <p>你的所有课程打卡进度、收藏视频与进步画帖图片都保存在浏览器本地 IndexedDB 中，不会上传任何服务器。换设备（例如从电脑同步到 iPad）或清理浏览器前，建议导出 JSON 备份：</p>
         <div class="backup-actions-row">
-          <button type="button" id="btn-export-json" class="btn btn-primary">📤 导出完整 JSON 备份</button>
+          <button type="button" id="btn-export-json" class="btn btn-primary">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>导出完整 JSON 备份</span>
+          </button>
           <div class="import-group">
             <input type="file" id="input-import-json" accept="application/json">
-            <button type="button" id="btn-import-json" class="btn btn-secondary">📥 恢复导入备份</button>
+            <button type="button" id="btn-import-json" class="btn btn-secondary">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>恢复导入备份</span>
+            </button>
           </div>
         </div>
       </section>
@@ -553,7 +699,10 @@
         <h3>2. 安装为 iPad / 桌面独立 App (支持离线练习)</h3>
         <div class="pwa-guide-grid">
           <div class="pwa-guide-card">
-            <h4>📱 iPad / iPhone (Safari)</h4>
+            <h4 class="heading-with-icon">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <span>iPad / iPhone (Safari)</span>
+            </h4>
             <ol>
               <li>用 Safari 打开本站（建议使用 HTTPS 或本地局域网地址）。</li>
               <li>点击浏览器右上角的 <strong>「分享」</strong> 图标（方框带向上箭头）。</li>
@@ -562,7 +711,10 @@
             </ol>
           </div>
           <div class="pwa-guide-card">
-            <h4>💻 Windows / macOS (Chrome / Edge)</h4>
+            <h4 class="heading-with-icon">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span>Windows / macOS (Chrome / Edge)</span>
+            </h4>
             <ol>
               <li>在地址栏右侧找到 <strong>「安装 DrawPath Studio」</strong> 图标（带加号的电脑/应用图标）。</li>
               <li>点击 <strong>「安装」</strong>，网站会作为独立窗口程序出现在桌面或开始菜单。</li>
@@ -582,7 +734,10 @@
   <!-- Dialog 6: 3D Reference Studio (Sketchfab & External 3D Pose Tools) -->
   <dialog id="dialog-3d-studio" class="dialog-wide" closedby="any" aria-labelledby="title-3d-studio">
     <div class="dialog-header">
-      <h2 id="title-3d-studio">🧊 3D 模型旋转参考舱 · Sketchfab &amp; 三大摆姿站</h2>
+      <h2 id="title-3d-studio" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        <span>3D 模型旋转参考舱 · Sketchfab &amp; 三大摆姿站</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭弹窗">✕</button>
       </form>
@@ -591,8 +746,11 @@
       <div class="pose3d-topbar">
         <div id="pose3d-preset-pills" class="pose3d-preset-pills" role="group" aria-label="精选教学 3D 模型预设"></div>
         <form id="pose3d-search-form" class="pose3d-search-bar">
-          <input type="search" id="pose3d-search-input" placeholder="输入 Sketchfab 关键词（如 Zeraora / Kemono / Asaro）或直接粘贴模型链接…" aria-label="搜索 Sketchfab 3D 模型或粘贴链接">
-          <button type="submit" id="btn-pose3d-search" class="btn btn-primary btn-sm">🔍 搜 Sketchfab 3D 模型</button>
+          <input type="search" id="pose3d-search-input" placeholder="输入 Sketchfab 关键词（如 Asaro / Loomis / Torso）或直接粘贴模型链接…" aria-label="搜索 Sketchfab 3D 模型或粘贴链接">
+          <button type="submit" id="btn-pose3d-search" class="btn btn-primary btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>搜 Sketchfab 3D 模型</span>
+          </button>
         </form>
       </div>
 
@@ -603,14 +761,20 @@
       <div class="pose3d-stage-footer">
         <div id="pose3d-tip-banner" class="pose3d-tip-banner"></div>
         <div class="pose3d-stage-actions">
-          <button type="button" id="btn-pose3d-dock-split" class="btn btn-secondary btn-sm">🧩 开启「左 3D 模型 + 右压感画板」同屏边看边练</button>
+          <button type="button" id="btn-pose3d-dock-split" class="btn btn-secondary btn-sm">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+            <span>开启「左 3D 模型 + 右压感画板」同屏边看边练</span>
+          </button>
         </div>
       </div>
 
       <div class="pose3d-external-section">
         <div class="pose3d-external-head">
-          <strong>🌐 外部 3D 摆姿神站联动（Posemaniacs · PoseMy.Art · JustSketch.me）</strong>
-          <span class="pose3d-workflow-tip">💡 旋转到想练的角度 → Win+Shift+S / iPad 截屏复制 → 在画板按 Ctrl+V 即可一键垫底描结构线或贴到角落悬浮窗对临！</span>
+          <strong class="heading-with-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>外部 3D 摆姿站联动（Posemaniacs · PoseMy.Art · JustSketch.me）</span>
+          </strong>
+          <span class="pose3d-workflow-tip">旋转到想练的角度 → Win+Shift+S / iPad 截屏复制 → 在画板按 Ctrl+V 即可一键垫底描结构线或贴到角落悬浮窗对临！</span>
         </div>
         <div id="pose3d-external-sites" class="external-3d-sites-bar"></div>
       </div>
@@ -620,7 +784,10 @@
   <!-- Dialog 7: Diagram & Plate Lightbox Zoom -->
   <dialog id="dialog-diagram-lightbox" class="dialog-wide dialog-lightbox" closedby="any" aria-labelledby="title-diagram-lightbox">
     <div class="dialog-header">
-      <h2 id="title-diagram-lightbox">📐 结构图解高清放大</h2>
+      <h2 id="title-diagram-lightbox" class="heading-with-icon">
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+        <span>结构图解高清放大</span>
+      </h2>
       <form method="dialog">
         <button type="submit" class="dialog-close-btn" aria-label="关闭高清预览">✕</button>
       </form>
@@ -633,7 +800,10 @@
       <p id="diagram-lightbox-caption" class="lightbox-caption" hidden></p>
     </div>
     <div class="dialog-footer">
-      <button type="button" id="btn-lightbox-pin-ref" class="btn btn-secondary btn-sm" hidden>📌 钉入画板悬浮参考窗</button>
+      <button type="button" id="btn-lightbox-pin-ref" class="btn btn-secondary btn-sm" hidden>
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg>
+        <span>钉入画板悬浮参考窗</span>
+      </button>
       <form method="dialog">
         <button type="submit" class="btn btn-primary btn-sm">关闭预览</button>
       </form>

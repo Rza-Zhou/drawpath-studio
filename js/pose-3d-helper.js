@@ -9,7 +9,7 @@ const SKETCHFAB_UID_CACHE_KEY = 'drawpath-sketchfab-uid-cache-v2';
 export const LOCKED_3D_MODELS = [
   {
     id: 'zeraora-kemono',
-    title: '⚡ 捷拉奥拉 Zeraora（日系电猫 · Kemono 结构标杆）',
+    title: '捷拉奥拉 Zeraora（日系电猫 · Kemono 结构标杆）',
     track: 'furry',
     lessonIds: ['furry-1', 'furry-2', 'furry-3', 'furry-4', 'furry-5', 'furry-6', 'furry-7', 'furry-8'],
     uid: '',
@@ -19,7 +19,7 @@ export const LOCKED_3D_MODELS = [
   },
   {
     id: 'kemono-base-mesh',
-    title: '🦊 日系 Kemono 兽人全身素体 (Kemono Base Mesh)',
+    title: '日系 Kemono 兽人全身素体 (Kemono Base Mesh)',
     track: 'furry',
     lessonIds: ['furry-1', 'furry-3', 'furry-6', 'furry-7', 'furry-8'],
     uid: '',
@@ -28,7 +28,7 @@ export const LOCKED_3D_MODELS = [
   },
   {
     id: 'kemono-fox-model',
-    title: '🐾 日系狐狼兽人角色与大尾巴 (Kemono Fox)',
+    title: '日系狐狼兽人角色与大尾巴 (Kemono Fox)',
     track: 'furry',
     lessonIds: ['furry-3', 'furry-4', 'furry-5', 'furry-8'],
     uid: '',
@@ -37,7 +37,7 @@ export const LOCKED_3D_MODELS = [
   },
   {
     id: 'wolf-skull-3d',
-    title: '🐺 犬科/狼头骨 3D 解剖 (Wolf Skull)',
+    title: '犬科/狼头骨 3D 解剖 (Wolf Skull)',
     track: 'furry',
     lessonIds: ['furry-1', 'furry-2', 'furry-4'],
     uid: '',
@@ -46,7 +46,7 @@ export const LOCKED_3D_MODELS = [
   },
   {
     id: 'anime-head-basemesh',
-    title: '✨ 二次元标准头部素体 (Anime Head Base Mesh)',
+    title: '二次元标准头部素体 (Anime Head Base Mesh)',
     track: 'anime',
     lessonIds: ['anime-1', 'anime-2', 'anime-3', 'anime-4', 'anime-5'],
     uid: '',
@@ -55,7 +55,7 @@ export const LOCKED_3D_MODELS = [
   },
   {
     id: 'anime-body-basemesh',
-    title: '✨ 二次元全身比例素体 (Anime Body Base Mesh)',
+    title: '二次元全身比例素体 (Anime Body Base Mesh)',
     track: 'anime',
     lessonIds: ['anime-6', 'anime-7', 'anime-8'],
     uid: '',
@@ -67,7 +67,7 @@ export const LOCKED_3D_MODELS = [
 export const CURATED_3D_MODELS = [
   {
     id: 'asaro-head-planes',
-    title: '🗿 Asaro 头部块面与二分光影模型 (Planes of the Head)',
+    title: 'Asaro 头部块面与二分光影模型 (Planes of the Head)',
     track: 'core',
     lessonIds: ['core-6', 'core-7', 'core-8'],
     uid: '',
@@ -76,7 +76,7 @@ export const CURATED_3D_MODELS = [
   },
   {
     id: 'loomis-head-3d',
-    title: '📐 Loomis 十字头球与颞部切面 (Loomis Head)',
+    title: 'Loomis 十字头球与颞部切面 (Loomis Head)',
     track: 'core',
     lessonIds: ['core-4', 'core-5'],
     uid: '',
@@ -85,7 +85,7 @@ export const CURATED_3D_MODELS = [
   },
   {
     id: 'figure-torso-3d',
-    title: '🏃 人体躯干胸腔与骨盆体块 (Torso Base & Anatomy)',
+    title: '人体躯干胸腔与骨盆体块 (Torso Base & Anatomy)',
     track: 'figure',
     lessonIds: ['figure-1', 'figure-2', 'figure-3', 'figure-4', 'figure-8'],
     uid: '',
@@ -94,7 +94,7 @@ export const CURATED_3D_MODELS = [
   },
   {
     id: 'figure-hand-3d',
-    title: '✋ 手部立体块面与指节弧拱 (Hand Anatomy Reference)',
+    title: '手部立体块面与指节弧拱 (Hand Anatomy Reference)',
     track: 'figure',
     lessonIds: ['figure-5', 'figure-7'],
     uid: '',
@@ -103,7 +103,7 @@ export const CURATED_3D_MODELS = [
   },
   {
     id: 'figure-foot-3d',
-    title: '🦶 足部楔形体块与踝关节解剖 (Foot Anatomy)',
+    title: '足部楔形体块与踝关节解剖 (Foot Anatomy)',
     track: 'figure',
     lessonIds: ['figure-6'],
     uid: '',

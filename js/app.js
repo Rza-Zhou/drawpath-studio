@@ -18,6 +18,7 @@ import {
   getTemplateSpec,
 } from './curriculum-data.js';
 import { renderLessonDiagramHTML } from './diagram-renderer.js';
+import { icon } from './icons.js';
 import { PressureCanvasStudio } from './pressure-canvas.js';
 import {
   initDB,
@@ -55,9 +56,9 @@ const DEVICE_LABELS = {
 };
 
 const DEFAULT_TIER_LIST = [
-  { id: 'beginner', label: '🌱 入门', badge: '入门 ⭐' },
-  { id: 'foundation', label: '📘 基础', badge: '基础 ⭐⭐' },
-  { id: 'advanced', label: '🔥 进阶', badge: '进阶 ⭐⭐⭐' },
+  { id: 'beginner', label: '入门', badge: '入门 · 零基础起步' },
+  { id: 'foundation', label: '基础', badge: '基础 · 立体与结构' },
+  { id: 'advanced', label: '进阶', badge: '进阶 · 综合与表现' },
 ];
 
 function escapeHtml(str) {
@@ -131,8 +132,9 @@ function parseEmbeddableVideo(rawUrl) {
     const bvid = bvMatch[1];
     return {
       provider: 'bilibili',
-      label: 'Bilibili 内嵌播放器',
-      embedUrl: `https://player.bilibili.com/player.html?bvid=${encodeURIComponent(bvid)}&high_quality=1&danmaku=0`,
+      label: 'B站中文精选',
+      shortLabel: 'B站',
+      embedUrl: `https://player.bilibili.com/player.html?bvid=${encodeURIComponent(bvid)}&page=1&high_quality=1&danmaku=0&autoplay=0`,
       openUrl: sanitizeHttpUrl(url) || `https://www.bilibili.com/video/${bvid}`,
     };
   }
@@ -142,8 +144,9 @@ function parseEmbeddableVideo(rawUrl) {
     const aid = avMatch[1];
     return {
       provider: 'bilibili',
-      label: 'Bilibili 内嵌播放器',
-      embedUrl: `https://player.bilibili.com/player.html?aid=${encodeURIComponent(aid)}&high_quality=1&danmaku=0`,
+      label: 'B站中文精选',
+      shortLabel: 'B站',
+      embedUrl: `https://player.bilibili.com/player.html?aid=${encodeURIComponent(aid)}&page=1&high_quality=1&danmaku=0&autoplay=0`,
       openUrl: sanitizeHttpUrl(url) || `https://www.bilibili.com/video/av${aid}`,
     };
   }
@@ -155,8 +158,9 @@ function parseEmbeddableVideo(rawUrl) {
     const ytId = ytMatch[1];
     return {
       provider: 'youtube',
-      label: 'YouTube 内嵌播放器',
-      embedUrl: `https://www.youtube.com/embed/${encodeURIComponent(ytId)}?rel=0`,
+      label: 'YouTube 大师课',
+      shortLabel: 'YouTube',
+      embedUrl: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?rel=0`,
       openUrl: sanitizeHttpUrl(url) || `https://www.youtube.com/watch?v=${ytId}`,
     };
   }
@@ -318,7 +322,9 @@ class DrawPathApp {
 
     const btn = document.getElementById('btn-theme-toggle');
     if (btn) {
-      btn.textContent = resolved === 'dark' ? '☀️ 浅色模式' : '🌙 深色模式';
+      btn.innerHTML = resolved === 'dark'
+        ? `${icon('sun')}<span>浅色模式</span>`
+        : `${icon('moon')}<span>深色模式</span>`;
       btn.setAttribute('aria-pressed', String(resolved === 'dark'));
     }
   }
@@ -444,6 +450,8 @@ class DrawPathApp {
 
   _handleTelemetry(info) {
     const pct = Math.round((Number(info.pressure) || 0) * 100);
+    const tiltDeg = Math.round(Number(info.tiltFromVerticalDeg) || 0);
+    const isSideShading = Boolean(info.isSideShading);
     const deviceText = DEVICE_LABELS[info.pointerType] || info.pointerType || '等待落笔';
 
     const pill = document.getElementById('live-pressure-pill');
@@ -451,10 +459,18 @@ class DrawPathApp {
       if (info.pointerType === 'ready') {
         pill.textContent = info.isPenOnly ? '防误触开启 · 0%' : '压感就绪 · 0%';
         pill.classList.remove('pen-active');
+      } else if (info.pointerType === 'pen') {
+        const tiltSuffix = isSideShading
+          ? ` · 侧锋 ${tiltDeg}°`
+          : tiltDeg >= 12
+          ? ` · ${tiltDeg}°`
+          : '';
+        pill.textContent = `Apple Pencil · ${pct}%${tiltSuffix}`;
+        pill.classList.add('pen-active');
       } else {
-        const shortDev = info.pointerType === 'pen' ? '触控笔' : info.pointerType === 'mouse' ? '鼠标' : '触控';
+        const shortDev = info.pointerType === 'mouse' ? '鼠标' : '触控';
         pill.textContent = `${shortDev} · ${pct}%`;
-        pill.classList.toggle('pen-active', info.pointerType === 'pen' || pct > 0);
+        pill.classList.toggle('pen-active', pct > 0);
       }
     }
 
@@ -466,7 +482,15 @@ class DrawPathApp {
     if (devEl) devEl.textContent = deviceText;
     if (presEl) presEl.textContent = `${pct}%`;
     if (barEl) barEl.value = pct;
-    if (tiltEl) tiltEl.textContent = `${Math.round(info.tiltX || 0)}°, ${Math.round(info.tiltY || 0)}°`;
+    if (tiltEl) {
+      if (isSideShading) {
+        tiltEl.textContent = `${tiltDeg}° · 侧锋排线`;
+      } else if (tiltDeg > 0) {
+        tiltEl.textContent = `${tiltDeg}° (${Math.round(info.tiltX || 0)}°, ${Math.round(info.tiltY || 0)}°)`;
+      } else {
+        tiltEl.textContent = '0°';
+      }
+    }
   }
 
   _handleHistoryChange({ canUndo, canRedo, activeLayer }) {
@@ -490,7 +514,7 @@ class DrawPathApp {
       const templates = PRACTICE_TEMPLATES.filter((t) => normalizeTrackId(t.track) === track.id);
       if (templates.length === 0) continue;
       const group = document.createElement('optgroup');
-      group.label = `${track.icon} ${track.name}`;
+      group.label = track.name;
       for (const tpl of templates) {
         const opt = document.createElement('option');
         opt.value = tpl.id;
@@ -503,7 +527,7 @@ class DrawPathApp {
     const extraTemplates = PRACTICE_TEMPLATES.filter((t) => !trackIds.has(normalizeTrackId(t.track)));
     if (extraTemplates.length > 0) {
       const group = document.createElement('optgroup');
-      group.label = '🎯 实战构图参考框';
+      group.label = '实战构图参考框';
       for (const tpl of extraTemplates) {
         const opt = document.createElement('option');
         opt.value = tpl.id;
@@ -688,7 +712,7 @@ class DrawPathApp {
         <ul class="onboarding-bullets">
           ${(item.bullets || []).map((b) => `<li>${escapeHtml(b)}</li>`).join('')}
         </ul>
-        ${item.tip ? `<p class="onboarding-tip">💡 ${escapeHtml(item.tip)}</p>` : ''}
+        ${item.tip ? `<p class="onboarding-tip">${icon('lightbulb')}<span>${escapeHtml(item.tip)}</span></p>` : ''}
       </article>
     `
     ).join('');
@@ -725,13 +749,13 @@ class DrawPathApp {
                   <button type="button" class="skill-node-card ${done ? 'completed' : ''}" data-lesson-id="${escapeHtml(lesson.id)}">
                     <div class="skill-node-top">
                       <span class="badge badge-track" style="--track-color:${escapeHtml(track.color)}">第 ${escapeHtml(String(lesson.order))} 课</span>
-                      <span class="badge ${done ? 'badge-completed' : ''}">${done ? '✅ 已通关' : `${checkedCount}/${totalChecks}`}</span>
+                      <span class="badge ${done ? 'badge-completed' : ''}">${done ? `${icon('check-circle')} 已通关` : `${checkedCount}/${totalChecks}`}</span>
                     </div>
                     <div class="skill-node-title">${escapeHtml(lesson.title)}</div>
                     <div class="skill-node-subtitle">${escapeHtml(lesson.mantra || lesson.subtitle)}</div>
                     <div class="skill-node-meta">
-                      <span>⏱ ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span>
-                      <span>开始 ➜</span>
+                      <span class="inline-icon-text">${icon('clock')} ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span>
+                      <span>开始 →</span>
                     </div>
                   </button>
                 `;
@@ -755,7 +779,7 @@ class DrawPathApp {
             <div class="skill-track-header">
               <div>
                 <div class="skill-track-title-group">
-                  <h4>${escapeHtml(track.icon)} ${escapeHtml(track.name)}</h4>
+                  <h4 class="heading-with-icon">${icon(track.iconName || 'cube')}<span>${escapeHtml(track.name)}</span></h4>
                   <span class="badge badge-track">${escapeHtml(track.badge)}</span>
                 </div>
                 <p class="skill-track-desc">${escapeHtml(track.description)}</p>
@@ -837,7 +861,7 @@ class DrawPathApp {
           const sizedUrl = await resizeImageDataUrl(rawUrl, 1600);
           this.customAssets = await saveCustomLessonAsset(`diagram:${this.currentLessonId}`, sizedUrl);
           this.renderLessonDetail(this.currentLessonId);
-          this.showToast('🖼️ 已将你的画师图设为本课结构示意图！', 'success');
+          this.showToast('已将你的画师图设为本课结构示意图！', 'success');
         } catch (err) {
           this.showToast(err.message || '读取图片失败', 'error');
         }
@@ -863,7 +887,7 @@ class DrawPathApp {
             const opacity = Number(document.getElementById('template-opacity-slider')?.value ?? 45);
             await this.studio?.loadTemplateSVG(sizedUrl, opacity);
           }
-          this.showToast('🖼️ 已上传自定义练习底图，点击去画板即可使用！', 'success');
+          this.showToast('已上传自定义练习底图，点击去画板即可使用！', 'success');
         } catch (err) {
           this.showToast(err.message || '读取底图失败', 'error');
         }
@@ -891,7 +915,7 @@ class DrawPathApp {
       this.updateStatsUI();
 
       if (completed) {
-        this.showToast(`🎉 恭喜完成「${lesson.title}」全部自检项！`, 'success');
+        this.showToast(`恭喜完成「${lesson.title}」全部自检项！`, 'success');
       }
     });
 
@@ -999,9 +1023,9 @@ class DrawPathApp {
         return;
       }
 
-      const playBtn = e.target.closest('button[data-play-custom-video]');
+      const playBtn = e.target.closest('button[data-play-video], button[data-play-custom-video]');
       if (playBtn) {
-        this.activeEmbedVideoId = playBtn.dataset.playCustomVideo;
+        this.activeEmbedVideoId = playBtn.dataset.playVideo || playBtn.dataset.playCustomVideo;
         this._renderVideoPlayerStage(this.currentLessonId);
         return;
       }
@@ -1064,6 +1088,10 @@ class DrawPathApp {
     detail.querySelectorAll('.lesson-step-panel[data-step-panel]').forEach((panel) => {
       panel.classList.toggle('active', Number(panel.dataset.stepPanel) === validStep);
     });
+
+    if (validStep === 2) {
+      this._renderVideoPlayerStage(this.currentLessonId);
+    }
   }
 
   async openLesson(lessonId, switchTab = true, options = {}) {
@@ -1135,11 +1163,11 @@ class DrawPathApp {
         groupsHtml.push(`
           <button type="button" class="lesson-item ${isActive ? 'active' : ''} ${done ? 'completed' : ''}" data-lesson-id="${escapeHtml(lesson.id)}">
             <div class="lesson-item-sub">
-              <span>${escapeHtml(track.icon)} ${escapeHtml(track.name)}</span>
-              <span>${done ? '✅ 已通关' : `${checkedCount}/${total}`}</span>
+              <span class="inline-icon-text">${icon(track.iconName || 'cube')} ${escapeHtml(track.name)}</span>
+              <span class="inline-icon-text">${done ? `${icon('check-circle')} 已通关` : `${checkedCount}/${total}`}</span>
             </div>
             <strong class="lesson-item-title">${escapeHtml(String(lesson.order))}. ${escapeHtml(lesson.title)}</strong>
-            <span class="lesson-item-sub"><span>⏱ ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span><span>${escapeHtml(lesson.difficulty)}</span></span>
+            <span class="lesson-item-sub"><span class="inline-icon-text">${icon('clock')} ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span><span>${escapeHtml(lesson.difficulty)}</span></span>
           </button>
         `);
       }
@@ -1182,30 +1210,32 @@ class DrawPathApp {
       lessonTitle: lesson.title,
     });
 
+    const activeVideoId = this._resolveActiveVideoId(lesson.id);
+
     container.innerHTML = `
       <div class="lesson-detail-header">
         <div>
           <div class="lesson-detail-badges">
-            <span class="badge badge-track" style="--track-color:${escapeHtml(track.color)}">${escapeHtml(track.icon)} ${escapeHtml(track.name)}</span>
-            <span class="badge badge-difficulty">${escapeHtml(tierMeta.label)} · ${escapeHtml(lesson.difficulty)}</span>
-            <span class="badge">⏱ ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span>
+            <span class="badge badge-track" style="--track-color:${escapeHtml(track.color)}">${icon(track.iconName || 'cube')} ${escapeHtml(track.name)}</span>
+            <span class="badge badge-difficulty">${escapeHtml(tierMeta.badge || tierMeta.label)}</span>
+            <span class="badge">${icon('clock')} ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span>
           </div>
           <h3>${escapeHtml(String(lesson.order))}. ${escapeHtml(lesson.title)}</h3>
           <p class="section-sub">${escapeHtml(lesson.subtitle)}</p>
         </div>
         <button type="button" id="btn-practice-this-lesson" class="btn btn-primary">
-          ✍️ 载入底图去画板
+          ${icon('pen-tool')}<span>载入底图去画板</span>
         </button>
       </div>
 
       <div class="lesson-mantra-banner">
-        <span>💡</span>
+        ${icon('lightbulb')}
         <span>${escapeHtml(lesson.mantra || lesson.subtitle)}</span>
       </div>
 
       <div class="lesson-step-tabs" role="tablist" aria-label="课程学习步骤">
         <button type="button" role="tab" aria-selected="${step === 1}" class="lesson-step-tab ${step === 1 ? 'active' : ''}" data-step="1">① 看图懂结构</button>
-        <button type="button" role="tab" aria-selected="${step === 2}" class="lesson-step-tab ${step === 2 ? 'active' : ''}" data-step="2">② 视频与练手</button>
+        <button type="button" role="tab" aria-selected="${step === 2}" class="lesson-step-tab ${step === 2 ? 'active' : ''}" data-step="2">② 精选视频与练手</button>
         <button type="button" role="tab" aria-selected="${step === 3}" class="lesson-step-tab ${step === 3 ? 'active' : ''}" data-step="3">③ 避坑与自检</button>
       </div>
 
@@ -1213,11 +1243,11 @@ class DrawPathApp {
       <section class="lesson-step-panel ${step === 1 ? 'active' : ''}" data-step-panel="1" aria-label="步骤一：看图懂结构">
         <div class="cheatsheet-box">
           <div class="cheatsheet-header-row">
-            <h4>📐 1 分钟结构图解速览</h4>
+            <h4 class="heading-with-icon">${icon('ruler')}<span>1 分钟结构图解速览</span></h4>
             <div class="cheatsheet-controls">
               <input type="file" id="upload-lesson-diagram-input" accept="image/*" hidden>
-              <button type="button" id="btn-replace-lesson-diagram" class="btn btn-sm" title="上传你收藏的画师图/教材图替换本课示意图">🖼️ 上传画师图替换</button>
-              ${customDiagramUrl ? `<button type="button" id="btn-reset-lesson-diagram" class="btn btn-sm">↺ 恢复默认图</button>` : ''}
+              <button type="button" id="btn-replace-lesson-diagram" class="btn btn-sm" title="上传你收藏的画师图/教材图替换本课示意图">${icon('image')} 上传画师图替换</button>
+              ${customDiagramUrl ? `<button type="button" id="btn-reset-lesson-diagram" class="btn btn-sm">${icon('rotate')} 恢复默认图</button>` : ''}
             </div>
           </div>
           ${
@@ -1238,7 +1268,7 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-block">
-          <h4>💡 核心要点（记住这 3 条即可）</h4>
+          <h4 class="heading-with-icon">${icon('lightbulb')}<span>核心要点（记住这 3 条即可）</span></h4>
           <div class="keypoints-compact-grid">
             ${(lesson.keyPoints || [])
               .map(
@@ -1254,71 +1284,40 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-step-nav">
-          <span class="section-sub">理解结构后，点击下一步看视频演示并上手描底图。</span>
-          <button type="button" class="btn btn-primary" data-goto-step="2">下一步：视频与练手 →</button>
+          <span class="section-sub">理解结构后，点击下一步观看精选视频演示并上手描底图。</span>
+          <button type="button" class="btn btn-primary" data-goto-step="2">下一步：精选视频与练手 →</button>
         </div>
       </section>
 
-      <!-- Step 2: Embedded Video Player + Practice Canvas CTA -->
-      <section class="lesson-step-panel ${step === 2 ? 'active' : ''}" data-step-panel="2" aria-label="步骤二：视频与练手">
+      <!-- Step 2: Embedded Curated Video Player + Practice Canvas CTA -->
+      <section class="lesson-step-panel ${step === 2 ? 'active' : ''}" data-step-panel="2" aria-label="步骤二：精选视频与练手">
         <div class="lesson-block">
           <div class="videos-section-header">
-            <h4>🎬 配套视频 &amp; 同屏播放区</h4>
-            <button type="button" id="btn-add-custom-video" class="btn btn-secondary btn-sm">➕ 粘贴 B站 / YouTube 教程</button>
+            <h4 class="heading-with-icon">${icon('video')}<span>精选配套视频 &amp; 站内播放</span></h4>
+            <button type="button" id="btn-add-custom-video" class="btn btn-ghost btn-sm">${icon('plus')} 收藏其他教程</button>
           </div>
 
           <div id="video-player-stage" class="video-player-stage"></div>
 
-          ${
-            lessonCustomVideos.length > 0
-              ? `
-            <div class="custom-videos-block">
-              <h5>⭐ 我收藏的本课视频 (${lessonCustomVideos.length})</h5>
-              <div class="videos-grid">
-                ${lessonCustomVideos
-                  .map((vid) => {
-                    const parsed = parseEmbeddableVideo(vid.url);
-                    const safeHref = sanitizeHttpUrl(vid.url) || parsed?.openUrl || '#';
-                    return `
-                      <article class="video-card video-card-custom">
-                        <div class="video-card-header">
-                          <span class="badge badge-track">${parsed ? escapeHtml(parsed.label) : '外链视频'}</span>
-                          <span class="video-card-meta">${escapeHtml(vid.author || '个人收藏')}</span>
-                        </div>
-                        <h5 class="video-card-title">${escapeHtml(vid.title)}</h5>
-                        ${vid.notes ? `<p class="video-notes">${escapeHtml(vid.notes)}</p>` : ''}
-                        <div class="video-card-actions">
-                          ${
-                            parsed
-                              ? `<button type="button" class="btn btn-primary btn-sm" data-play-custom-video="${escapeHtml(vid.id)}">▶ 站内播放</button>`
-                              : ''
-                          }
-                          <a class="btn btn-sm" href="${escapeHtml(safeHref)}" target="_blank" rel="noopener noreferrer">🔗 原网页</a>
-                          <button type="button" class="btn btn-sm btn-danger-subtle" data-delete-custom-video="${escapeHtml(vid.id)}">🗑 移除</button>
-                        </div>
-                      </article>
-                    `;
-                  })
-                  .join('')}
-              </div>
-            </div>
-          `
-              : ''
-          }
-
           <div class="videos-grid">
             ${(lesson.videos || [])
               .map((vid) => {
-                const safeUrl = sanitizeHttpUrl(vid.url);
-                const platLabel = vid.platform === 'youtube' ? 'YouTube 搜索' : 'B站搜索';
+                const parsed = parseEmbeddableVideo(vid.url);
+                const safeUrl = sanitizeHttpUrl(vid.url) || parsed?.openUrl || '';
+                const isPlaying = vid.id === activeVideoId;
+                const platLabel = vid.platform === 'youtube' ? 'YouTube 大师课' : 'B站中文精选';
+                const moreSearchUrl =
+                  vid.platform === 'youtube'
+                    ? `https://www.youtube.com/results?search_query=${encodeURIComponent(vid.keywords || vid.title)}`
+                    : `https://search.bilibili.com/all?keyword=${encodeURIComponent(vid.keywords || vid.title)}`;
                 return `
-                  <article class="video-card">
+                  <article class="video-card ${isPlaying ? 'is-playing' : ''}" data-video-card-id="${escapeHtml(vid.id)}">
                     <div class="video-card-header">
                       <span class="badge badge-source">${escapeHtml(platLabel)}</span>
-                      <span class="video-card-meta">⏱ ${escapeHtml(vid.duration || '约15分钟')}</span>
+                      <span class="video-card-meta">${icon('clock')} ${escapeHtml(vid.duration || '约15分钟')}</span>
                     </div>
                     <h5 class="video-card-title">${escapeHtml(vid.title)}</h5>
-                    <div class="video-card-meta">推荐：${escapeHtml(vid.author || '绘画基础名师')}</div>
+                    <div class="video-card-meta">主讲：${escapeHtml(vid.author || '绘画基础名师')}</div>
                     <p class="video-summary">${escapeHtml(vid.summary || '')}</p>
                     ${
                       Array.isArray(vid.timestamps) && vid.timestamps.length > 0
@@ -1331,26 +1330,69 @@ class DrawPathApp {
                     }
                     <div class="video-card-actions">
                       ${
-                        safeUrl
-                          ? `<a class="btn btn-primary btn-sm" href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">🔍 去搜索观看</a>`
+                        parsed
+                          ? `<button type="button" class="btn ${isPlaying ? 'btn-secondary' : 'btn-primary'} btn-sm" data-play-video="${escapeHtml(vid.id)}">${icon('play')}<span>${isPlaying ? '正在播放' : '站内播放'}</span></button>`
                           : ''
                       }
-                      <button type="button" class="btn btn-sm" data-copy-keywords="${escapeHtml(vid.keywords || vid.title)}">📋 复制关键词</button>
+                      ${
+                        safeUrl
+                          ? `<a class="btn btn-sm" href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${icon('external-link')} 原站打开</a>`
+                          : ''
+                      }
+                      <a class="btn btn-ghost btn-sm" href="${escapeHtml(moreSearchUrl)}" target="_blank" rel="noopener noreferrer" title="按本课关键词去原站搜更多教程">${icon('search')} 搜更多</a>
                     </div>
                   </article>
                 `;
               })
               .join('')}
           </div>
+
+          ${
+            lessonCustomVideos.length > 0
+              ? `
+            <div class="custom-videos-block">
+              <h5 class="heading-with-icon">${icon('video')}<span>我收藏的本课视频 (${lessonCustomVideos.length})</span></h5>
+              <div class="videos-grid">
+                ${lessonCustomVideos
+                  .map((vid) => {
+                    const parsed = parseEmbeddableVideo(vid.url);
+                    const safeHref = sanitizeHttpUrl(vid.url) || parsed?.openUrl || '#';
+                    const isPlaying = vid.id === activeVideoId;
+                    return `
+                      <article class="video-card video-card-custom ${isPlaying ? 'is-playing' : ''}" data-video-card-id="${escapeHtml(vid.id)}">
+                        <div class="video-card-header">
+                          <span class="badge badge-track">${parsed ? escapeHtml(parsed.label) : '外链视频'}</span>
+                          <span class="video-card-meta">${escapeHtml(vid.author || '个人收藏')}</span>
+                        </div>
+                        <h5 class="video-card-title">${escapeHtml(vid.title)}</h5>
+                        ${vid.notes ? `<p class="video-notes">${escapeHtml(vid.notes)}</p>` : ''}
+                        <div class="video-card-actions">
+                          ${
+                            parsed
+                              ? `<button type="button" class="btn ${isPlaying ? 'btn-secondary' : 'btn-primary'} btn-sm" data-play-video="${escapeHtml(vid.id)}">${icon('play')}<span>${isPlaying ? '正在播放' : '站内播放'}</span></button>`
+                              : ''
+                          }
+                          <a class="btn btn-sm" href="${escapeHtml(safeHref)}" target="_blank" rel="noopener noreferrer">${icon('external-link')} 原网页</a>
+                          <button type="button" class="btn btn-sm btn-danger-subtle" data-delete-custom-video="${escapeHtml(vid.id)}">${icon('trash')} 移除</button>
+                        </div>
+                      </article>
+                    `;
+                  })
+                  .join('')}
+              </div>
+            </div>
+          `
+              : ''
+          }
         </div>
 
         <div class="lesson-mantra-banner" style="justify-content:space-between;flex-wrap:wrap;">
-          <span>✍️ 准备练手？底图：<strong>${escapeHtml(customTemplateUrl ? '已使用自定义画师底图' : tpl?.name || '本课练习底图')}</strong></span>
+          <span class="inline-icon-text">${icon('pen-tool')} 准备练手？底图：<strong>${escapeHtml(customTemplateUrl ? '已使用自定义画师底图' : tpl?.name || '本课练习底图')}</strong></span>
           <div class="lesson-template-actions">
             <input type="file" id="upload-lesson-template-input" accept="image/*" hidden>
-            <button type="button" id="btn-replace-lesson-template" class="btn btn-sm">🖼️ 替换练习底图</button>
-            ${customTemplateUrl ? `<button type="button" id="btn-reset-lesson-template" class="btn btn-sm">↺ 恢复默认</button>` : ''}
-            <button type="button" class="btn btn-primary btn-sm" data-practice-lesson="true">✍️ 打开压感画板 / 同屏开练</button>
+            <button type="button" id="btn-replace-lesson-template" class="btn btn-sm">${icon('image')} 替换练习底图</button>
+            ${customTemplateUrl ? `<button type="button" id="btn-reset-lesson-template" class="btn btn-sm">${icon('rotate')} 恢复默认</button>` : ''}
+            <button type="button" class="btn btn-primary btn-sm" data-practice-lesson="true">${icon('pen-tool')} 打开压感画板 / 同屏开练</button>
           </div>
         </div>
 
@@ -1363,14 +1405,14 @@ class DrawPathApp {
       <!-- Step 3: Pitfalls + Interactive Checklist -->
       <section class="lesson-step-panel ${step === 3 ? 'active' : ''}" data-step-panel="3" aria-label="步骤三：避坑与自检">
         <div class="lesson-block">
-          <h4>⚠️ 常见翻车点 &amp; 秒修方案</h4>
+          <h4 class="heading-with-icon">${icon('alert')}<span>常见翻车点 &amp; 秒修方案</span></h4>
           <div class="pitfalls-compact-grid">
             ${(lesson.pitfalls || [])
               .map(
                 (p) => `
                 <div class="pitfall-row">
-                  <div class="pitfall-wrong">❌ ${escapeHtml(p.wrong)}</div>
-                  <div class="pitfall-fix">✅ ${escapeHtml(p.fix)}</div>
+                  <div class="pitfall-wrong">${icon('x-circle')}<span>${escapeHtml(p.wrong)}</span></div>
+                  <div class="pitfall-fix">${icon('check-circle')}<span>${escapeHtml(p.fix)}</span></div>
                 </div>
               `
               )
@@ -1379,7 +1421,7 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-block">
-          <h4>☑️ 通关自检清单（全部勾选即点亮本课）</h4>
+          <h4 class="heading-with-icon">${icon('check-square')}<span>通关自检清单（全部勾选即点亮本课）</span></h4>
           <div class="checklist-list">
             ${(lesson.checklist || [])
               .map(
@@ -1395,45 +1437,106 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-step-nav">
-          <button type="button" class="btn" data-goto-step="2">← 上一步：视频与练手</button>
+          <button type="button" class="btn" data-goto-step="2">← 上一步：精选视频与练手</button>
           ${
             nextLesson
               ? `<button type="button" class="btn btn-primary" data-next-lesson="${escapeHtml(nextLesson.id)}">下一课：${escapeHtml(nextLesson.title)} →</button>`
-              : `<button type="button" class="btn btn-primary" data-next-lesson="">🎉 已到最后一课，返回路线图</button>`
+              : `<button type="button" class="btn btn-primary" data-next-lesson="">${icon('check-circle')} 已到最后一课，返回路线图</button>`
           }
         </div>
       </section>
     `;
 
-    this._renderVideoPlayerStage(lesson.id);
+    if (step === 2) {
+      this._renderVideoPlayerStage(lesson.id);
+    }
+  }
+
+  _getLessonPlayableVideos(lessonId) {
+    const lesson = LESSONS.find((l) => l.id === lessonId);
+    const curated = (lesson?.videos || []).map((v) => ({
+      ...v,
+      isCurated: true,
+      parsed: parseEmbeddableVideo(v.url),
+      tabLabel: v.platform === 'youtube' ? 'YouTube 大师课' : 'B站中文精选',
+    }));
+    const custom = this.customVideos
+      .filter((v) => v.lessonId === lessonId)
+      .map((v, idx) => ({
+        ...v,
+        isCurated: false,
+        parsed: parseEmbeddableVideo(v.url),
+        tabLabel: `我的收藏 ${idx + 1}`,
+      }));
+    return [...curated, ...custom].filter((entry) => Boolean(entry.parsed));
+  }
+
+  _resolveActiveVideoId(lessonId) {
+    const playable = this._getLessonPlayableVideos(lessonId);
+    if (playable.length === 0) return null;
+    if (this.activeEmbedVideoId && playable.some((v) => v.id === this.activeEmbedVideoId)) {
+      return this.activeEmbedVideoId;
+    }
+    return playable[0].id;
   }
 
   _renderVideoPlayerStage(lessonId) {
     const stage = document.getElementById('video-player-stage');
     if (!stage) return;
 
-    const lessonVideos = this.customVideos.filter((v) => v.lessonId === lessonId);
-    let targetVideo = lessonVideos.find((v) => v.id === this.activeEmbedVideoId);
-    if (!targetVideo) {
-      targetVideo = lessonVideos.find((v) => Boolean(parseEmbeddableVideo(v.url))) || null;
-    }
+    const playable = this._getLessonPlayableVideos(lessonId);
+    const activeId = this._resolveActiveVideoId(lessonId);
+    const targetVideo = playable.find((v) => v.id === activeId) || null;
+    this.activeEmbedVideoId = targetVideo?.id || null;
 
-    const parsed = targetVideo ? parseEmbeddableVideo(targetVideo.url) : null;
-    if (!parsed) {
+    // Sync playing highlight on curated & custom video cards
+    const detail = document.getElementById('lesson-detail-container');
+    detail?.querySelectorAll('[data-video-card-id]').forEach((card) => {
+      const isMatch = card.dataset.videoCardId === this.activeEmbedVideoId;
+      card.classList.toggle('is-playing', isMatch);
+      const btn = card.querySelector('button[data-play-video]');
+      if (btn) {
+        btn.classList.toggle('btn-secondary', isMatch);
+        btn.classList.toggle('btn-primary', !isMatch);
+        const span = btn.querySelector('span');
+        if (span) span.textContent = isMatch ? '正在播放' : '站内播放';
+      }
+    });
+
+    if (!targetVideo?.parsed) {
       stage.innerHTML = `
         <div class="video-stage-placeholder">
-          <p><strong>🎬 站内同屏播放区就绪</strong></p>
-          <p>点击右上角「➕ 粘贴 B站 / YouTube 教程」粘贴任意含 <code>BV...</code> 的 B站链接或 YouTube 链接，即可直接在此内嵌播放；开启顶部「🧩 同屏边看边练」更能边看演示边在右侧画板临摹！</p>
+          <p class="heading-with-icon">${icon('video')}<strong>站内同屏播放区就绪</strong></p>
+          <p>点击右上角「收藏其他教程」粘贴任意 B站 (BV号) 或 YouTube 链接即可直接内嵌播放。</p>
         </div>
       `;
       return;
     }
 
+    const parsed = targetVideo.parsed;
+    const switcherTabsHtml = playable
+      .map(
+        (v) => `
+        <button type="button" class="video-source-tab ${v.id === targetVideo.id ? 'active' : ''}" data-play-video="${escapeHtml(v.id)}">
+          ${icon('play')}<span>${escapeHtml(v.tabLabel)}</span>
+        </button>
+      `
+      )
+      .join('');
+
     stage.innerHTML = `
       <div class="video-embed-frame-wrap">
         <div class="video-embed-bar">
-          <span>▶ 正在播放：<strong>${escapeHtml(targetVideo.title)}</strong>（${escapeHtml(parsed.label)}）</span>
-          <a href="${escapeHtml(parsed.openUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm">新窗口打开 ↗</a>
+          <div class="video-source-tabs" role="tablist" aria-label="切换本课精选视频源">
+            ${switcherTabsHtml}
+          </div>
+          <a href="${escapeHtml(parsed.openUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm">
+            ${icon('external-link')}<span>去原站看高清</span>
+          </a>
+        </div>
+        <div class="video-now-playing">
+          ${icon('play-circle')}
+          <span><strong>${escapeHtml(targetVideo.title)}</strong>${targetVideo.author ? ` · ${escapeHtml(targetVideo.author)}` : ''}</span>
         </div>
         <div class="video-aspect-16x9">
           <iframe
@@ -1504,7 +1607,7 @@ class DrawPathApp {
     const caption = triggerBtn.dataset.zoomCaption || '';
     const imgSrc = triggerBtn.dataset.zoomSrc || '';
 
-    if (titleEl) titleEl.textContent = `📐 ${title}`;
+    if (titleEl) titleEl.innerHTML = `${icon('ruler')}<span>${escapeHtml(title)}</span>`;
     if (capEl) {
       capEl.textContent = caption;
       capEl.hidden = !caption;
@@ -1635,7 +1738,7 @@ class DrawPathApp {
           lessonId: prompt.relatedLessons[0]?.id || '',
           brief: prompt.brief,
         });
-        this.showToast(`🎲 随机课题已入画板：${prompt.title}`, 'success');
+        this.showToast(`随机课题已入画板：${prompt.title}`, 'success');
         return;
       }
 
@@ -1643,7 +1746,7 @@ class DrawPathApp {
       if (randomSubmitBtn && this.currentRandomPrompt && this.journal) {
         const prompt = this.currentRandomPrompt;
         this.journal.openExternalUploadModal({
-          title: `🎲 随机课题 · ${prompt.title}`,
+          title: `随机课题 · ${prompt.title}`,
           lessonId: prompt.relatedLessons[0]?.id || '',
           track: prompt.track,
           notes: `题面要求：${prompt.brief}`,
@@ -1664,7 +1767,7 @@ class DrawPathApp {
           lessonId: ch.relatedLessonIds?.[0] || '',
           brief: ch.brief,
         });
-        this.showToast(`🎯 课题「${ch.title}」：${ch.brief}`, 'success');
+        this.showToast(`课题「${ch.title}」：${ch.brief}`, 'success');
         return;
       }
 
@@ -1673,7 +1776,7 @@ class DrawPathApp {
         const ch = CHALLENGES.find((c) => c.id === chSubmitBtn.dataset.challengeSubmit);
         if (!ch) return;
         this.journal.openExternalUploadModal({
-          title: `🎯 ${ch.title}`,
+          title: `实战课题 · ${ch.title}`,
           lessonId: ch.relatedLessonIds?.[0] || '',
           track: normalizeTrackId(ch.track),
           notes: `课题要求：${ch.brief}`,
@@ -1739,10 +1842,10 @@ class DrawPathApp {
 
     output.innerHTML = `
       <div class="random-tags-row">
-        <span class="random-tag">📐 ${escapeHtml(framingLabel)}</span>
-        <span class="random-tag">🎨 ${escapeHtml(styleLabel)}</span>
-        <span class="random-tag">🏃 ${escapeHtml(poseLabel)}</span>
-        <span class="random-tag">💡 ${escapeHtml(lightingLabel)}</span>
+        <span class="random-tag">${icon('ruler')} ${escapeHtml(framingLabel)}</span>
+        <span class="random-tag">${icon('layers')} ${escapeHtml(styleLabel)}</span>
+        <span class="random-tag">${icon('figure')} ${escapeHtml(poseLabel)}</span>
+        <span class="random-tag">${icon('lightbulb')} ${escapeHtml(lightingLabel)}</span>
       </div>
       <h4 class="random-challenge-title">${escapeHtml(title)}</h4>
       <p class="random-challenge-brief">${escapeHtml(brief)}</p>
@@ -1751,13 +1854,13 @@ class DrawPathApp {
         ${this.currentRandomPrompt.relatedLessons
           .map(
             (l) =>
-              `<button type="button" class="challenge-lesson-chip" data-goto-lesson="${escapeHtml(l.id)}">📖 ${escapeHtml(l.title)}</button>`
+              `<button type="button" class="challenge-lesson-chip" data-goto-lesson="${escapeHtml(l.id)}">${icon('book-open')} ${escapeHtml(l.title)}</button>`
           )
           .join('')}
       </div>
       <div class="random-challenge-actions">
-        <button type="button" class="btn btn-primary btn-sm" data-random-practice="true">✍️ 带构图框去画板</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-random-submit="true">📤 外部App画完交作业</button>
+        <button type="button" class="btn btn-primary btn-sm" data-random-practice="true">${icon('pen-tool')} 带构图框去画板</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-random-submit="true">${icon('upload')} 外部App画完交作业</button>
       </div>
     `;
   }
@@ -1794,11 +1897,11 @@ class DrawPathApp {
           <article class="challenge-card" data-challenge-id="${escapeHtml(ch.id)}">
             <div class="challenge-card-top">
               <div class="challenge-card-badges">
-                <span class="badge badge-track" style="--track-color:${escapeHtml(track.color)}">${escapeHtml(track.icon)} ${escapeHtml(track.name)}</span>
+                <span class="badge badge-track" style="--track-color:${escapeHtml(track.color)}">${icon(track.iconName || 'cube')} ${escapeHtml(track.name)}</span>
                 <span class="badge badge-difficulty">${escapeHtml(tierMeta.label)}</span>
                 ${ch.category ? `<span class="badge">${escapeHtml(ch.category)}</span>` : ''}
               </div>
-              <span class="video-card-meta">⏱ ${escapeHtml(String(ch.estimatedMinutes || 25))} 分钟</span>
+              <span class="video-card-meta">${icon('clock')} ${escapeHtml(String(ch.estimatedMinutes || 25))} 分钟</span>
             </div>
 
             <h3 class="challenge-card-title">${escapeHtml(ch.title)}</h3>
@@ -1811,7 +1914,7 @@ class DrawPathApp {
                     ${relatedLessons
                       .map(
                         (l) =>
-                          `<button type="button" class="challenge-lesson-chip" data-goto-lesson="${escapeHtml(l.id)}">📖 ${escapeHtml(l.title)}</button>`
+                          `<button type="button" class="challenge-lesson-chip" data-goto-lesson="${escapeHtml(l.id)}">${icon('book-open')} ${escapeHtml(l.title)}</button>`
                       )
                       .join('')}
                   </div>`
@@ -1827,8 +1930,8 @@ class DrawPathApp {
             }
 
             <div class="challenge-card-actions">
-              <button type="button" class="btn btn-primary btn-sm" data-challenge-practice="${escapeHtml(ch.id)}">✍️ 带构图框去画板</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-challenge-submit="${escapeHtml(ch.id)}">📤 外部App画完交作业</button>
+              <button type="button" class="btn btn-primary btn-sm" data-challenge-practice="${escapeHtml(ch.id)}">${icon('pen-tool')} 带构图框去画板</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-challenge-submit="${escapeHtml(ch.id)}">${icon('upload')} 外部App画完交作业</button>
             </div>
           </article>
         `;
@@ -1994,7 +2097,7 @@ class DrawPathApp {
       const defaultTitle = this.isRedlineOverlay
         ? `红线复盘 · ${this.redlineContext?.title || '结构纠错练习'}`
         : challengeCtx
-        ? `🎯 ${challengeCtx.title}`
+        ? `实战课题 · ${challengeCtx.title}`
         : lesson
         ? `${lesson.title} · 压感练习`
         : '自由控笔练习';
@@ -2061,7 +2164,7 @@ class DrawPathApp {
       flipBtn.classList.toggle('active', isFlipped);
       flipBtn.setAttribute('aria-pressed', String(isFlipped));
     }
-    this.showToast(isFlipped ? '🪞 已水平翻转镜像（检查左右对称与重心）' : '已恢复正向视图', 'info');
+    this.showToast(isFlipped ? '已水平翻转镜像（检查左右对称与重心）' : '已恢复正向视图', 'info');
   }
 
   _bind3DStudioAndClipboard() {
@@ -2108,7 +2211,7 @@ class DrawPathApp {
 
     document.getElementById('btn-pinboard-to-template')?.addEventListener('click', async () => {
       if (!this.lastPastedRefDataUrl || !this.studio) {
-        this.showToast('请先按 Ctrl+V 粘贴 3D 截图，或点击「📂 换图」载入参考图。', 'warning');
+        this.showToast('请先按 Ctrl+V 粘贴 3D 截图，或点击「换图」载入参考图。', 'warning');
         return;
       }
       if (this.isPinboardAsTemplate) {
@@ -2117,7 +2220,7 @@ class DrawPathApp {
         const opacity = Number(opSlider?.value ?? 45);
         await this._loadStudioTemplateById(tplId, opacity);
         this._setPinboardTemplateState(false);
-        this.showToast('📌 已撤掉垫底参考，切回仅悬浮对临模式。', 'info');
+        this.showToast('已撤掉垫底参考，切回仅悬浮对临模式。', 'info');
       } else {
         const opSlider = document.getElementById('template-opacity-slider');
         const opLabel = document.getElementById('template-opacity-label');
@@ -2129,7 +2232,7 @@ class DrawPathApp {
         }
         await this.studio.loadTemplateSVG(this.lastPastedRefDataUrl, opacity);
         this._setPinboardTemplateState(true);
-        this.showToast('📐 已将参考图半透明垫入画布，可直接描红蓝结构线！', 'success');
+        this.showToast('已将参考图半透明垫入画布，可直接描红蓝结构线！', 'success');
       }
     });
 
@@ -2152,7 +2255,7 @@ class DrawPathApp {
         }
         this.showToast('剪贴板里没有检测到图片；先用 Win+Shift+S 或 iPad 截屏复制再试。', 'warning');
       } catch {
-        this.showToast('请直接按键盘 Ctrl+V 粘贴剪贴板图片（或点「📌 悬浮参考窗 → 📂 换图」）。', 'info');
+        this.showToast('请直接按键盘 Ctrl+V 粘贴剪贴板图片（或点「悬浮参考窗 → 换图」）。', 'info');
       }
     });
 
@@ -2245,7 +2348,7 @@ class DrawPathApp {
               <span class="badge badge-track">${escapeHtml(site.badge)}</span>
             </div>
             <p>${escapeHtml(site.desc)}</p>
-            <button type="button" class="btn btn-sm btn-secondary" data-open-ext-3d="${escapeHtml(site.id)}">🗔 并排伴侣小窗打开</button>
+            <button type="button" class="btn btn-sm btn-secondary" data-open-ext-3d="${escapeHtml(site.id)}">${icon('external-link')} 并排伴侣小窗打开</button>
           </div>
         `
         ).join('');
@@ -2256,7 +2359,7 @@ class DrawPathApp {
           const site = EXTERNAL_3D_POSE_SITES.find((s) => s.id === btn.getAttribute('data-open-ext-3d'));
           if (!site) return;
           openCompanion3DWindow(site.url, site.id);
-          this.showToast(`🗔 已打开 ${site.name}！摆好姿势后用 Win+Shift+S / 截屏复制，回画板按 Ctrl+V。`, 'info');
+          this.showToast(`已打开 ${site.name}！摆好姿势后用 Win+Shift+S / 截屏复制，回画板按 Ctrl+V。`, 'info');
         });
       }
     }
@@ -2327,7 +2430,9 @@ class DrawPathApp {
     this.isPinboardAsTemplate = Boolean(asTemplate);
     const btn = document.getElementById('btn-pinboard-to-template');
     if (btn) {
-      btn.textContent = this.isPinboardAsTemplate ? '📌 仅悬浮对临' : '↘ 垫入画布当底图';
+      btn.innerHTML = this.isPinboardAsTemplate
+        ? `${icon('pin')}<span>仅悬浮对临</span>`
+        : `${icon('arrow-down-right')}<span>垫入画布当底图</span>`;
       btn.classList.toggle('active', this.isPinboardAsTemplate);
     }
   }
@@ -2361,10 +2466,10 @@ class DrawPathApp {
       }
       await this.studio.loadTemplateSVG(dataUrl, opacity);
       this._setPinboardTemplateState(true);
-      this.showToast('📋 已贴入悬浮参考窗并半透明垫入画布！点「📌 仅悬浮对临」可切换白纸对临。', 'success');
+      this.showToast('已贴入悬浮参考窗并半透明垫入画布！点「仅悬浮对临」可切换白纸对临。', 'success');
     } else {
       this._setPinboardTemplateState(false);
-      this.showToast('📌 已将参考图贴入角落悬浮窗！点「↘ 垫入画布当底图」可叠入底层描红线。', 'success');
+      this.showToast('已将参考图贴入角落悬浮窗！点「垫入画布当底图」可叠入底层描红线。', 'success');
     }
   }
 
@@ -2405,7 +2510,7 @@ class DrawPathApp {
           ${c.thumbUrl ? `<img src="${escapeHtml(c.thumbUrl)}" alt="${escapeHtml(c.name)}">` : '<div class="pose3d-thumb-placeholder">3D</div>'}
           <div class="pose3d-thumb-meta">
             <strong>${escapeHtml(c.name)}</strong>
-            <span>by ${escapeHtml(c.author)}${c.isStaffPick ? ' · ⭐ 精选' : ''}</span>
+            <span>by ${escapeHtml(c.author)}${c.isStaffPick ? ' · 精选' : ''}</span>
           </div>
         </button>
       `
@@ -2417,7 +2522,7 @@ class DrawPathApp {
     const stage = document.getElementById('pose3d-iframe-stage');
     const tipBanner = document.getElementById('pose3d-tip-banner');
     if (tipBanner) {
-      tipBanner.textContent = tipText ? `💡 ${tipText}` : '';
+      tipBanner.innerHTML = tipText ? `${icon('lightbulb')}<span>${escapeHtml(tipText)}</span>` : '';
     }
     if (!stage) return;
 
@@ -2484,13 +2589,13 @@ class DrawPathApp {
       this._render3DModalCandidates();
       const stage = document.getElementById('pose3d-iframe-stage');
       if (stage) {
-        stage.innerHTML = `<div class="inline-3d-loading">⏳ 正在从 Sketchfab 搜索「${escapeHtml(preset.title)}」…</div>`;
+        stage.innerHTML = `<div class="inline-3d-loading">正在从 Sketchfab 搜索「${escapeHtml(preset.title)}」…</div>`;
       }
       const tipBanner = document.getElementById('pose3d-tip-banner');
-      if (tipBanner) tipBanner.textContent = `💡 ${preset.tip}`;
+      if (tipBanner) tipBanner.innerHTML = `${icon('lightbulb')}<span>${escapeHtml(preset.tip)}</span>`;
     }
 
-    // Fetch top 6 Sketchfab results so user gets selectable model strip (e.g. teru_nakabashi's Zeraora + 5 others)
+    // Fetch top 6 Sketchfab results so user gets selectable model strip
     const reqSeq = (this._modal3DSeq = (this._modal3DSeq || 0) + 1);
     try {
       const results = await searchSketchfabModels(preset.searchQuery, {
@@ -2519,7 +2624,7 @@ class DrawPathApp {
           stage.innerHTML = `
             <div class="inline-3d-fallback">
               <p>未找到可直接嵌入的模型，建议打开 Sketchfab 官方搜索页挑选后截图 Ctrl+V 贴入画板。</p>
-              <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">🔎 去 Sketchfab 打开「${escapeHtml(preset.searchQuery)}」</a>
+              <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">${icon('search')} 去 Sketchfab 打开「${escapeHtml(preset.searchQuery)}」</a>
             </div>
           `;
         }
@@ -2532,8 +2637,8 @@ class DrawPathApp {
         if (stage) {
           stage.innerHTML = `
             <div class="inline-3d-fallback">
-              <p>⚠️ Sketchfab 搜索失败（${escapeHtml(err?.message || '请检查网络')}），可直接点击下方去 Sketchfab 或打开三大外部 3D 站。</p>
-              <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">🔎 去 Sketchfab 打开「${escapeHtml(preset.searchQuery)}」</a>
+              <p class="heading-with-icon">${icon('alert')}<span>Sketchfab 搜索失败（${escapeHtml(err?.message || '请检查网络')}），可直接点击下方去 Sketchfab 或打开三大外部 3D 站。</span></p>
+              <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">${icon('search')} 去 Sketchfab 打开「${escapeHtml(preset.searchQuery)}」</a>
             </div>
           `;
         }
@@ -2550,7 +2655,7 @@ class DrawPathApp {
 
     const stage = document.getElementById('pose3d-iframe-stage');
     if (stage) {
-      stage.innerHTML = `<div class="inline-3d-loading">⏳ 正在检索 Sketchfab 3D 模型：「${escapeHtml(query)}」…</div>`;
+      stage.innerHTML = `<div class="inline-3d-loading">正在检索 Sketchfab 3D 模型：「${escapeHtml(query)}」…</div>`;
     }
 
     const reqSeq = (this._modal3DSeq = (this._modal3DSeq || 0) + 1);
@@ -2572,7 +2677,7 @@ class DrawPathApp {
         stage.innerHTML = `
           <div class="inline-3d-fallback">
             <p>没有搜索到可嵌入模型，建议打开 Sketchfab 搜索或粘贴具体模型 URL。</p>
-            <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">🔎 去 Sketchfab 搜索「${escapeHtml(query)}」</a>
+            <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">${icon('search')} 去 Sketchfab 搜索「${escapeHtml(query)}」</a>
           </div>
         `;
       }
@@ -2582,8 +2687,8 @@ class DrawPathApp {
         const searchUrl = buildSketchfabSearchPageUrl(query);
         stage.innerHTML = `
           <div class="inline-3d-fallback">
-            <p>⚠️ 搜索失败（${escapeHtml(err?.message || '请检查网络')}）。</p>
-            <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">🔎 去 Sketchfab 搜索「${escapeHtml(query)}」</a>
+            <p class="heading-with-icon">${icon('alert')}<span>搜索失败（${escapeHtml(err?.message || '请检查网络')}）。</span></p>
+            <a class="btn btn-primary btn-sm" href="${escapeHtml(searchUrl)}" target="_blank" rel="noopener noreferrer">${icon('search')} 去 Sketchfab 搜索「${escapeHtml(query)}」</a>
           </div>
         `;
       }

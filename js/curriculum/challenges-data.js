@@ -289,8 +289,8 @@ export const CHALLENGE_GENERATOR = {
     { label: '四格多角度/表情页', templateId: 'tpl-frame-sheet', hint: '绘制同一角色的 4 个角度或 4 个局部结构对比' }
   ],
   trackStyle: [
-    { label: '🧱 基础体块 + 素描光影练习', track: 'core' },
-    { label: '🏃 人体动态 + 结构穿插表现', track: 'figure' }
+    { label: '基础体块 + 素描光影练习', track: 'core' },
+    { label: '人体动态 + 结构穿插表现', track: 'figure' }
   ],
   poseMood: [
     { label: '回眸微微笑（肩胯反向倾斜）', hint: '重点练头部转动与斜方肌衔接' },
