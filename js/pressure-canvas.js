@@ -305,6 +305,7 @@ export class PressureCanvasStudio {
 
     // Template & grid state.
     this._bgImage = null;
+    this._bgImagePadding = 0;
     this._compositeLayers = [];
     this._templateOpacity = 45;
     this._gridType = 'none';
@@ -435,6 +436,7 @@ export class PressureCanvasStudio {
 
     if (!svgDataUrl) {
       this._bgImage = null;
+      this._bgImagePadding = 0;
       this._renderTemplateLayer();
       return Promise.resolve();
     }
@@ -447,6 +449,7 @@ export class PressureCanvasStudio {
           return;
         }
         this._bgImage = img;
+        this._bgImagePadding = 0;
         this._compositeLayers = [];
         this._renderTemplateLayer();
         resolve();
@@ -454,6 +457,7 @@ export class PressureCanvasStudio {
       img.onerror = () => {
         if (token === this._templateLoadToken) {
           this._bgImage = null;
+          this._bgImagePadding = 0;
           this._compositeLayers = [];
           this._renderTemplateLayer();
         }
@@ -464,8 +468,9 @@ export class PressureCanvasStudio {
   }
 
   /**
-   * Loads a structured procedural or composite template specification:
-   *   { renderScaffoldSvg: () => string, plates?: [{ src, x, y, w, h, alignY, opacity }] }
+   * Loads a structured procedural, composite, or high-resolution image template specification:
+   *   { renderScaffoldSvg: () => string, plates?: [...] }
+   *   or { kind: 'image', imageUrl: string, padding?: number }
    */
   async loadTemplateSpec(spec, opacity = 45) {
     const numericOpacity = Number(opacity);
@@ -477,6 +482,7 @@ export class PressureCanvasStudio {
 
     if (!spec) {
       this._bgImage = null;
+      this._bgImagePadding = 0;
       this._compositeLayers = [];
       this._renderTemplateLayer();
       return;
@@ -494,6 +500,16 @@ export class PressureCanvasStudio {
         img.src = src;
       });
 
+    if (spec.kind === 'image' && spec.imageUrl) {
+      const img = await loadImage(spec.imageUrl);
+      if (token !== this._templateLoadToken) return;
+      this._bgImage = img;
+      this._bgImagePadding = Number(spec.padding) || 0;
+      this._compositeLayers = [];
+      this._renderTemplateLayer();
+      return;
+    }
+
     const scaffoldSvg = typeof spec.renderScaffoldSvg === 'function' ? spec.renderScaffoldSvg() : '';
     const scaffoldSrc = scaffoldSvg
       ? 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(scaffoldSvg)
@@ -508,6 +524,7 @@ export class PressureCanvasStudio {
     if (token !== this._templateLoadToken) return;
 
     this._bgImage = scaffoldImg;
+    this._bgImagePadding = 0;
     this._compositeLayers = plateSpecs
       .map((p, idx) => (plateImgs[idx] ? { ...p, img: plateImgs[idx] } : null))
       .filter(Boolean);
@@ -626,6 +643,7 @@ export class PressureCanvasStudio {
 
     this._templateLoadToken += 1;
     this._bgImage = null;
+    this._bgImagePadding = 0;
     this._compositeLayers = [];
     this._templateOpacity = 45;
     this._gridType = 'none';
@@ -1496,9 +1514,12 @@ export class PressureCanvasStudio {
     const baseAlpha = clamp(this._templateOpacity / 100, 0, 1);
 
     if (this._bgImage) {
-      const imgW = this._bgImage.naturalWidth || this._bgImage.width || this.width;
-      const imgH = this._bgImage.naturalHeight || this._bgImage.height || this.height;
-      const scale = Math.min(this.width / imgW, this.height / imgH);
+      const pad = this._bgImagePadding || 0;
+      const availW = Math.max(1, this.width - pad * 2);
+      const availH = Math.max(1, this.height - pad * 2);
+      const imgW = this._bgImage.naturalWidth || this._bgImage.width || availW;
+      const imgH = this._bgImage.naturalHeight || this._bgImage.height || availH;
+      const scale = Math.min(availW / imgW, availH / imgH);
       const drawW = imgW * scale;
       const drawH = imgH * scale;
       const drawX = (this.width - drawW) * 0.5;

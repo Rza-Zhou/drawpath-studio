@@ -172,6 +172,9 @@ export function normalizeTrackId(trackId) {
 
 export function getTemplateSVGDataURL(templateId) {
   const spec = getTemplateSpec(templateId);
+  if (spec?.kind === 'image' && spec.imageUrl) {
+    return spec.imageUrl;
+  }
   if (spec && typeof spec.renderScaffoldSvg === 'function') {
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(spec.renderScaffoldSvg());
   }

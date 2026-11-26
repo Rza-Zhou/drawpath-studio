@@ -35,60 +35,52 @@ export const CORE_TEMPLATES = [
     name: '透视椭圆度阵列与精确射影切圆练习纸',
     track: 'core',
     lessonId: 'core-3',
-    description: '正圆封口靶、15°~75° 精确椭圆度阵，以及由 3×3 射影变换精确计算的透视四边形内切椭圆。',
+    description: '正圆封口靶、15°~75° 精确椭圆度阵与射影内切椭圆。',
     get svgContent() {
       return CORE_TEMPLATE_GENERATORS['tpl-core-circles']();
     },
   },
   {
+    id: 'tpl-core-circles-ref',
+    name: '透视椭圆实景 · 青瓷器皿',
+    track: 'core',
+    lessonId: 'core-3',
+    imageUrl: './assets/refs/core/core3-ceramic-vessel.webp',
+  },
+  {
     id: 'tpl-core-forms',
-    name: '3D 投影方体 Y 字、圆柱真切线与球体经纬底图',
+    name: '体块拆解 · 木凳结构底图',
     track: 'core',
     lessonId: 'core-4',
-    description: '基于真实 3D 投影引擎的方体透明 X 光骨架、带真切线与 C 字绕线的倾斜圆柱及球体经纬网。',
-    get svgContent() {
-      return CORE_TEMPLATE_GENERATORS['tpl-core-forms']();
-    },
+    imageUrl: './assets/refs/core/core4-wood-stool.webp',
   },
   {
     id: 'tpl-core-perspective',
-    name: '一点与两点透视灭点射线空间网格',
+    name: '两点透视 · 街角建筑底图',
     track: 'core',
     lessonId: 'core-5',
-    description: '精确交汇灭点的视平线、一点透视中心射线与两点透视左右灭点交叉网格，练习高低方体放置。',
-    get svgContent() {
-      return CORE_TEMPLATE_GENERATORS['tpl-core-perspective']();
-    },
+    imageUrl: './assets/refs/core/core5-2pt-street.webp',
   },
   {
     id: 'tpl-core-intersections',
-    name: '3D 体块穿插、切角减形与 T 字叠压底图',
+    name: '体块穿插 · 橡木椅底图',
     track: 'core',
     lessonId: 'core-6',
-    description: '真实 3D 投影的圆柱-方体顶面贴合交界线、方体切角减形以及前实后轻 T 字叠压轮廓练习。',
-    get svgContent() {
-      return CORE_TEMPLATE_GENERATORS['tpl-core-intersections']();
-    },
+    imageUrl: './assets/refs/core/core6-oak-chair.webp',
   },
   {
     id: 'tpl-core-lighting',
-    name: '素描二分与解析明暗交界线实战底图',
+    name: '光影二分 · 窗光灰球底图',
     track: 'core',
     lessonId: 'core-7',
-    description: '基于真实 45° 光线向量的球体、方体与圆柱体二分阴影与地面解析投影，配底部逆向光源练习区。',
-    get svgContent() {
-      return CORE_TEMPLATE_GENERATORS['tpl-core-lighting']();
-    },
+    imageUrl: './assets/refs/core/core7-window-light.webp',
   },
   {
     id: 'tpl-core-color',
-    name: '固有色、光源色与环境色冷暖练习底图',
+    name: '冷暖光色 · 夕阳石膏底图',
     track: 'core',
     lessonId: 'core-8',
-    description: '冷暖互补色光影训练底图：展示暖日光+冷天光逻辑与白石膏球/彩球方盒环境反光测试框。',
-    get svgContent() {
-      return CORE_TEMPLATE_GENERATORS['tpl-core-color']();
-    },
+    imageUrl: './assets/refs/core/core8-shisei-sunset.webp',
   },
 ];
 
@@ -294,9 +286,9 @@ export const CORE_LESSONS = [
       { wrong: '方体背离镜头的边反而画得更长，像炸开一样', fix: '牢记远端对边向空间后方微微靠拢收缩' },
     ],
     checklist: [
-      '用Y字和倒Y字画出仰俯视多角度透明方体',
-      '沿倾斜中轴线画出前后扁度不同的圆柱体',
-      '用经纬绕线让球体定位点准确朝向不同方向',
+      '叠画木凳底图的 Y 字三棱与背面透明辅助棱',
+      '用红笔标出沙漏与提灯参考的圆柱中轴线及 C 形绕线',
+      '用水平翻转 (H) 自检方体平行边是否失真歪斜',
     ],
     videos: [
       {
@@ -353,9 +345,9 @@ export const CORE_LESSONS = [
       { wrong: '平视时竖直线条东倒西歪，盒子像要倾倒', fix: '一点和两点透视中，所有竖直棱必须垂直于视平线' },
     ],
     checklist: [
-      '完成一点透视上、中、下三个位置盒子的拉线',
-      '完成两点透视左右VP连接，竖棱保持90°垂直',
-      '在空白处自主画出一组高低错落的叠加透视盒',
+      '在街角建筑底图上延长左右屋檐斜线并标出左右灭点 (VP)',
+      '开启「两点透视射线」网格，在空白处凭空默画高低两组方盒',
+      '确认垂直棱严格垂直，低于/高于视平线分别露出顶底面',
     ],
     videos: [
       {
@@ -412,9 +404,9 @@ export const CORE_LESSONS = [
       { wrong: '前后遮挡线一样粗细，看不出谁在前谁在后', fix: '前排轮廓线稍微加重加粗，被遮挡的退后线轻细收笔' },
     ],
     checklist: [
-      '画出圆柱与方体互插处紧贴表面的椭圆交界线',
-      '完成方体削斜角切割练习，保留辅助原轮廓虚线',
-      '用T字叠压线和线条粗细表现前后两层体块',
+      '在橡木椅底图上先框大盒子，再用减法挖出椅腿悬空空间',
+      '标出椅背立柱插进座面的贴合交界线与 T 字前后叠压',
+      '压实前景棱线并减弱背景辅助线，拉开纵深层次',
     ],
     videos: [
       {
@@ -471,9 +463,9 @@ export const CORE_LESSONS = [
       { wrong: '反光画得跟亮部一样白亮，结构瞬间打架', fix: '眯眼观察：反光永远属于暗部，亮度绝不超过灰面' },
     ],
     checklist: [
-      '用马克笔只铺一层灰，统一球体暗部与地面投影',
-      '明确留出明暗交界线最深带与克制的边缘反光',
-      '挑战底部「右上角逆向光源」自行切出三大体块二分',
+      '先标出窗光来源箭头，一刀切出灰球与窗台二分暗部',
+      '只用马克笔平涂暗部与投影，确保反光始终暗于受光亮面',
+      '对照 Bargue 石膏像检查黑白剪影形状是否整体干净',
     ],
     videos: [
       {
@@ -530,9 +522,9 @@ export const CORE_LESSONS = [
       { wrong: '环境反光色彩画得比主光源还要鲜艳夺目', fix: '环境色只在暗部底边轻扫一笔，纯度保持克制' },
     ],
     checklist: [
-      '为暖光照射下的方体和球体切出偏冷蓝紫色的暗部',
-      '在彩色底面上的球体底缘加入微弱环境反弹色',
-      '不借用纯黑色画出通透干净的亮灰暗三色分层',
+      '参考夕阳灰球与莫奈《喜鹊》，用暖橙受光配合冷蓝紫暗部色板',
+      '暗部底缘轻扫地面/桌面反弹色，拒绝直接混纯黑调暗',
+      '隐藏参考底图并用水平翻转检验亮灰暗三色块透亮度',
     ],
     videos: [
       {

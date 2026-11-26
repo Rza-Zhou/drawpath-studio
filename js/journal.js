@@ -555,8 +555,7 @@ export class JournalManager {
     if (filtered.length === 0) {
       grid.innerHTML = `
         <div class="journal-empty-state">
-          <p class="empty-title">${icon('notebook')} 暂无符合条件的练习画帖</p>
-          <p class="empty-desc">去“压感练习 & 红线画板”画一张，或点击右上角“上传外部App作品打卡”记录今天的进步吧！</p>
+          <p class="empty-title">${icon('notebook')} 暂无练习记录，可在画板保存或上传外部作品</p>
         </div>
       `;
       return;

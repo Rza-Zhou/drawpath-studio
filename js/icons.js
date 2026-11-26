@@ -72,3 +72,21 @@ export function icon(name, extraClass = '') {
 }
 
 export const ICON_NAMES = Object.keys(ICON_PATHS);
+
+function escapeAttr(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/**
+ * Renders an accessible info toggletip pairing `interestfor` + `popovertarget="show"`
+ * with a adjacent `popover="hint"` region for supplementary disclosure.
+ */
+export function infoTip(id, ariaLabel, contentHtml) {
+  const safeId = escapeAttr(id);
+  const safeLabel = escapeAttr(ariaLabel || '查看补充说明');
+  return `<span class="info-tip-wrap"><button type="button" class="info-tip-btn" interestfor="${safeId}" popovertarget="${safeId}" popovertargetaction="show" aria-label="${safeLabel}">${icon('info')}</button><div id="${safeId}" class="info-tip-popover" popover="hint">${contentHtml}</div></span>`;
+}

@@ -5,7 +5,7 @@
  * accessible modal lightbox zoom, and 1-click pinning to the canvas reference board.
  */
 
-import { icon } from './icons.js';
+import { icon, infoTip } from './icons.js';
 
 function escapeHtml(str) {
   return String(str ?? '')
@@ -56,39 +56,38 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
     return `<div class="cheatsheet-svg-wrap">${fallbackSvg || ''}</div>`;
   }
 
-  const tagsHtml = Array.isArray(spec.tags) && spec.tags.length > 0
-    ? `<ul class="diagram-tags-row" aria-label="本图核心结构要点">
-        ${spec.tags.map((t) => `<li class="diagram-tag-pill">${escapeHtml(t)}</li>`).join('')}
-      </ul>`
+  const creditTipHtml = spec.credit
+    ? `<span class="diagram-credit-label">图源 ${infoTip(
+        `diagram-credit-${spec.lessonId || 'deck'}`,
+        '查看参考图来源与版权授权',
+        escapeHtml(spec.credit)
+      )}</span>`
     : '';
 
-  // Case 1: Procedural exact mathematical SVG (core-1..8)
+  // Case 1: Procedural exact mathematical SVG (core-1..2)
   if (spec.layout === 'procedural' && typeof spec.renderSvg === 'function') {
     const svgMarkup = spec.renderSvg();
     return `
       <div class="diagram-deck diagram-deck-procedural" data-source-type="${escapeHtml(spec.sourceType || 'procedural')}">
-        <div class="diagram-deck-topbar">
-          <span class="diagram-deck-title">${escapeHtml(spec.title || lessonTitle)}</span>
-          <div class="diagram-deck-meta">
-            <span class="diagram-source-badge">${escapeHtml(spec.badge || '精确矢量图解')}</span>
-            <button type="button" class="diagram-action-btn" data-diagram-zoom="procedural" data-zoom-title="${escapeHtml(spec.title || lessonTitle)}" title="全屏放大查看">${icon('zoom-in')} 放大</button>
-          </div>
+        <div class="diagram-deck-bar">
+          ${creditTipHtml || '<span></span>'}
+          <button type="button" class="diagram-action-btn" data-diagram-zoom="procedural" data-zoom-title="${escapeHtml(spec.title || lessonTitle)}" title="放大查看">${icon('zoom-in')} 放大</button>
         </div>
         <div class="diagram-svg-surface" data-diagram-zoom-source="procedural">
           ${svgMarkup}
         </div>
-        ${tagsHtml}
       </div>
     `;
   }
 
-  // Case 2: Multi-panel atomic transparent plates &/or 3D-projected SVG cards (figure-1..8)
+  // Case 2: Multi-panel studio references, anatomical plates & hybrid math SVG cards
   const panels = Array.isArray(spec.panels) ? spec.panels : [];
   const cols = spec.columns || Math.min(3, Math.max(1, panels.length));
 
   const panelsHtml = panels
     .map((panel) => {
       const toneClass = TONE_CLASSES[panel.tone] || TONE_CLASSES.blue;
+      const wideClass = panel.wide ? ' diagram-panel-wide' : '';
       const panelTitle = `${spec.title || lessonTitle} · ${panel.badge || ''}`;
       let mediaHtml = '';
       let pinBtnHtml = '';
@@ -107,7 +106,7 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
             >
           </div>
         `;
-        pinBtnHtml = `<button type="button" class="diagram-mini-btn" data-diagram-pin="${escapeHtml(panel.imageUrl)}" data-pin-label="${escapeHtml(panel.badge || lessonTitle)}" title="将这张纯线稿钉到画板角落悬浮参考小窗">${icon('pin')} 参考窗</button>`;
+        pinBtnHtml = `<button type="button" class="diagram-mini-btn" data-diagram-pin="${escapeHtml(panel.imageUrl)}" data-pin-label="${escapeHtml(panel.badge || lessonTitle)}" title="钉到画板角落悬浮参考窗">${icon('pin')} 参考窗</button>`;
       } else if (panel.kind === 'svg' && typeof panel.renderSvg === 'function') {
         mediaHtml = `
           <div class="diagram-plate-stage diagram-plate-stage-svg" data-panel-id="${escapeHtml(panel.id || '')}" data-diagram-zoom-source="${escapeHtml(panel.id || '')}">
@@ -122,12 +121,12 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
           : `data-diagram-zoom="panel-svg" data-zoom-panel-id="${escapeHtml(panel.id || '')}" data-zoom-title="${escapeHtml(panelTitle)}" data-zoom-caption="${escapeHtml(panel.caption || '')}"`;
 
       return `
-        <figure class="diagram-panel ${toneClass}">
+        <figure class="diagram-panel ${toneClass}${wideClass}">
           <div class="diagram-panel-header">
             <span class="diagram-panel-badge">${escapeHtml(panel.badge || '')}</span>
             <div class="diagram-panel-actions">
               ${pinBtnHtml}
-              <button type="button" class="diagram-mini-btn" ${zoomBtnAttrs} title="放大细看结构线">${icon('zoom-in')} 放大</button>
+              <button type="button" class="diagram-mini-btn" ${zoomBtnAttrs} title="放大查看">${icon('zoom-in')} 放大</button>
             </div>
           </div>
           ${mediaHtml}
@@ -138,15 +137,11 @@ export function renderLessonDiagramHTML(spec, { customDiagramUrl = '', fallbackS
     .join('');
 
   return `
-    <div class="diagram-deck diagram-deck-multi" data-source-type="${escapeHtml(spec.sourceType || 'atomic-plate')}">
-      <div class="diagram-deck-topbar">
-        <span class="diagram-deck-title">${escapeHtml(spec.title || lessonTitle)}</span>
-        <span class="diagram-source-badge">${escapeHtml(spec.badge || '红蓝结构图解')}</span>
-      </div>
+    <div class="diagram-deck diagram-deck-multi" data-source-type="${escapeHtml(spec.sourceType || 'studio-ref')}">
+      ${creditTipHtml ? `<div class="diagram-deck-bar">${creditTipHtml}</div>` : ''}
       <div class="diagram-panels-grid diagram-cols-${cols}">
         ${panelsHtml}
       </div>
-      ${tagsHtml}
     </div>
   `;
 }

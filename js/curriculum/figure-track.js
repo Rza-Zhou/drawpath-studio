@@ -1,93 +1,101 @@
 /**
  * DrawPath Studio · 画路工坊
- * 人体练习 (Figure Drawing & Anatomy) 完整 8 关递进课程与合成练习底图
- * 彻底移除约 940 行易出错的手写解剖 SVG 与跨课错配复用图：
- * - 教学图解：由 js/curriculum/asset-manifest.js + js/diagram-renderer.js 驱动，一课一图专属透明红蓝线稿 + 3D 楔形/透视投影
- * - 画板底图：由 js/generators/figure-generators.js 驱动双层合成（精确数学标尺/练习区 + 透明红蓝 WebP 线稿示范）
+ * 人体练习 (Figure Drawing & Anatomy) 完整 8 关递进课程与公开授权高分辨实景练习底图
+ * - 教学图解：由 js/curriculum/asset-manifest.js + js/diagram-renderer.js 驱动（shisei CC0 / Bargue & Paul Richer Public Domain）
+ * - 画板底图：shisei 同姿势白模底图 + 结构线自检版在「练习底图」下拉框中精准对齐叠加
  */
-
-import { getFigureTemplateSpec } from '../generators/figure-generators.js';
 
 export const FIGURE_TEMPLATES = [
   {
     id: 'tpl-figure-gesture',
-    name: '动作线 (Line of Action) 与重心平衡靶纸',
+    name: '动作线动态 · 白模底图',
     track: 'figure',
     lessonId: 'figure-1',
-    description: '结合透明红蓝站姿/冲刺示范线稿、精确重心垂线与 C/S 大弧自主练习区。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-gesture').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig1-dynamic-clay.webp',
+  },
+  {
+    id: 'tpl-figure-gesture-line',
+    name: '动作线动态 · 结构线自检版',
+    track: 'figure',
+    lessonId: 'figure-1',
+    imageUrl: './assets/refs/figure/fig1-dynamic-line.webp',
   },
   {
     id: 'tpl-figure-proportions',
-    name: '7.5 头身比例标尺与关键骨点定位底图',
+    name: '通用头身比例 · 白模底图',
     track: 'figure',
     lessonId: 'figure-2',
-    description: '精确 7.5 头身刻度线叠加正/侧透明人偶示范，右侧留出默写基准轴与骨点锚点。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-proportions').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig2-standing-front-clay.webp',
+  },
+  {
+    id: 'tpl-figure-proportions-line',
+    name: '通用头身比例 · 结构线自检版',
+    track: 'figure',
+    lessonId: 'figure-2',
+    imageUrl: './assets/refs/figure/fig2-standing-front-line.webp',
   },
   {
     id: 'tpl-figure-torso',
-    name: '胸腔蛋 + 骨盆盒倾斜扭转 (Contrapposto) 底图',
+    name: '胸胯倾斜扭转 · 白模底图',
     track: 'figure',
     lessonId: 'figure-3',
-    description: '3/4 蛋盒结构与肩胯反倾透明示范线稿，配扭腰转身及 3D 俯视红盒自主练习格。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-torso').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig3-hip-tilt-clay.webp',
+  },
+  {
+    id: 'tpl-figure-torso-line',
+    name: '胸胯倾斜扭转 · 结构线自检版',
+    track: 'figure',
+    lessonId: 'figure-3',
+    imageUrl: './assets/refs/figure/fig3-hip-tilt-line.webp',
   },
   {
     id: 'tpl-figure-limbs',
-    name: '四肢圆柱透视、截面环与肘膝关节练习底图',
+    name: '四肢透视叠压 · 白模底图',
     track: 'figure',
     lessonId: 'figure-4',
-    description: '融合手臂/腿部 S 韵律透明线稿、3D 前伸叠压与屈膝透视投影及空白练习轴。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-limbs').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig4-squat-legs-clay.webp',
+  },
+  {
+    id: 'tpl-figure-limbs-line',
+    name: '四肢透视叠压 · 结构线自检版',
+    track: 'figure',
+    lessonId: 'figure-4',
+    imageUrl: './assets/refs/figure/fig4-squat-legs-line.webp',
   },
   {
     id: 'tpl-figure-hands',
-    name: '手部五边形掌盒、手套分组与 3D 握拳起手底图',
+    name: '手部块面与分组 · Bargue 石膏',
     track: 'figure',
     lessonId: 'figure-5',
-    description: '五边形掌盒 1+2+1 分组与 3D 握拳阶梯透明示范，右侧配 6 个精确 3D 掌盒起手练习。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-hands').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig5-bargue-hand-1.webp',
   },
   {
     id: 'tpl-figure-feet',
-    name: '脚部三角楔形体、足弓与透视落地底图',
+    name: '脚部楔形结构 · Bargue 石膏',
     track: 'figure',
     lessonId: 'figure-6',
-    description: '内侧足弓透明线稿 + 3D 精确投影正视踝斜角与 3/4 楔形脚，配透视地面足印实操区。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-feet').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig6-bargue-foot-1.webp',
   },
   {
     id: 'tpl-figure-muscles',
-    name: '躯干与四肢核心肌群起止穿插练习底图',
+    name: '核心表面肌群 · Richer 解剖',
     track: 'figure',
     lessonId: 'figure-7',
-    description: '正面胸肩腹背与背面风筝斜方/倒三角背阔肌透明线稿对照，右侧配浅底 3/4 蛋盒挂肌实操区。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-muscles').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig7-ecorche-front.webp',
   },
   {
     id: 'tpl-figure-bodytypes',
-    name: '男女/健壮/纤细体型比例与剪影对比底图',
+    name: '体型与剪影 · 白模底图',
     track: 'figure',
     lessonId: 'figure-8',
-    description: '同一地平线精准对齐 8 头男体、7 头女体、6.5 头少年透明结构线稿，配自由剪影设计栏。',
-    get svgContent() {
-      return getFigureTemplateSpec('tpl-figure-bodytypes').renderScaffoldSvg();
-    },
+    imageUrl: './assets/refs/figure/fig8-silhouette-female-clay.webp',
+  },
+  {
+    id: 'tpl-figure-bodytypes-line',
+    name: '体型与剪影 · 结构线自检版',
+    track: 'figure',
+    lessonId: 'figure-8',
+    imageUrl: './assets/refs/figure/fig8-silhouette-female-line.webp',
   },
 ];
 
@@ -114,9 +122,9 @@ export const FIGURE_LESSONS = [
       { wrong: '静态站姿重心飘在脚掌外，人物像随时要摔倒', fix: '画完草稿先拉一条红线重心垂线，偏了就移动承重脚位置。' },
     ],
     checklist: [
-      '沿区1的S弧线套画站姿，垂线落入绿色足底区',
-      '画完区2下方虚线C弧动态，标出拉伸侧与挤压侧',
-      '用区3画重心超前冲刺姿势，体会主动失衡速度感',
+      '叠描动态白模的从头顶贯穿脊柱到后脚跟的 S/C 动作主线',
+      '对比「动作线动态 · 结构线自检版」，核查三大体块挤压与拉伸',
+      '沿单腿站姿白模标出喉窝落向承重脚内踝的重心垂线',
     ],
     videos: [
       {
@@ -173,9 +181,9 @@ export const FIGURE_LESSONS = [
       { wrong: '画全身从头往下推，画到腿没纸只能画短腿', fix: '先在画布定出总身高上下界与正中点，再往里填各段比例。' },
     ],
     checklist: [
-      '对照7.5头标尺，在右侧默写区默写正面蛋盒人',
-      '红笔自检：肘平3头、腕平耻骨、膝居5.5头',
-      '对照侧面示范核对耳垂—肩峰—髋关节—外踝垂线',
+      '对照正视站姿白模定出头顶—耻骨中点—足底三大刻度',
+      '切换到「通用头身比例 · 结构线自检版」核对肘齐腰、腕齐胯与膝盖位置',
+      '结合侧面站姿对照耳垂—肩峰—髋关节—外踝重心垂线',
     ],
     videos: [
       {
@@ -232,9 +240,9 @@ export const FIGURE_LESSONS = [
       { wrong: '画 3/4 转身却忘了移动前中线，像正面硬歪', fix: '先在蛋盒表面画出偏移曲面中线，再对称排左右结构。' },
     ],
     checklist: [
-      '照区1临摹3/4蛋盒，画清前中线与骨盆侧面',
-      '照区2体会肩胯反倾（红肩线↘ 与 蓝胯线↗）',
-      '完成右侧扭腰45°与前倾俯视蛋盒练习',
+      '在斜侧扭转参考上画出胸腔蛋与骨盆盒的前中线与正侧面折线',
+      '沿肩胯反倾白模标出高胯侧与低肩侧形成的斜角牵拉',
+      '切换「胸胯倾斜扭转 · 结构线自检版」校对腰部扭转角度',
     ],
     videos: [
       {
@@ -292,9 +300,9 @@ export const FIGURE_LESSONS = [
       { wrong: '画直立腿像两根僵硬木棍，缺少肌肉流向', fix: '标出外高内低的脚踝与大腿前凸、小腿后弓的错位弧线。' },
     ],
     checklist: [
-      '照上区前伸3D圆柱，用近大远小截面环画出一只伸向镜头的手臂',
-      '在屈肘与屈膝处用T字叠压线区分前后段',
-      '在下区「练2」补全跨步与直立腿圆柱及S韵律',
+      '沿俯视参考找出强透视缩短的前臂与大腿 T 字叠压关系',
+      '用弯曲白模练清屈膝折叠段轮廓及小腿内外弧节奏',
+      '切换「四肢透视叠压 · 结构线自检版」校验截面椭圆朝向',
     ],
     videos: [
       {
@@ -350,9 +358,9 @@ export const FIGURE_LESSONS = [
       { wrong: '握拳时把四根指节画在同一条水平线上', fix: '握拳指骨从食指到小指呈阶梯斜坡下滑，拇指横扣在最前方。' },
     ],
     checklist: [
-      '对照区1核实「掌长≈中指长」与指尖同心扇形弧',
-      '在右侧「练1」的 3D 掌盒上画出 1+2+1 与 1+3 手套分组',
-      '在右侧「练2」完成挥手、握柄与捏取三种互动手势',
+      '照 Bargue Plate I,11 画出斜切五边形掌背外框与指骨扇形放射线',
+      '照 I,12 练出大鱼际体积块面并区分拇指独立转折与 1+2+1 并指',
+      '按 I,14 三阶段示范完成外轮廓框 → 暗部二分 → 灰面过渡',
     ],
     videos: [
       {
@@ -409,9 +417,9 @@ export const FIGURE_LESSONS = [
       { wrong: '踮脚或奔跑时把整只脚画成僵硬弯月', fix: '踮脚折点在前掌与脚趾交界，脚背拉直、脚趾压实地面。' },
     ],
     checklist: [
-      '照上区三角度画楔形脚，标清内高外低踝与足弓',
-      '在下区「练1」从脚印往上立起站稳的丁字步双脚',
-      '完成「练2」踮脚蹬地与「练3」3/4 视角透视楔形脚',
+      '照 Bargue Plate I,5 内侧石膏画出高足弓弧度与脚跟方体',
+      '照 I,10 正视版画用斜线标出内踝高、外踝低的明显高度差',
+      '照 I,8 练习 3/4 视角大斜楔面与贴地支撑脚趾方块',
     ],
     videos: [
       {
@@ -469,9 +477,9 @@ export const FIGURE_LESSONS = [
       { wrong: '画所有肌肉都用同样重的黑线勾满，画面脏乱油腻', fix: '仅在发力拉伸侧和明暗交界处强调肌群，受光面保持干净。' },
     ],
     checklist: [
-      '照区1正面肌群示范，画出胸大肌钻入三角肌的穿插关系',
-      '照区2背面肌群示范，画出风筝形斜方肌、肩胛骨与背阔肌',
-      '在区3浅底3/4蛋盒上默画胸肩腹核心肌群起止挂钩',
+      '照 Paul Richer Pl. 53 标出胸大肌穿插进三角肌的转折起止点',
+      '照 Pl. 54 临摹风筝形斜方肌、肩胛冈与倒三角背阔肌外缘',
+      '结合 Pl. 55 侧面图画出指状前锯肌与髂嵴侧转折',
     ],
     videos: [
       {
@@ -527,9 +535,9 @@ export const FIGURE_LESSONS = [
       { wrong: '画健壮猛男只把胳膊吹成气球，脖子和斜方肌却很细', fix: '力量感的核心是加厚颈部、斜方肌、胸腔厚度与粗壮脚踝手腕。' },
     ],
     checklist: [
-      '在前3栏对比描摹健壮、标准女体与纤细几何轮廓',
-      '在第4栏用马克笔直接涂纯色剪影设计角色体型',
-      '只看剪影并水平翻转，确认去发型也能秒分设定',
+      '对比 Richer 男体与 shisei 女体参考，归纳倒梯形与沙漏型肩胯比',
+      '开启「体型与剪影 · 结构线自检版」校验狭窄胸腔与饱满骨盆对照',
+      '隐藏底图并用纯色填充轮廓后水平翻转 (H) 验证体型辨识度',
     ],
     videos: [
       {

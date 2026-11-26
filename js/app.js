@@ -18,7 +18,7 @@ import {
   getTemplateSpec,
 } from './curriculum-data.js';
 import { renderLessonDiagramHTML } from './diagram-renderer.js';
-import { icon } from './icons.js';
+import { icon, infoTip } from './icons.js';
 import { PressureCanvasStudio } from './pressure-canvas.js';
 import {
   initDB,
@@ -272,6 +272,7 @@ class DrawPathApp {
 
     this._applyTheme(this._resolveInitialTheme(settings.theme));
     this._setupDialogClosedByFallback();
+    this._setupGlobalInfoTipHandlers();
     this._registerServiceWorker();
 
     this._initCanvasStudio();
@@ -293,13 +294,13 @@ class DrawPathApp {
       this.currentLessonId = this.settings.lastLessonId;
     }
 
-    this.renderOnboardingCards();
     this.renderSkillTree();
     this.renderLessonSidebar();
     this.renderLessonDetail(this.currentLessonId);
     this.rollRandomChallenge();
     this.renderChallenges();
     this.updateStatsUI();
+    this._initInfoTips(document);
   }
 
   _resolveInitialTheme(savedTheme) {
@@ -346,6 +347,149 @@ class DrawPathApp {
           dialog.close();
         }
       });
+    });
+  }
+
+  _setupGlobalInfoTipHandlers() {
+    if (this._infoTipsGlobalBound) return;
+    this._infoTipsGlobalBound = true;
+
+    // Safari fallback: `popover="hint"` degrades to `"manual"`, which wouldn't light-dismiss on click.
+    const probe = document.createElement('div');
+    probe.popover = 'hint';
+    if (probe.popover !== 'hint') {
+      document.addEventListener(
+        'beforetoggle',
+        ({ target, newState }) => {
+          const isToggletip =
+            target?.getAttribute?.('popover') === 'hint' &&
+            target.id &&
+            document.querySelector(`[popovertarget="${CSS.escape(target.id)}"]`);
+          if (newState === 'open' && isToggletip) {
+            target.popover = 'auto';
+          }
+        },
+        true
+      );
+    }
+
+    // `toggle` does not bubble: listen in capture phase to keep `aria-expanded` in sync.
+    document.addEventListener(
+      'toggle',
+      ({ target }) => {
+        if (!target?.id) return;
+        const isOpen = target.matches(':popover-open');
+        document
+          .querySelectorAll(`[data-info-tip-owned="true"][interestfor="${CSS.escape(target.id)}"]`)
+          .forEach((trigger) => {
+            trigger.setAttribute('aria-expanded', String(isOpen));
+          });
+      },
+      true
+    );
+  }
+
+  _bindOfflineInterestFallback(btn, target) {
+    if (btn.dataset.infoHoverBound === 'true' || !target?.showPopover) return;
+    btn.dataset.infoHoverBound = 'true';
+
+    let openTimer = null;
+    let closeTimer = null;
+    const cancelTimers = () => {
+      if (openTimer) {
+        clearTimeout(openTimer);
+        openTimer = null;
+      }
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+    };
+    const openNow = () => {
+      cancelTimers();
+      if (!target.matches(':popover-open')) {
+        try {
+          target.showPopover({ source: btn });
+        } catch {
+          try {
+            target.showPopover();
+          } catch {
+            // ignore unsupported
+          }
+        }
+      }
+    };
+    const scheduleClose = () => {
+      if (openTimer) {
+        clearTimeout(openTimer);
+        openTimer = null;
+      }
+      closeTimer = setTimeout(() => {
+        if (!btn.matches(':hover') && !btn.matches(':focus-visible') && !target.matches(':hover')) {
+          try {
+            target.hidePopover();
+          } catch {
+            // ignore
+          }
+        }
+      }, 180);
+    };
+
+    btn.addEventListener('mouseenter', () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      openTimer = setTimeout(openNow, 180);
+    });
+    btn.addEventListener('mouseleave', scheduleClose);
+    btn.addEventListener('focus', () => {
+      if (btn.matches(':focus-visible')) openNow();
+    });
+    btn.addEventListener('blur', scheduleClose);
+    target.addEventListener('mouseenter', cancelTimers);
+    target.addEventListener('mouseleave', scheduleClose);
+  }
+
+  _initInfoTips(root = document) {
+    if (!root?.querySelectorAll) return;
+    const supportsInterest = 'interestForElement' in HTMLButtonElement.prototype;
+    const normalizeWs = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+
+    root.querySelectorAll('[interestfor]').forEach((btn) => {
+      const targetId = btn.getAttribute('interestfor');
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (!target) return;
+
+      const popAttr = target.getAttribute('popover');
+      if (popAttr !== 'hint' && target.dataset.infoTipHint !== 'true') return;
+      target.dataset.infoTipHint = 'true';
+
+      const hintText = normalizeWs(target.textContent);
+      const triggerName = normalizeWs(btn.getAttribute('aria-label') || btn.textContent || btn.getAttribute('title'));
+
+      if (hintText && hintText !== triggerName) {
+        if (!target.hasAttribute('role')) {
+          target.setAttribute('role', 'tooltip');
+        }
+      }
+
+      if (!triggerName) {
+        if (!btn.hasAttribute('aria-labelledby')) {
+          btn.setAttribute('aria-labelledby', targetId);
+        }
+      } else if (btn.hasAttribute('popovertarget') || btn.hasAttribute('commandfor')) {
+        if (!btn.hasAttribute('aria-expanded') || btn.dataset.infoTipOwned === 'true') {
+          btn.dataset.infoTipOwned = 'true';
+          btn.setAttribute('aria-expanded', String(target.matches(':popover-open')));
+        }
+      } else if (!btn.hasAttribute('aria-describedby')) {
+        btn.setAttribute('aria-describedby', targetId);
+      }
+
+      if (!supportsInterest) {
+        this._bindOfflineInterestFallback(btn, target);
+      }
     });
   }
 
@@ -457,7 +601,7 @@ class DrawPathApp {
     const pill = document.getElementById('live-pressure-pill');
     if (pill) {
       if (info.pointerType === 'ready') {
-        pill.textContent = info.isPenOnly ? '防误触开启 · 0%' : '压感就绪 · 0%';
+        pill.textContent = info.isPenOnly ? '防误触 · 0%' : '压感 0%';
         pill.classList.remove('pen-active');
       } else if (info.pointerType === 'pen') {
         const tiltSuffix = isSideShading
@@ -752,10 +896,8 @@ class DrawPathApp {
                       <span class="badge ${done ? 'badge-completed' : ''}">${done ? `${icon('check-circle')} 已通关` : `${checkedCount}/${totalChecks}`}</span>
                     </div>
                     <div class="skill-node-title">${escapeHtml(lesson.title)}</div>
-                    <div class="skill-node-subtitle">${escapeHtml(lesson.mantra || lesson.subtitle)}</div>
                     <div class="skill-node-meta">
                       <span class="inline-icon-text">${icon('clock')} ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span>
-                      <span>开始 →</span>
                     </div>
                   </button>
                 `;
@@ -777,14 +919,10 @@ class DrawPathApp {
         return `
           <section class="skill-track-section" style="--track-color:${escapeHtml(track.color)}">
             <div class="skill-track-header">
-              <div>
-                <div class="skill-track-title-group">
-                  <h4 class="heading-with-icon">${icon(track.iconName || 'cube')}<span>${escapeHtml(track.name)}</span></h4>
-                  <span class="badge badge-track">${escapeHtml(track.badge)}</span>
-                </div>
-                <p class="skill-track-desc">${escapeHtml(track.description)}</p>
+              <div class="skill-track-title-group">
+                <h4 class="heading-with-icon">${icon(track.iconName || 'cube')}<span>${escapeHtml(track.name)}</span></h4>
               </div>
-              <span class="skill-track-progress">${completedCount} / ${trackLessons.length} 课完成</span>
+              <span class="skill-track-progress">${completedCount} / ${trackLessons.length} 课</span>
             </div>
             ${tiersHtml}
           </section>
@@ -1033,11 +1171,26 @@ class DrawPathApp {
       const delVidBtn = e.target.closest('button[data-delete-custom-video]');
       if (delVidBtn) {
         const vidId = delVidBtn.dataset.deleteCustomVideo;
+        if (this._confirmDeleteVideoId !== vidId) {
+          this._confirmDeleteVideoId = vidId;
+          if (this._confirmDeleteVideoTimer) clearTimeout(this._confirmDeleteVideoTimer);
+          delVidBtn.innerHTML = `${icon('alert')} 确认移除?`;
+          delVidBtn.classList.add('is-confirming');
+          this._confirmDeleteVideoTimer = setTimeout(() => {
+            if (this._confirmDeleteVideoId === vidId) {
+              this._confirmDeleteVideoId = null;
+              this.renderLessonDetail(this.currentLessonId);
+            }
+          }, 3500);
+          return;
+        }
+        if (this._confirmDeleteVideoTimer) clearTimeout(this._confirmDeleteVideoTimer);
+        this._confirmDeleteVideoId = null;
         await deleteCustomVideo(vidId);
         this.customVideos = await getCustomVideos();
         if (this.activeEmbedVideoId === vidId) this.activeEmbedVideoId = null;
         this.renderLessonDetail(this.currentLessonId);
-        this.showToast('已移除该自定义视频收藏。', 'info');
+        this.showToast('已移除该自定义视频。', 'info');
       }
     });
 
@@ -1221,33 +1374,27 @@ class DrawPathApp {
             <span class="badge">${icon('clock')} ${escapeHtml(String(lesson.estimatedMinutes))} 分钟</span>
           </div>
           <h3>${escapeHtml(String(lesson.order))}. ${escapeHtml(lesson.title)}</h3>
-          <p class="section-sub">${escapeHtml(lesson.subtitle)}</p>
         </div>
         <button type="button" id="btn-practice-this-lesson" class="btn btn-primary">
           ${icon('pen-tool')}<span>载入底图去画板</span>
         </button>
       </div>
 
-      <div class="lesson-mantra-banner">
-        ${icon('lightbulb')}
-        <span>${escapeHtml(lesson.mantra || lesson.subtitle)}</span>
-      </div>
-
       <div class="lesson-step-tabs" role="tablist" aria-label="课程学习步骤">
-        <button type="button" role="tab" aria-selected="${step === 1}" class="lesson-step-tab ${step === 1 ? 'active' : ''}" data-step="1">① 看图懂结构</button>
-        <button type="button" role="tab" aria-selected="${step === 2}" class="lesson-step-tab ${step === 2 ? 'active' : ''}" data-step="2">② 精选视频与练手</button>
-        <button type="button" role="tab" aria-selected="${step === 3}" class="lesson-step-tab ${step === 3 ? 'active' : ''}" data-step="3">③ 避坑与自检</button>
+        <button type="button" role="tab" aria-selected="${step === 1}" class="lesson-step-tab ${step === 1 ? 'active' : ''}" data-step="1">1. 图解</button>
+        <button type="button" role="tab" aria-selected="${step === 2}" class="lesson-step-tab ${step === 2 ? 'active' : ''}" data-step="2">2. 视频与练习</button>
+        <button type="button" role="tab" aria-selected="${step === 3}" class="lesson-step-tab ${step === 3 ? 'active' : ''}" data-step="3">3. 避坑与自检</button>
       </div>
 
-      <!-- Step 1: Visual Cheat Sheet + 3 Key Points -->
-      <section class="lesson-step-panel ${step === 1 ? 'active' : ''}" data-step-panel="1" aria-label="步骤一：看图懂结构">
+      <!-- Step 1: Visual Reference + Core Key Points -->
+      <section class="lesson-step-panel ${step === 1 ? 'active' : ''}" data-step-panel="1" aria-label="步骤一：图解">
         <div class="cheatsheet-box">
           <div class="cheatsheet-header-row">
-            <h4 class="heading-with-icon">${icon('ruler')}<span>1 分钟结构图解速览</span></h4>
+            <h4 class="heading-with-icon">${icon('ruler')}<span>参考与图解</span></h4>
             <div class="cheatsheet-controls">
               <input type="file" id="upload-lesson-diagram-input" accept="image/*" hidden>
-              <button type="button" id="btn-replace-lesson-diagram" class="btn btn-sm" title="上传你收藏的画师图/教材图替换本课示意图">${icon('image')} 上传画师图替换</button>
-              ${customDiagramUrl ? `<button type="button" id="btn-reset-lesson-diagram" class="btn btn-sm">${icon('rotate')} 恢复默认图</button>` : ''}
+              <button type="button" id="btn-replace-lesson-diagram" class="btn btn-sm" title="上传个人参考图替换本课图解">${icon('image')} 替换参考图</button>
+              ${customDiagramUrl ? `<button type="button" id="btn-reset-lesson-diagram" class="btn btn-sm">${icon('rotate')} 恢复默认</button>` : ''}
             </div>
           </div>
           ${
@@ -1268,7 +1415,7 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-block">
-          <h4 class="heading-with-icon">${icon('lightbulb')}<span>核心要点（记住这 3 条即可）</span></h4>
+          <h4 class="heading-with-icon">${icon('lightbulb')}<span>核心要点</span></h4>
           <div class="keypoints-compact-grid">
             ${(lesson.keyPoints || [])
               .map(
@@ -1284,17 +1431,17 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-step-nav">
-          <span class="section-sub">理解结构后，点击下一步观看精选视频演示并上手描底图。</span>
-          <button type="button" class="btn btn-primary" data-goto-step="2">下一步：精选视频与练手 →</button>
+          <span></span>
+          <button type="button" class="btn btn-primary" data-goto-step="2">下一步：看视频练手 →</button>
         </div>
       </section>
 
       <!-- Step 2: Embedded Curated Video Player + Practice Canvas CTA -->
-      <section class="lesson-step-panel ${step === 2 ? 'active' : ''}" data-step-panel="2" aria-label="步骤二：精选视频与练手">
+      <section class="lesson-step-panel ${step === 2 ? 'active' : ''}" data-step-panel="2" aria-label="步骤二：视频与练习">
         <div class="lesson-block">
           <div class="videos-section-header">
-            <h4 class="heading-with-icon">${icon('video')}<span>精选配套视频 &amp; 站内播放</span></h4>
-            <button type="button" id="btn-add-custom-video" class="btn btn-ghost btn-sm">${icon('plus')} 收藏其他教程</button>
+            <h4 class="heading-with-icon">${icon('video')}<span>配套视频</span></h4>
+            <button type="button" id="btn-add-custom-video" class="btn btn-ghost btn-sm">${icon('plus')} 收藏视频</button>
           </div>
 
           <div id="video-player-stage" class="video-player-stage"></div>
@@ -1305,7 +1452,7 @@ class DrawPathApp {
                 const parsed = parseEmbeddableVideo(vid.url);
                 const safeUrl = sanitizeHttpUrl(vid.url) || parsed?.openUrl || '';
                 const isPlaying = vid.id === activeVideoId;
-                const platLabel = vid.platform === 'youtube' ? 'YouTube 大师课' : 'B站中文精选';
+                const platLabel = vid.platform === 'youtube' ? 'YouTube' : 'B站精选';
                 const moreSearchUrl =
                   vid.platform === 'youtube'
                     ? `https://www.youtube.com/results?search_query=${encodeURIComponent(vid.keywords || vid.title)}`
@@ -1317,8 +1464,7 @@ class DrawPathApp {
                       <span class="video-card-meta">${icon('clock')} ${escapeHtml(vid.duration || '约15分钟')}</span>
                     </div>
                     <h5 class="video-card-title">${escapeHtml(vid.title)}</h5>
-                    <div class="video-card-meta">主讲：${escapeHtml(vid.author || '绘画基础名师')}</div>
-                    <p class="video-summary">${escapeHtml(vid.summary || '')}</p>
+                    <div class="video-card-meta">${escapeHtml(vid.author || '绘画名师')}</div>
                     ${
                       Array.isArray(vid.timestamps) && vid.timestamps.length > 0
                         ? `<ul class="video-timestamps">
@@ -1339,7 +1485,7 @@ class DrawPathApp {
                           ? `<a class="btn btn-sm" href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${icon('external-link')} 原站打开</a>`
                           : ''
                       }
-                      <a class="btn btn-ghost btn-sm" href="${escapeHtml(moreSearchUrl)}" target="_blank" rel="noopener noreferrer" title="按本课关键词去原站搜更多教程">${icon('search')} 搜更多</a>
+                      <a class="btn btn-ghost btn-sm" href="${escapeHtml(moreSearchUrl)}" target="_blank" rel="noopener noreferrer" title="去原站搜索同类教程">${icon('search')} 搜更多</a>
                     </div>
                   </article>
                 `;
@@ -1351,7 +1497,7 @@ class DrawPathApp {
             lessonCustomVideos.length > 0
               ? `
             <div class="custom-videos-block">
-              <h5 class="heading-with-icon">${icon('video')}<span>我收藏的本课视频 (${lessonCustomVideos.length})</span></h5>
+              <h5 class="heading-with-icon">${icon('video')}<span>自存视频 (${lessonCustomVideos.length})</span></h5>
               <div class="videos-grid">
                 ${lessonCustomVideos
                   .map((vid) => {
@@ -1372,7 +1518,7 @@ class DrawPathApp {
                               ? `<button type="button" class="btn ${isPlaying ? 'btn-secondary' : 'btn-primary'} btn-sm" data-play-video="${escapeHtml(vid.id)}">${icon('play')}<span>${isPlaying ? '正在播放' : '站内播放'}</span></button>`
                               : ''
                           }
-                          <a class="btn btn-sm" href="${escapeHtml(safeHref)}" target="_blank" rel="noopener noreferrer">${icon('external-link')} 原网页</a>
+                          <a class="btn btn-sm" href="${escapeHtml(safeHref)}" target="_blank" rel="noopener noreferrer">${icon('external-link')} 原站</a>
                           <button type="button" class="btn btn-sm btn-danger-subtle" data-delete-custom-video="${escapeHtml(vid.id)}">${icon('trash')} 移除</button>
                         </div>
                       </article>
@@ -1387,17 +1533,17 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-mantra-banner" style="justify-content:space-between;flex-wrap:wrap;">
-          <span class="inline-icon-text">${icon('pen-tool')} 准备练手？底图：<strong>${escapeHtml(customTemplateUrl ? '已使用自定义画师底图' : tpl?.name || '本课练习底图')}</strong></span>
+          <span class="inline-icon-text">${icon('pen-tool')} 本课底图：<strong>${escapeHtml(customTemplateUrl ? '自定义底图' : tpl?.name || '本课练习底图')}</strong></span>
           <div class="lesson-template-actions">
             <input type="file" id="upload-lesson-template-input" accept="image/*" hidden>
-            <button type="button" id="btn-replace-lesson-template" class="btn btn-sm">${icon('image')} 替换练习底图</button>
+            <button type="button" id="btn-replace-lesson-template" class="btn btn-sm">${icon('image')} 替换底图</button>
             ${customTemplateUrl ? `<button type="button" id="btn-reset-lesson-template" class="btn btn-sm">${icon('rotate')} 恢复默认</button>` : ''}
-            <button type="button" class="btn btn-primary btn-sm" data-practice-lesson="true">${icon('pen-tool')} 打开压感画板 / 同屏开练</button>
+            <button type="button" class="btn btn-primary btn-sm" data-practice-lesson="true">${icon('pen-tool')} 进入画板开练</button>
           </div>
         </div>
 
         <div class="lesson-step-nav">
-          <button type="button" class="btn" data-goto-step="1">← 上一步：结构图解</button>
+          <button type="button" class="btn" data-goto-step="1">← 上一步：图解</button>
           <button type="button" class="btn btn-primary" data-goto-step="3">下一步：避坑与自检 →</button>
         </div>
       </section>
@@ -1405,7 +1551,7 @@ class DrawPathApp {
       <!-- Step 3: Pitfalls + Interactive Checklist -->
       <section class="lesson-step-panel ${step === 3 ? 'active' : ''}" data-step-panel="3" aria-label="步骤三：避坑与自检">
         <div class="lesson-block">
-          <h4 class="heading-with-icon">${icon('alert')}<span>常见翻车点 &amp; 秒修方案</span></h4>
+          <h4 class="heading-with-icon">${icon('alert')}<span>常见纠错</span></h4>
           <div class="pitfalls-compact-grid">
             ${(lesson.pitfalls || [])
               .map(
@@ -1421,7 +1567,11 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-block">
-          <h4 class="heading-with-icon">${icon('check-square')}<span>通关自检清单（全部勾选即点亮本课）</span></h4>
+          <h4 class="heading-with-icon">
+            ${icon('check-square')}
+            <span>通关自检</span>
+            ${infoTip('lesson-checklist-tip', '说明通关自检保存方式', '全部勾选即自动标记完成本课，进度保存在本地 IndexedDB。')}
+          </h4>
           <div class="checklist-list">
             ${(lesson.checklist || [])
               .map(
@@ -1437,16 +1587,17 @@ class DrawPathApp {
         </div>
 
         <div class="lesson-step-nav">
-          <button type="button" class="btn" data-goto-step="2">← 上一步：精选视频与练手</button>
+          <button type="button" class="btn" data-goto-step="2">← 上一步：视频与练习</button>
           ${
             nextLesson
               ? `<button type="button" class="btn btn-primary" data-next-lesson="${escapeHtml(nextLesson.id)}">下一课：${escapeHtml(nextLesson.title)} →</button>`
-              : `<button type="button" class="btn btn-primary" data-next-lesson="">${icon('check-circle')} 已到最后一课，返回路线图</button>`
+              : `<button type="button" class="btn btn-primary" data-next-lesson="">${icon('check-circle')} 返回路线图</button>`
           }
         </div>
       </section>
     `;
 
+    this._initInfoTips(container);
     if (step === 2) {
       this._renderVideoPlayerStage(lesson.id);
     }
@@ -1850,7 +2001,7 @@ class DrawPathApp {
       <h4 class="random-challenge-title">${escapeHtml(title)}</h4>
       <p class="random-challenge-brief">${escapeHtml(brief)}</p>
       <div class="challenge-related-tags">
-        <span class="section-sub">推荐先看：</span>
+        <span class="section-sub">相关课：</span>
         ${this.currentRandomPrompt.relatedLessons
           .map(
             (l) =>
@@ -1859,8 +2010,8 @@ class DrawPathApp {
           .join('')}
       </div>
       <div class="random-challenge-actions">
-        <button type="button" class="btn btn-primary btn-sm" data-random-practice="true">${icon('pen-tool')} 带构图框去画板</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-random-submit="true">${icon('upload')} 外部App画完交作业</button>
+        <button type="button" class="btn btn-primary btn-sm" data-random-practice="true">${icon('pen-tool')} 带框去画板</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-random-submit="true">${icon('upload')} 上传作品</button>
       </div>
     `;
   }
@@ -1910,7 +2061,7 @@ class DrawPathApp {
             ${
               relatedLessons.length > 0
                 ? `<div class="challenge-related-tags">
-                    <span class="video-card-meta">前置课：</span>
+                    <span class="video-card-meta">关联：</span>
                     ${relatedLessons
                       .map(
                         (l) =>
@@ -1930,8 +2081,8 @@ class DrawPathApp {
             }
 
             <div class="challenge-card-actions">
-              <button type="button" class="btn btn-primary btn-sm" data-challenge-practice="${escapeHtml(ch.id)}">${icon('pen-tool')} 带构图框去画板</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-challenge-submit="${escapeHtml(ch.id)}">${icon('upload')} 外部App画完交作业</button>
+              <button type="button" class="btn btn-primary btn-sm" data-challenge-practice="${escapeHtml(ch.id)}">${icon('pen-tool')} 带框去画板</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-challenge-submit="${escapeHtml(ch.id)}">${icon('upload')} 上传作品</button>
             </div>
           </article>
         `;
@@ -2743,14 +2894,43 @@ class DrawPathApp {
       }
     });
 
-    document.getElementById('btn-import-json')?.addEventListener('click', async () => {
-      const fileInput = document.getElementById('input-import-json');
+    const importBtn = document.getElementById('btn-import-json');
+    const fileInput = document.getElementById('input-import-json');
+    const backupDialog = document.getElementById('dialog-backup');
+    const importDefaultHtml = importBtn ? importBtn.innerHTML : '';
+    let importConfirmTimer = null;
+
+    const resetImportConfirm = () => {
+      if (importConfirmTimer) {
+        clearTimeout(importConfirmTimer);
+        importConfirmTimer = null;
+      }
+      if (!importBtn) return;
+      delete importBtn.dataset.confirming;
+      importBtn.classList.remove('is-confirming');
+      if (importDefaultHtml) importBtn.innerHTML = importDefaultHtml;
+    };
+
+    fileInput?.addEventListener('change', resetImportConfirm);
+    backupDialog?.addEventListener('close', resetImportConfirm);
+
+    importBtn?.addEventListener('click', async () => {
       const file = fileInput?.files?.[0];
       if (!file) {
         this.showToast('请先选择一个 DrawPath Studio JSON 备份文件。', 'warning');
         return;
       }
 
+      if (importBtn.dataset.confirming !== 'true') {
+        importBtn.dataset.confirming = 'true';
+        importBtn.classList.add('is-confirming');
+        importBtn.innerHTML = `${icon('alert')}<span>确认覆盖本地数据?</span>`;
+        if (importConfirmTimer) clearTimeout(importConfirmTimer);
+        importConfirmTimer = setTimeout(resetImportConfirm, 4000);
+        return;
+      }
+
+      resetImportConfirm();
       try {
         const text = await readFileAsText(file);
         const summary = await importFullBackup(text);
@@ -2778,7 +2958,7 @@ class DrawPathApp {
         this.updateStatsUI();
 
         fileInput.value = '';
-        document.getElementById('dialog-backup')?.close();
+        backupDialog?.close();
         this.showToast(
           `备份恢复成功：${summary.postsCount} 篇画帖 · ${summary.progressCount} 课进度 · ${summary.videosCount} 条收藏视频`,
           'success'

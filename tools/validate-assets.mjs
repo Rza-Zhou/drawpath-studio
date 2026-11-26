@@ -110,27 +110,48 @@ for (const [rel, owners] of plateToLessons.entries()) {
   );
 }
 
-// 2. Practice Template Coverage (all 20 active templates)
+// 2. Practice Template Coverage (procedural drills, image refs & challenge frames)
 for (const tpl of PRACTICE_TEMPLATES) {
   const spec = getTemplateSpec(tpl.id);
   check(`Template ${tpl.id} has structured spec`, Boolean(spec), 'Missing from getTemplateSpec');
   if (!spec) continue;
 
-  assertCleanSvg(`Template scaffold SVG (${tpl.id})`, spec.renderScaffoldSvg());
-
-  for (const plate of spec.plates || []) {
-    const rel = plate.src.replace(/^\.\//, '');
+  if (spec.kind === 'image') {
+    const rel = String(spec.imageUrl || '').replace(/^\.\//, '');
     const full = path.join(ROOT, rel);
-    check(`Composite plate exists (${tpl.id}): ${rel}`, fs.existsSync(full));
+    check(`Template image ref exists (${tpl.id}): ${rel}`, Boolean(rel) && fs.existsSync(full));
+  } else {
+    assertCleanSvg(`Template scaffold SVG (${tpl.id})`, spec.renderScaffoldSvg());
+    for (const plate of spec.plates || []) {
+      const rel = plate.src.replace(/^\.\//, '');
+      const full = path.join(ROOT, rel);
+      check(`Composite plate exists (${tpl.id}): ${rel}`, fs.existsSync(full));
+    }
   }
 }
 
-// 3. Service Worker Offline Cache Sync & Zero Deleted JPG References
+// 3. Service Worker Offline Cache Sync & Legacy Asset Cleanup
 const swContent = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf-8');
 const swMatches = [...swContent.matchAll(/'(\.\/[^']+)'/g)].map((m) => m[1]);
 const swAssetSet = new Set(swMatches);
 
-for (const platePath of getAllDeclaredPlatePaths()) {
+check(
+  'Legacy assets/plates/figure directory removed',
+  !fs.existsSync(path.join(ROOT, 'assets/plates/figure'))
+);
+check(
+  'Legacy js/generators/figure-generators.js removed',
+  !fs.existsSync(path.join(ROOT, 'js/generators/figure-generators.js'))
+);
+
+const declaredPlates = getAllDeclaredPlatePaths();
+check(
+  'All 41 assets/refs WebPs declared in asset manifest',
+  declaredPlates.length === 41,
+  `count=${declaredPlates.length}`
+);
+
+for (const platePath of declaredPlates) {
   check(`sw.js caches plate: ${platePath}`, swAssetSet.has(platePath), 'Missing from sw.js APP_ASSETS');
 }
 
@@ -140,9 +161,9 @@ for (const cached of swAssetSet) {
   check(`sw.js entry exists on disk: ${cached}`, fs.existsSync(full), 'Dead entry in sw.js');
 }
 
-// Scan all js/, index.html, sw.js for deleted legacy assets/diagrams or assets/templates references
+// Scan all js/, index.html, sw.js for deleted legacy asset or generator references
 const scanDirs = [path.join(ROOT, 'js')];
-const filesToScan = [path.join(ROOT, 'index.html'), path.join(ROOT, 'sw.js')];
+const filesToScan = [path.join(ROOT, 'index.html'), path.join(ROOT, 'sw.js'), path.join(ROOT, 'tools/diagram-audit.html')];
 function walkJs(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -155,12 +176,12 @@ walkJs(scanDirs[0]);
 const legacyHits = [];
 for (const f of filesToScan) {
   const txt = fs.readFileSync(f, 'utf-8');
-  if (/assets\/(diagrams|templates)\//i.test(txt)) {
+  if (/assets\/(diagrams|templates|plates\/figure)\/|figure-generators/i.test(txt)) {
     legacyHits.push(path.relative(ROOT, f));
   }
 }
 check(
-  'Zero legacy assets/diagrams or assets/templates references in codebase',
+  'Zero legacy assets/diagrams, assets/templates, plates/figure or figure-generators references in codebase',
   legacyHits.length === 0,
   `Found in: ${legacyHits.join(', ')}`
 );

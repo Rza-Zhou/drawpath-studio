@@ -145,6 +145,19 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       if (!spec) return;
 
+      if (spec.kind === 'image' && spec.imageUrl) {
+        const img = await loadImage(spec.imageUrl.replace(/^\.\//, '../'));
+        if (!img) return;
+        const pad = Number(spec.padding) || 0;
+        const availW = Math.max(1, canvas.width - pad * 2);
+        const availH = Math.max(1, canvas.height - pad * 2);
+        const scale = Math.min(availW / img.naturalWidth, availH / img.naturalHeight);
+        const drawW = img.naturalWidth * scale;
+        const drawH = img.naturalHeight * scale;
+        ctx.drawImage(img, (canvas.width - drawW) * 0.5, (canvas.height - drawH) * 0.5, drawW, drawH);
+        return;
+      }
+
       const svg = spec.renderScaffoldSvg();
       const svgSrc = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
       const plates = spec.plates || [];
